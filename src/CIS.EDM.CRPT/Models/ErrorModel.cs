@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+
+namespace CIS.EDM.CRPT.Models
+{
+    /// <summary>
+    /// Ответ сервиса с ошибкой.
+    /// </summary>
+    internal class ErrorModel
+    {
+        /// <summary>
+        /// Ошибки.
+        /// </summary>
+        [JsonPropertyName("errors")]
+        public List<ErrorInfo> Errors { get; set; }
+
+        public override string ToString() => String.Join("; ", Errors);
+    }
+}

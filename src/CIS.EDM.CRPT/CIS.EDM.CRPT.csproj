@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<AssemblyName>CIS.EDM.CRPT</AssemblyName>
+		<RootNamespace>CIS.EDM.CRPT</RootNamespace>
+		<Title>CIS.EDM.CRPT</Title>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <DocumentationFile>bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<!-- Include symbols for debugging -->
+	<PropertyGroup>
+		<!-- This command creates external file (snupkg) with .pdb next to nuget file (nupkg) -->
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<!-- Package info -->
+	<PropertyGroup>
+		<Product>CRPT EDM library</Product>
+		<Description>The project for integration with CRPT EDM API (Electronic document management).</Description>
+		<PackageId>Spoleto.CIS.EDM.CRPT</PackageId>
+		<Authors>OlegNadymov;Spoleto-Software</Authors>
+		<Company>SPOLETO Software Development</Company>
+		<PackageIcon>EDM.png</PackageIcon>
+		<PackageProjectUrl>https://spoleto.ru</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/spoleto-software/CIS.EDM.CRPT</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>CRPT; EDM; Electronic document management; ЦРПТ; Электронный документооборот</PackageTags>
+		<Copyright>Copyright © $([System.DateTime]::Now.Year.ToString())</Copyright>
+		<PackageReleaseNotes></PackageReleaseNotes>
+		<Version>$([System.DateTime]::Now.AddYears(-2020).Year.ToString()).$([System.DateTime]::Now.ToString("MM.dd.HHmm"))</Version>
+		<AssemblyVersion>$([System.DateTime]::Now.AddYears(-2020).Year.ToString()).$([System.DateTime]::Now.ToString("MM.dd.HHmm"))</AssemblyVersion>
+		<FileVersion>$([System.DateTime]::Now.AddYears(-2020).Year.ToString()).$([System.DateTime]::Now.ToString("MM.dd.HHmm"))</FileVersion>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>	
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Http" Version="3.1.8" />
+		<PackageReference Include="Spoleto.CIS.Cryptography" Version="2.7.19.1010" />
+		<PackageReference Include="Spoleto.CIS.EDM" Version="2.7.19.1150" />
+	</ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\..\README.md">
+          <Pack>True</Pack>
+          <PackagePath>\</PackagePath>
+        </None>
+        <None Include="Resources\EDM.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+</Project>

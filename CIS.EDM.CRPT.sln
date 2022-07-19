@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32317.152
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CIS.EDM.CRPT", "src\CIS.EDM.CRPT\CIS.EDM.CRPT.csproj", "{25491A97-4E39-4BAD-B31D-F63C4DFC852E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BD9BBDF2-DF3A-4FB6-B73E-D709F6DBB1B5}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkFlow", "WorkFlow", "{624B3557-0D87-46CD-A43E-0DE9E61BCF29}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\publish-to-nuget.yml = .github\workflows\publish-to-nuget.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{25491A97-4E39-4BAD-B31D-F63C4DFC852E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25491A97-4E39-4BAD-B31D-F63C4DFC852E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25491A97-4E39-4BAD-B31D-F63C4DFC852E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25491A97-4E39-4BAD-B31D-F63C4DFC852E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {24CE01B0-9B6A-4604-84BE-DC5979E63653}
+	EndGlobalSection
+EndGlobal
