@@ -4,6 +4,6 @@
 
 
 ## Быстрый старт
-Работа с клиентом описана [здесь](/CIS.EDM.CRPT/articles/crpt.quickstart.md).
+Работа с клиентом описана [здесь](/CIS.EDM.CRPT/articles/crpt.quickstart.html).
 
 ![ЦРПТ](/CIS.EDM.CRPT/images/logo.png)
