@@ -3,7 +3,7 @@
 Клиент написан на C#, .NET Core 3.1 с использованием Dependency Injection от [Microsoft](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-usage).
 # Определение зависимостей
 
-```C#
+```csharp
 services.AddHttpClient();
 services.AddTransient<ICRPTTokenProvider, CRPTTokenProvider>();
 services.AddTransient<IEdmProvider, CRPTProvider>();
@@ -11,7 +11,7 @@ services.AddTransient<IEdmProvider, CRPTProvider>();
 
 # Инициализация сертификата и адреса сервиса ЦРПТ
 
-```C#
+```csharp
 var certificateThumbprint = "12345";
 
 var option = new CRPTOption
@@ -25,7 +25,7 @@ option.CertificateThumbprint = certificateThumbprint;
 # Создание документа с информацией продавца
 В данном примере максимально заполнены все свойства документа. В реальной ситуации необходимо указывать только нужные свойства.
 
-```C#
+```csharp
 private static SellerUniversalTransferDocument CreateSellerDataContract()
 {
     var dataContract = new SellerUniversalTransferDocument
@@ -484,7 +484,7 @@ private static SellerUniversalTransferDocument CreateSellerDataContract()
 
 # Отправка документа
 
-```C#
+```csharp
 var provider = services.GetRequiredService<IEdmProvider>();
 var documentId = await provider.PostUniversalTransferDocumentAsync(option, sellerDataContract);
 ```
@@ -495,7 +495,7 @@ var documentId = await provider.PostUniversalTransferDocumentAsync(option, selle
 
 # Создание документа с информацией покупателя
 
-```C#
+```csharp
 private static BuyerUniversalTransferDocument CreateBuyerDataContract()
 {
     var buyerDataContract = new BuyerUniversalTransferDocument
@@ -596,7 +596,7 @@ private static BuyerUniversalTransferDocument CreateBuyerDataContract()
 
 # Подписание входящего документа
 
-```C#
+```csharp
 var provider = services.GetRequiredService<IEdmProvider>();
 var documentId = await provider.ReceiptUniversalTransferDocumentAsync(option, buyerDataContract);
 ```
