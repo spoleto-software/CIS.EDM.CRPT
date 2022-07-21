@@ -1,2 +1,4 @@
-# PLACEHOLDER
-TODO: Add .NET projects to the *src* folder and run `docfx` to generate **REAL** *API Documentation*!
+# API Документация
+API документация сформирована на основе подробных комментариев из программного кода.
+
+Каждая бизнес модель, которая отражает данные электронного документооборота, содержит ссылку на её описание на сайте [КонсультантПлюс](http://www.consultant.ru/document/cons_doc_LAW_316356/).
