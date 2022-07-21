@@ -7,3 +7,8 @@
 Работа с клиентом описана [здесь](/CIS.EDM.CRPT/articles/crpt.quickstart.html).
 
 ![ЦРПТ](/CIS.EDM.CRPT/images/logo.png)
+
+## Ресурсы
+
+ - Исходный код: https://github.com/spoleto-software/CIS.EDM.CRPT/
+ - Nuget пакет: https://www.nuget.org/packages/Spoleto.CIS.EDM.CRPT/
