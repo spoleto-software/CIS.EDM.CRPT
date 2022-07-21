@@ -3,21 +3,21 @@
     {
       "src": [
         {
-		  "src": "../",		
+          "src": "../",
           "files": [
             "src/**.csproj"
           ],
-		  "exclude": [
+          "exclude": [
             "**/bin/**",
             "**/obj/**",
             "_site/**"
-          ]		  
+          ]
         }
       ],
       "dest": "api",
       "disableGitFeatures": false,
       "disableDefaultFilter": false,
-	  "properties": {
+      "properties": {
         "TargetFramework": "netcoreapp3.1"
       }	  
     }
@@ -59,24 +59,9 @@
     ],
     "dest": "_site",
     "globalMetadataFiles": [],
-	"globalMetadata": {
-      "_appTitle": "Spoleto.CIS.EDM",
-	  "_appName": "C# SDK для ЭДО",		
-      "_appLogoPath": "images/logo.png",
-      "_appFaviconPath": "images/logo.png",
-      "_appFooter": "<strong>SPOLETO Software Development</strong>",
-	  "_copyrightFooter": "Copyright © SPOLETO, 2022. Все права защищены.",
-	  "_enableSearch": true,
-	  "_disableSideFilter": false,
-	  "_enableNewTab": true,
-	  "_disableContribution": false,
-	  "_disableBreadcrumb": false,
-    },
     "fileMetadataFiles": [],
     "template": [
-      "default",
-      "templates/singulinkfx",
-	  "plugins/memberpage.2.59.3/content"
+      "default"
     ],
     "postProcessors": [],
     "markdownEngineName": "markdig",

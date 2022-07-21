@@ -1,9 +1,4 @@
-# Базовая библиотека для интеграции с ЭДО
-
-Данный программный комплекс представляет собой C# клиент для полноценной работы с сервисом ЭДО от [ЦРПТ](https://xn--80ajghhoc2aj1c8b.xn--p1ai/edo_lite/).
-
-
-## Быстрый старт
-Работа с клиентом описана [здесь](/CIS.EDM.CRPT/articles/crpt.quickstart.md).
-
-![ЦРПТ](/CIS.EDM.CRPT/images/logo.png)
+# This is the **HOMEPAGE**.
+Refer to [Markdown](http://daringfireball.net/projects/markdown/) for how to write markdown files.
+## Quick Start Notes:
+1. Add images to the *images* folder if the file is referencing an image.

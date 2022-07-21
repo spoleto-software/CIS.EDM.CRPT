@@ -1,6 +1,2 @@
-- name: Общая информация
+- name: Introduction
   href: intro.md
-- name: Модели данных
-  href: models.md
-- name: Работа с ЭДО от ЦРПТ
-  href: crpt.quickstart.md  
