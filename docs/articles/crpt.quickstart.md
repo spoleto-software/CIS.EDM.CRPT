@@ -486,7 +486,7 @@ private static SellerUniversalTransferDocument CreateSellerDataContract()
 
 ```C#
 var provider = services.GetRequiredService<IEdmProvider>();
-var documentId = provider.PostUniversalTransferDocument(option, sellerDataContract);
+var documentId = await provider.PostUniversalTransferDocumentAsync(option, sellerDataContract);
 ```
 
 Результатом выполнения метода ``PostUniversalTransferDocument`` будет идентификатор отправленного сообщения (``documentId``).
