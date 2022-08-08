@@ -11,6 +11,7 @@ using CIS.EDM.Helpers;
 using CIS.EDM.Models;
 using CIS.EDM.Models.Buyer;
 using CIS.EDM.Models.Seller;
+using Microsoft.Extensions.Logging;
 
 namespace CIS.EDM.CRPT.Providers
 {
@@ -19,6 +20,7 @@ namespace CIS.EDM.CRPT.Providers
     /// </summary>
     public class CRPTProvider : ICRPTProvider
     {
+        private readonly ILogger<CRPTProvider> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ICRPTTokenProvider _tokenProvider;
 
@@ -30,8 +32,9 @@ namespace CIS.EDM.CRPT.Providers
         /// <summary>
         /// Конструктор с параметрами.
         /// </summary>
-        public CRPTProvider(IHttpClientFactory httpClientFactory, ICRPTTokenProvider tokenProvider = null) : base()
+        public CRPTProvider(ILogger<CRPTProvider> logger, IHttpClientFactory httpClientFactory, ICRPTTokenProvider tokenProvider = null) : base()
         {
+            _logger = logger;
             _httpClientFactory = httpClientFactory;
             _tokenProvider = tokenProvider ?? new CRPTTokenProvider(httpClientFactory);
         }
@@ -229,7 +232,7 @@ namespace CIS.EDM.CRPT.Providers
         /// <param name="sellerDataContract">Информация продавца.</param>
         /// <param name="isDraft">Создать только черновник. Не отправлять документ получателю.</param>
         /// <returns>Идентификатор сообщения.</returns>
-        public async Task<string> PostUniversalTransferDocumentAsync(CRPTOption settings, SellerUniversalTransferDocument sellerDataContract, bool isDraft = false)
+        public async Task<ResultInfo> PostUniversalTransferDocumentAsync(CRPTOption settings, SellerUniversalTransferDocument sellerDataContract, bool isDraft = false)
         {
             var address = sellerDataContract.IsHyphenRevisionNumber ? "/api/v1/outgoing-documents" : "/api/v1/outgoing-documents/xml/updi";
             var uri = new Uri(new Uri(settings.ServiceUrl), address);
@@ -259,8 +262,23 @@ namespace CIS.EDM.CRPT.Providers
                 content.Add(signatureContent, "signature");
             }
 
-            var result = await InvokeAsync<StringResult>(settings, uri, HttpMethod.Post, content, true).ConfigureAwait(false);
-            return result?.Id;
+            var resultInfo = new ResultInfo
+            {
+                Content = xmlDoc.Content
+            };
+
+            try
+            {
+                var result = await InvokeAsync<StringResult>(settings, uri, HttpMethod.Post, content, true).ConfigureAwait(false);
+                resultInfo.Id =  result?.Id;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при отправки универсального передаточного документа.");
+                resultInfo.Exception = ex;
+            }
+
+            return resultInfo;
         }
 
         /// <summary>
@@ -269,7 +287,7 @@ namespace CIS.EDM.CRPT.Providers
         /// <param name="settings">Настройки для API.</param>
         /// <param name="buyerDataContract">Информация покупателя.</param>
         /// <returns>Идентификатор созданного извещения о получении</returns>
-        public async Task<string> ReceiptUniversalTransferDocumentAsync(CRPTOption settings, BuyerUniversalTransferDocument buyerDataContract)
+        public async Task<ResultInfo> ReceiptUniversalTransferDocumentAsync(CRPTOption settings, BuyerUniversalTransferDocument buyerDataContract)
         {
             var sellerDocumentBody = await GetIncomingDocumentAsync(settings, buyerDataContract.EdmDocumentId).ConfigureAwait(false);
             buyerDataContract.SellerDocumentInfo = XmlParser.SellerInfoFromXml(sellerDocumentBody, settings.CertificateThumbprint);
@@ -302,9 +320,23 @@ namespace CIS.EDM.CRPT.Providers
 
             };
 
-            var result = await InvokeAsync<StringResult>(settings, uri, HttpMethod.Post, content).ConfigureAwait(false);
+            var resultInfo = new ResultInfo
+            {
+                Content = xmlDoc.Content
+            };
 
-            return result?.Id;
+            try
+            {
+                var result = await InvokeAsync<StringResult>(settings, uri, HttpMethod.Post, content).ConfigureAwait(false);
+                resultInfo.Id = result?.Id;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при добавлении извещения о получении к документу.");
+                resultInfo.Exception = ex;
+            }
+
+            return resultInfo;
         }
     }
 }
