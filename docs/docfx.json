@@ -76,7 +76,7 @@
     "template": [
       "default",
       "templates/singulinkfx",
-	  "plugins/memberpage.2.59.3/content"
+	  "plugins/memberpage.2.59.4/content"
     ],
     "postProcessors": [],
     "markdownEngineName": "markdig",
