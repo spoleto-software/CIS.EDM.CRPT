@@ -217,7 +217,7 @@ namespace CIS.EDM.CRPT.Providers
             var xmlBody = await GetOutgoingDocumentAsync(settings, documentId).ConfigureAwait(false);
 
             var contentIn64 = HttpHelper.ConvertToBase64(xmlBody, XmlHelper.DefaultEncoding);
-            var signature = Cryptography.CryptographyHelper.SignBase64Data(contentIn64, thumbprint: settings.CertificateThumbprint);
+            var signature = Cryptography.CryptographyHelper.SignBase64Data(contentIn64, detached: true, thumbprint: settings.CertificateThumbprint);
             var signatureContent = new StringContent(signature, Encoding.UTF8, ContentType.TextPlain);
             signatureContent.Headers.ContentEncoding.Add("base64");
 
@@ -255,7 +255,7 @@ namespace CIS.EDM.CRPT.Providers
             if (!isDraft)
             {
                 var contentIn64 = HttpHelper.ConvertToBase64(xmlDoc.Content, xmlDoc.FileEncoding);
-                var signature = Cryptography.CryptographyHelper.SignBase64Data(contentIn64, thumbprint: settings.CertificateThumbprint);
+                var signature = Cryptography.CryptographyHelper.SignBase64Data(contentIn64, detached: true, thumbprint: settings.CertificateThumbprint);
                 var signatureContent = new StringContent(signature, Encoding.UTF8, ContentType.TextPlain);
                 signatureContent.Headers.ContentEncoding.Add("base64");
 
@@ -308,7 +308,7 @@ namespace CIS.EDM.CRPT.Providers
             var docIdContent = new StringContent(buyerDataContract.EdmDocumentId, Encoding.UTF8, ContentType.TextPlain);
 
             var contentIn64 = HttpHelper.ConvertToBase64(xmlDoc.Content, xmlDoc.FileEncoding);
-            var signature = Cryptography.CryptographyHelper.SignBase64Data(contentIn64, thumbprint: settings.CertificateThumbprint);
+            var signature = Cryptography.CryptographyHelper.SignBase64Data(contentIn64, detached: true, thumbprint: settings.CertificateThumbprint);
             var signatureContent = new StringContent(signature, Encoding.UTF8, ContentType.TextPlain);
             signatureContent.Headers.ContentEncoding.Add("base64");
 
