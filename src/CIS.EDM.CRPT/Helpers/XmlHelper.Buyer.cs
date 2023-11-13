@@ -65,12 +65,12 @@ namespace CIS.EDM.CRPT.Helpers
             sellerFileNode.SetAttribute("ДатаФайлИнфПр", sellerDocumentInfo.DateCreation); // Дата формирования файла обмена информации продавца. Указывается (повторяет) значение ДатаИнфПр, указанное в файле обмена счета-фактуры (информации продавца) или файле обмена информации продавца
             sellerFileNode.SetAttribute("ВремФайлИнфПр", sellerDocumentInfo.TimeCreation); // Время формирования файла обмена информации продавца. Указывается (повторяет) значение ВремИнфПр, указанное в файле обмена счета-фактуры (информации продавца) или файле обмена информации продавца
 
-            //foreach (var eds in sellerDocumentInfo.EdsBodyList)
-            //{
-            //    var edsNode = xmlDocument.CreateElement("ЭП"); // Электронная подпись файла обмена информации продавца. Представляется в кодировке Base64
-            //    edsNode.InnerText = eds;
-            //    sellerFileNode.AppendChild(edsNode);
-            //}
+            foreach (var eds in sellerDocumentInfo.EdsBodyList)
+            {
+                var edsNode = xmlDocument.CreateElement("ЭП"); // Электронная подпись файла обмена информации продавца. Представляется в кодировке Base64
+                edsNode.InnerText = eds;
+                sellerFileNode.AppendChild(edsNode);
+            }
             documentNode.AppendChild(sellerFileNode);
 
             AddEconomicLife4(xmlDocument, buyerDataContract, documentNode);
