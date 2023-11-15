@@ -35,8 +35,8 @@ namespace CIS.EDM.CRPT.Helpers
             sellerInfo.DocumentNumber = documentInfoNode.GetAttribute("НомерСчФ");
 
             var contentIn64 = HttpHelper.ConvertToBase64(sellerDocumentBody, XmlHelper.DefaultEncoding);
-         //   var signature = Cryptography.CryptographyHelper.SignBase64Data(contentIn64, detached: true, thumbprint: certificateThumbprint);
-         //   sellerInfo.EdsBodyList = new List<string> { signature };
+            var signature = Cryptography.CryptographyHelper.SignBase64Data(contentIn64, detached: true, thumbprint: certificateThumbprint);
+            sellerInfo.EdsBodyList = new List<string> { signature };
 
             var revisionNodeList = documentInfoNode.GetElementsByTagName("ИспрСчФ");
             foreach (XmlElement revisionNode in revisionNodeList)
