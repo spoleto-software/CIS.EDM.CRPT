@@ -294,7 +294,7 @@ namespace CIS.EDM.CRPT.Providers
 
 			try
 			{
-				var result = await InvokeAsync<StringResult>(settings, uri, HttpMethod.Post, content, true).ConfigureAwait(false);
+                var result = await InvokeAsync<StringResult>(settings, uri, HttpMethod.Post, content, canToResetToken: true).ConfigureAwait(false);
 				resultInfo.Id = result?.Id;
 			}
 			catch (Exception ex)
