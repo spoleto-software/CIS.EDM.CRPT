@@ -104,7 +104,7 @@ namespace CIS.EDM.CRPT.Providers
 
 					var archiveInfo = new ZipArchiveInfo
 					{
-						ZipArchive = new(memoryStream),
+						ZipArchive = new ZipArchive(memoryStream),
 						FileName = fileName
 					};
 
