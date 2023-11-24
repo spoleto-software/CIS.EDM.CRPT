@@ -43,7 +43,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Http" Version="3.1.8" />
 		<PackageReference Include="Spoleto.CIS.Cryptography" Version="2.7.21.955" />
-		<PackageReference Include="Spoleto.CIS.EDM" Version="3.11.24.925" />
+		<PackageReference Include="Spoleto.CIS.EDM" Version="3.11.24.1230" />
 	</ItemGroup>
 
     <ItemGroup>
