@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using CIS.EDM.CRPT.Helpers;
 using CIS.EDM.CRPT.Models;
@@ -87,45 +88,55 @@ namespace CIS.EDM.CRPT.Providers
 
 			using var responseMessage = await client.SendAsync(requestMessage).ConfigureAwait(false);
 
-			if (responseMessage.IsSuccessStatusCode)
-			{
-				if (isZipResponse)
-				{
-					var contentDisposition = responseMessage.Content.Headers.ContentDisposition;
-					string fileName = null;
-					if (contentDisposition != null)
-					{
-						fileName = contentDisposition.FileName?.Trim('"');
-					}
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                if (isZipResponse)
+                {
+                    var contentDisposition = responseMessage.Content.Headers.ContentDisposition;
+                    string fileName = null;
+                    if (contentDisposition != null)
+                    {
+                        fileName = contentDisposition.FileName?.Trim('"');
+                    }
 
-					var memoryStream = new MemoryStream();
-					await responseMessage.Content.CopyToAsync(memoryStream).ConfigureAwait(false);
-					memoryStream.Position = 0;
+                    var memoryStream = new MemoryStream();
+                    await responseMessage.Content.CopyToAsync(memoryStream).ConfigureAwait(false);
+                    memoryStream.Position = 0;
 
-					var archiveInfo = new ZipArchiveInfo
-					{
-						ZipArchive = new ZipArchive(memoryStream),
-						FileName = fileName
-					};
+                    var archiveInfo = new ZipArchiveInfo
+                    {
+                        ZipArchive = new ZipArchive(memoryStream),
+                        FileName = fileName
+                    };
 
-					return (T)(object)archiveInfo;
-				}
+                    return (T)(object)archiveInfo;
+                }
 
-				if (responseMessage.Content.Headers.ContentType?.MediaType == ContentType.OctetStream
-					&& typeof(T) == typeof(string))
-				{
-					var bytes = await responseMessage.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-					var str = XmlHelper.DefaultEncoding.GetString(bytes);
-					return (T)(object)str;
-				}
+                if (responseMessage.Content.Headers.ContentType?.MediaType == ContentType.OctetStream
+                    && typeof(T) == typeof(string))
+                {
+                    var bytes = await responseMessage.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                    var str = XmlHelper.DefaultEncoding.GetString(bytes);
+                    return (T)(object)str;
+                }
 
-				var result = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-				if (String.IsNullOrEmpty(result))
-					return default;
+                var result = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+                if (String.IsNullOrEmpty(result))
+                    return default;
 
-				var objectResult = HttpHelper.FromJson<T>(result);
-				return objectResult;
-			}
+                try
+                {
+                    var objectResult = HttpHelper.FromJson<T>(result);
+                    return objectResult;
+                }
+                catch (JsonException ex)
+                {
+                    var json = result;
+                    var message = $"Ошибка десериализации ответа от сервиса. Исходный JSON:{Environment.NewLine}{json}";
+
+                    throw new JsonException(message, ex);
+                }
+            }
 
 			var errorResult = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
