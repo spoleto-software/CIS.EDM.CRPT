@@ -15,5 +15,23 @@ namespace CIS.EDM.CRPT.Providers
         /// <param name="settings">Настройки для API</param>
         /// <param name="documentId">Идентификатор документа</param>
         Task SignOutgoingDocumentAsync(CRPTOption settings, string documentId);
-    }
+
+		/// <summary>
+		/// Получение информации о документе (его тела и открепленной подписи).
+		/// </summary>
+		/// <param name="settings">Настройки для API</param>
+		/// <param name="documentId">Идентификатор документа</param>
+		/// <returns></returns>
+		SignedDocumentInfo GetIncomingSignedDocumentInfo(CRPTOption settings, string documentId)
+			=> GetIncomingSignedDocumentInfoAsync(settings, documentId).GetAwaiter().GetResult();
+
+		/// <summary>
+		/// Получение информации о документе (его тела и открепленной подписи).
+		/// </summary>
+		/// <param name="settings">Настройки для API</param>
+		/// <param name="documentId">Идентификатор документа</param>
+		/// <returns></returns>
+		Task<SignedDocumentInfo> GetIncomingSignedDocumentInfoAsync(CRPTOption settings, string documentId);
+
+	}
 }

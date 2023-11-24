@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using CIS.EDM.Helpers;
+using CIS.EDM.CRPT.Models;
 using CIS.EDM.Models.Buyer;
 using CIS.EDM.Models.Reference;
 
@@ -12,10 +12,10 @@ namespace CIS.EDM.CRPT.Helpers
         /// <summary>
         /// Парсинг XML документа продавца для заполнения информации в файле покупателя.
         /// </summary>
-        internal static SellerDocumentInfo SellerInfoFromXml(string sellerDocumentBody, string certificateThumbprint)
+        internal static SellerDocumentInfo SellerInfoFromXml(SignedDocumentInfo sellerDocumentInfo)
         {
             var xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(sellerDocumentBody);
+            xmlDocument.LoadXml(sellerDocumentInfo.Content);
 
             var fileHeaderNode = (XmlElement)xmlDocument.GetElementsByTagName("Файл")[0];
             var sellerInfo = new SellerDocumentInfo
@@ -34,9 +34,7 @@ namespace CIS.EDM.CRPT.Helpers
             sellerInfo.DocumentDate = documentInfoNode.GetAttribute("ДатаСчФ");
             sellerInfo.DocumentNumber = documentInfoNode.GetAttribute("НомерСчФ");
 
-            var contentIn64 = HttpHelper.ConvertToBase64(sellerDocumentBody, XmlHelper.DefaultEncoding);
-            var signature = Cryptography.CryptographyHelper.SignBase64Data(contentIn64, detached: true, thumbprint: certificateThumbprint);
-            sellerInfo.EdsBodyList = new List<string> { signature };
+            sellerInfo.EdsBodyList = new List<string> { sellerDocumentInfo.DetachedSignature };
 
             var revisionNodeList = documentInfoNode.GetElementsByTagName("ИспрСчФ");
             foreach (XmlElement revisionNode in revisionNodeList)
