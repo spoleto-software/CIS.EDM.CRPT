@@ -18,9 +18,8 @@ namespace CIS.EDM.CRPT.Models
         /// <summary>
         /// Ключевое слово, которое используется перед токеном.
         /// </summary>
-        [JsonPropertyName("type")]
-        [Required]
-        public string Type { get; set; }
+        [JsonIgnore]
+        public string Type => "Bearer";
 
         public override string ToString() => Type + ": " + Token;
     }

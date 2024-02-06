@@ -25,7 +25,7 @@ namespace CIS.EDM.CRPT.Providers
 
             var authKey = await GetAuthKey(client, settings).ConfigureAwait(false);
 
-            var uri = new Uri(new Uri(settings.ServiceUrl), "/api/v1/session");
+            var uri = new Uri(new Uri(settings.AuthUrl), "/api/v3/true-api/auth/simpleSignIn");
             using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri))
             {
                 requestMessage.ConfigureRequestMessage();
@@ -76,7 +76,7 @@ namespace CIS.EDM.CRPT.Providers
 
         private async Task<AuthKeyModel> GetAuthKey(HttpClient client, CRPTOption settings)
         {
-            var uri = new Uri(new Uri(settings.ServiceUrl), "/api/v1/session");
+            var uri = new Uri(new Uri(settings.AuthUrl), "/api/v3/true-api/auth/key");
             using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri))
             {
                 requestMessage.ConfigureRequestMessage();

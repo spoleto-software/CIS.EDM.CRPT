@@ -13,6 +13,11 @@ namespace CIS.EDM.CRPT.Models
         public string ServiceUrl { get; set; }
 
         /// <summary>
+        /// Адрес единой аутентификации True API.
+        /// </summary>
+        public string AuthUrl { get; set; }
+
+        /// <summary>
         /// Публичный отпечаток сертификата.
         /// </summary>
         public string CertificateThumbprint { get; set; }
