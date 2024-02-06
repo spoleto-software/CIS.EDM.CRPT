@@ -28,6 +28,9 @@ namespace CIS.EDM.CRPT.Models
         /// </summary>
         void IEdmOption.Validate()
         {
+            if (string.IsNullOrEmpty(AuthUrl))
+                throw new System.ArgumentNullException(nameof(AuthUrl));
+
             if (string.IsNullOrEmpty(ServiceUrl))
                 throw new System.ArgumentNullException(nameof(ServiceUrl));
         }
