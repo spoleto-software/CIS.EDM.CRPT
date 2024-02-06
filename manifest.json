@@ -1,0 +1,683 @@
+{
+  "homepages": [],
+  "source_base_path": "D:/a/CIS.EDM.CRPT/CIS.EDM.CRPT/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      },
+      "is_incremental": false
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.CRPTOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.CRPTOption.ServiceUrl.html",
+          "hash": "bL3BJB0W3ymMw1iAmtEvsHMTVH5G+awyFKY/0r5CSFk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.CRPTOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.CRPTOption.AuthUrl.html",
+          "hash": "WPBWjiuGLe1dGmJ0D9yeJeuQgHjIFyZUAk/kd1kAm8w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.CRPTOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.CRPTOption.CertificateThumbprint.html",
+          "hash": "A2iGr8vviZ8h/NFlhHM0eeLmQPhN5Esedlf8Ajg6JV4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.CRPTOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.CRPTOption.html",
+          "hash": "z4zq2aYMZmlwiH6m148DE98BR+rQZmZK+dTXXZ9bBXE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.SignedDocumentInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.SignedDocumentInfo.Content.html",
+          "hash": "ox5vXSTW2M2gGFsWnSFBKDUwuieWlh6H/02MSlZSB+I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.SignedDocumentInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.SignedDocumentInfo.DetachedSignature.html",
+          "hash": "prR7uWKJRNKnCQDZ+mrutu8HPvJYUQIjYjeAeM26iok="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.SignedDocumentInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.SignedDocumentInfo.html",
+          "hash": "K+zCI386y61/t94Sr3zP3u7tx6NRXNdUKIV8xAVaXwA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.StringResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.StringResult.Id.html",
+          "hash": "oivg8zf7wI09zRFvnWuecxIfeBRqHWCJShoy9216jdc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.StringResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.StringResult.ToString.html",
+          "hash": "T6YgQLZLczEDTQQsyM9wNG9OuyA9/kzJR5st6co+Uyc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.StringResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.StringResult.html",
+          "hash": "p9Q5LNwWKINPZ2LqRpYaTIkzCitWUu9iowQK+VwY4n4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.TokenModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.TokenModel.Token.html",
+          "hash": "WXBw0X/bg/4H8URhFrNfmI3J0iH0iCHbweQUFfbUGbU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.TokenModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.TokenModel.Type.html",
+          "hash": "ZEcID6S4XVNj2VAdDkS384oJhSddquR+eZRIigBUvRQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.TokenModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.TokenModel.ToString.html",
+          "hash": "wGIIL3l/upyboJRgVKH4ubvOIEbNKg5SS097g17uVO8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.TokenModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.TokenModel.html",
+          "hash": "siewxDTRbnowQdRQjpCdZmKirc4dG1LILo9hhLyfdOE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.ZipArchiveInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.ZipArchiveInfo.html",
+          "hash": "0Gys+vRF52cuPdcCHDUh8CntS43GoRD5cR9Cs1KuSUc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.ZipArchiveInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.ZipArchiveInfo.ZipArchive.html",
+          "hash": "p4QsCeAS9ph91rEbZvDg26DcJJpfOHT0dBFu5O17rFw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.ZipArchiveInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.ZipArchiveInfo.FileName.html",
+          "hash": "Qu0LylC4chHiOgsi5KB34GE74MCJVfM6ZBh9E1iS5P0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Models.html",
+          "hash": "7iaxcIZWk4x/SlNA9Wbqj9Zo4CEXgrTpj6BCJMQS26c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync.html",
+          "hash": "Fuxrfp+WwsCxhPnpY1LWOeqWMMYqo1KhRtNo5ekHcL4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingSignedDocumentInfoAsync.html",
+          "hash": "+uLKkrgMHllqG3YypMrdWDJ8ndewCihOM4uvBJxDwGQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.html",
+          "hash": "ZWvZQhq8N57oMlTZdTGQr9Oz2XM/J95z6WZxxQ4f3e8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.-ctor.html",
+          "hash": "zVLnH432A4cE3Ou22rt+HBLtz3Ka0zH85J9t5QwpPv0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.Code.html",
+          "hash": "iWl7E8q/r+0uv5yY8AM8en1AZ4Cr6nM2F+OhoZc0Wx8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.DisplayName.html",
+          "hash": "gQKM7jXrjoolFjP+oXXJAti8ibFDSWd4jiFXuX4rbg8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.ToString.html",
+          "hash": "K3xOnxpJs9i6+g1jhFeFc18Q1VtC5nOhS3biRBeWvDc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentListAsync.html",
+          "hash": "JMBe9FGIVT2M/k3hwaJ4cts9W33mqV5HSb7ZDcmakS0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentListAsync.html",
+          "hash": "qXYgX32xVzOCNvH2LqAdz5TwTUNXSBObvJndpGw+Mno="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentAsync.html",
+          "hash": "7uuSwAczUWFOhXbZOpkBgFsXVJvru/XSSDwaPPmB2bc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentAsync.html",
+          "hash": "3N0yQcTX2ghfaJwYFAIfM1b1voEfEtfzWbja1dBT9N4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.SignOutgoingDocumentAsync.html",
+          "hash": "VxQ76pSodn3JzxYzxU84mI/1QNcPMbzTqKkzBqBjWOo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync.html",
+          "hash": "5zt1NrJbc7ynCKetdW9/9deozry3SvDP6XCZvDcCUZE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTTokenProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTTokenProvider.-ctor.html",
+          "hash": "obgG+aGQqYLZAq791Yp7WASLq1662uHEt/JyQXsvV8w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTTokenProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTTokenProvider.CIS-EDM-CRPT-Providers-ICRPTTokenProvider-GetTokenAsync.html",
+          "hash": "NFkiE7kS6uz1dkYLtruzM9ctI8i7QUyaSyr95KEbHs4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.CRPTTokenProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.CRPTTokenProvider.html",
+          "hash": "llkqpcrgQvivTn1alfyjFf3LniE8jT6QyHBGyslGADg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTProvider.SignOutgoingDocumentAsync.html",
+          "hash": "MX0s9/kD37IvgxCtY6lI9HbCBK4HPQRPTEXc0sQMIi8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfo.html",
+          "hash": "uMMcIfnnx0ScX7XxgPQ1pq3kJYftOlMfvMv+0Dh2wxQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfoAsync.html",
+          "hash": "Rl9DW6K6/NeGYfzHoFphLmgQ1l4hUAKAuaxW4ySjhC0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTProvider.html",
+          "hash": "jBcUfa46gGGA/azehEUDniOgpmFc8SBRSr+esurCP2o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTTokenProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetToken.html",
+          "hash": "wTA+FeVRsqgio+q56Nm6bH9NC0bkbcemPGfTGu+9AhE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTTokenProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync.html",
+          "hash": "XUZyJdihrT2L9zuhxanzbuHc7Bj2d8MhInSaBYEFwj4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTTokenProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.ICRPTTokenProvider.html",
+          "hash": "FP0p1nLxXv6g5ALayaOy/LMiwUciE5tsOpvyc0P7+nE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CIS.EDM.CRPT.Providers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CIS.EDM.CRPT.Providers.html",
+          "hash": "0UKTcyrQNFLtLE/2B3vKxLE1g8Ss2O44PgA79ZYsUeE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "fASN5tHLFSM3Id6Md+3fbb8fCZMg3Z6GGTq4f0akZys="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "VlsKsNvPtgB6CXdn8M8o4ltmaB3GHzYUZ5MQLqJYXAA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/crpt.quickstart.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/crpt.quickstart.html",
+          "hash": "Mpk0yfLaMMsfHqGclEuRDSAAQbGdNhQddlGHIqiWx2A="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "uOwYAWEI3Dy6N58w8HC/Rx+UjBufLXPXiEGnYucB2TQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/models.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/models.html",
+          "hash": "y38lwiuWgBQJpXpiT/Y/nNSvxg87xdD2ge29gdhvRw4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "8nrJceA0enhbmkPHpNjzfxLLWwQ2qPGvv6g9pde5uJs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "huVMbnI+kEBJ5JPLukJTDW2LJTxXpQl8i9qOmWRKtOg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "HlUt0D1GJWdJILRvWNicz/UEw5/BRsrMv3FiHvWyhQM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 5,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 11,
+          "skipped_file_count": 0
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: should not trace intermediate info.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
