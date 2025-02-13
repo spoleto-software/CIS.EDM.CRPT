@@ -15,6 +15,10 @@ namespace CIS.EDM.CRPT.Extensions
 
                 TaxRate.Zero => "0%",
 
+                TaxRate.FivePercent => "5%",
+
+                TaxRate.SevenPercent => "7%",
+
                 TaxRate.TenPercent => "10%",
 
                 TaxRate.EighteenPercent => "18%",
