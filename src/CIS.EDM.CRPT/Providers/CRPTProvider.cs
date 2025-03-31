@@ -276,7 +276,7 @@ namespace CIS.EDM.CRPT.Providers
 
             var xmlDoc = XmlHelper.GenerateXml(sellerDataContract);
 
-            var result = await PostUniversalTransferDocumentAsync(settings, uri, xmlDoc, isDraft);
+            var result = await PostUniversalTransferDocumentAsync(settings, uri, xmlDoc, isDraft).ConfigureAwait(false);
 
             return result;
         }
@@ -296,7 +296,7 @@ namespace CIS.EDM.CRPT.Providers
 
             var xmlDoc = XmlHelperV5_03.GenerateXml(sellerDataContract);
 
-            var result = await PostUniversalTransferDocumentAsync(settings, uri, xmlDoc, isDraft);
+            var result = await PostUniversalTransferDocumentAsync(settings, uri, xmlDoc, isDraft).ConfigureAwait(false);
 
             return result;
         }
@@ -363,7 +363,7 @@ namespace CIS.EDM.CRPT.Providers
             var address = buyerDataContract.SellerDocumentInfo.IsUPDi ? "/api/v1/incoming-documents/xml/updi/title" : "/api/v1/incoming-documents/xml/upd/title";
             var uri = new Uri(new Uri(settings.ServiceUrl), address);
 
-            var result = await ReceiptUniversalTransferDocumentAsync(settings, uri, buyerDataContract.EdmDocumentId, xmlDoc);
+            var result = await ReceiptUniversalTransferDocumentAsync(settings, uri, buyerDataContract.EdmDocumentId, xmlDoc).ConfigureAwait(false);
 
             return result;
         }
@@ -384,7 +384,7 @@ namespace CIS.EDM.CRPT.Providers
             var address = buyerDataContract.SellerDocumentInfo.IsUPDi ? "/api/v1/incoming-documents/xml/updi/title/970" : "/api/v1/incoming-documents/xml/upd/title/970";
             var uri = new Uri(new Uri(settings.ServiceUrl), address);
 
-            var result = await ReceiptUniversalTransferDocumentAsync(settings, uri, buyerDataContract.EdmDocumentId, xmlDoc);
+            var result = await ReceiptUniversalTransferDocumentAsync(settings, uri, buyerDataContract.EdmDocumentId, xmlDoc).ConfigureAwait(false);
 
             return result;
         }
