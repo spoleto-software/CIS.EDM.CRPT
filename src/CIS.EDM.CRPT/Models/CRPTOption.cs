@@ -5,7 +5,7 @@ namespace CIS.EDM.CRPT.Models
     /// <summary>
     /// Настройки ЦРПТ провайдера.
     /// </summary>
-    public class CRPTOption : IEdmOption
+    public record CRPTOption : IEdmOption
     {
         /// <summary>
         /// Адрес ЦРПТ сервиса.

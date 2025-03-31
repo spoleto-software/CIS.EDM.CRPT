@@ -9,13 +9,14 @@ using CIS.EDM.Extensions;
 using CIS.EDM.Models;
 using CIS.EDM.Models.Common;
 using CIS.EDM.Models.Common.Reference;
-using CIS.EDM.Models.Seller;
-using CIS.EDM.Models.Seller.Address;
-using CIS.EDM.Models.Seller.Reference;
+using CIS.EDM.Models.V5_03;
+using CIS.EDM.Models.V5_03.Seller;
+using CIS.EDM.Models.V5_03.Seller.Address;
+using CIS.EDM.Models.V5_03.Seller.Reference;
 
 namespace CIS.EDM.CRPT.Helpers
 {
-    internal static partial class XmlHelper
+    internal static partial class XmlHelperV5_03
     {
         private const string FileEncoding = "windows-1251";
 
@@ -23,13 +24,13 @@ namespace CIS.EDM.CRPT.Helpers
 
         public readonly static Encoding DefaultEncoding;
 
-        static XmlHelper()
+        static XmlHelperV5_03()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);//support for "windows-1251"
             DefaultEncoding = Encoding.GetEncoding(FileEncoding);
         }
 
-        public static DocumentData GenerateXml(SellerUniversalTransferDocument sellerDataContract)
+        public static DocumentData GenerateXml(CIS.EDM.Models.V5_03.Seller.SellerUniversalTransferDocument sellerDataContract)
         {
             if (sellerDataContract.Buyers == null || sellerDataContract.Buyers.Count == 0)
                 throw new ArgumentNullException("Не указан продавец.");
@@ -62,7 +63,7 @@ namespace CIS.EDM.CRPT.Helpers
         private static XmlDocument CreateXmlDocument(UniversalTransferDocumentBase dataContract)
         {
             var xmlDocument = new XmlDocument();
-            var xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", FileEncoding, "yes");
+            var xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", FileEncoding, null);
             xmlDocument.AppendChild(xmlDeclaration);
 
             var fileNode = xmlDocument.CreateElement("Файл");
@@ -76,17 +77,6 @@ namespace CIS.EDM.CRPT.Helpers
 
         private static void GenerateXmlFrom(XmlDocument xmlDocument, SellerUniversalTransferDocument dataContract)
         {
-            var headerNode = xmlDocument.CreateElement("СвУчДокОбор");
-            headerNode.SetAttribute("ИдОтпр", dataContract.SenderEdmParticipant.FullId);
-            headerNode.SetAttribute("ИдПол", dataContract.RecipientEdmParticipant.FullId);
-            xmlDocument.DocumentElement.AppendChild(headerNode);
-
-            var subHeaderNode = xmlDocument.CreateElement("СвОЭДОтпр");
-            subHeaderNode.SetAttribute("НаимОрг", dataContract.EdmOperator.Name);
-            subHeaderNode.SetAttribute("ИННЮЛ", dataContract.EdmOperator.Inn);
-            subHeaderNode.SetAttribute("ИдЭДО", dataContract.EdmOperator.OperatorId);
-            headerNode.AppendChild(subHeaderNode);
-
             var documentNode = xmlDocument.CreateElement("Документ");
             documentNode.SetAttribute("КНД", "1115131"); // Классификатор налоговых документов
             documentNode.SetAttribute("Функция", dataContract.Function.ToString());
@@ -102,9 +92,6 @@ namespace CIS.EDM.CRPT.Helpers
             documentNode.SetAttribute("ДатаИнфПр", dataContract.DateCreation.ToString("dd.MM.yyyy")); // Дата формирования файла обмена счета-фактуры (информации продавца)
             documentNode.SetAttribute("ВремИнфПр", dataContract.DateCreation.ToString("HH.mm.ss")); // Время формирования файла обмена счета-фактуры (информации продавца)
             documentNode.SetAttribute("НаимЭконСубСост", GetEconomicEntityName(dataContract.DocumentCreator)); // Наименование экономического субъекта – составителя файла обмена счета-фактуры (информации продавца)
-
-            if (!String.IsNullOrEmpty(dataContract.DocumentCreatorBase))
-                documentNode.SetAttribute("ОснДоверОргСост", dataContract.DocumentCreatorBase); // Основание, по которому экономический субъект является составителем файла обмена счета-фактуры (информации продавца)
 
             if (!String.IsNullOrEmpty(dataContract.ApprovedStructureAdditionalInfoFields))
                 documentNode.SetAttribute("СоглСтрДопИнф", dataContract.ApprovedStructureAdditionalInfoFields); // Информация о наличии согласованной структуры дополнительных информационных полей
@@ -122,6 +109,11 @@ namespace CIS.EDM.CRPT.Helpers
 
             // Подписант
             AddSellerSigners(xmlDocument, documentNode, dataContract);
+
+            //todo: ОснДоверОргСост
+            //if (!String.IsNullOrEmpty(dataContract.DocumentCreatorBase))
+            //    documentNode.SetAttribute("ОснДоверОргСост", dataContract.DocumentCreatorBase); // Основание, по которому экономический субъект является составителем файла обмена счета-фактуры (информации продавца)
+
         }
 
         /// <summary>
@@ -133,12 +125,12 @@ namespace CIS.EDM.CRPT.Helpers
         private static void AddDocumentInfo(XmlDocument xmlDocument, SellerUniversalTransferDocument dataContract, XmlElement documentNode)
         {
             var documentInfoNode = xmlDocument.CreateElement("СвСчФакт");
-            documentInfoNode.SetAttribute("НомерСчФ", dataContract.DocumentNumber);
-            documentInfoNode.SetAttribute("ДатаСчФ", dataContract.DocumentDate.ToString("dd.MM.yyyy"));
-            documentInfoNode.SetAttribute("КодОКВ", dataContract.CurrencyCode); //Валюта: Код
-            documentNode.AppendChild(documentInfoNode);
+            documentInfoNode.SetAttribute("НомерДок", dataContract.DocumentNumber);
+            documentInfoNode.SetAttribute("ДатаДок", dataContract.DocumentDate.ToString("dd.MM.yyyy"));
 
-            AddRevisionInfo(xmlDocument, documentInfoNode, dataContract);
+            AddRevisionInfo(xmlDocument, documentInfoNode, dataContract);//todo
+
+            documentNode.AppendChild(documentInfoNode);
 
             // Сведения о продавце (строки 2, 2а, 2б счета-фактуры)
             foreach (var seller in dataContract.Sellers)
@@ -172,15 +164,29 @@ namespace CIS.EDM.CRPT.Helpers
 
             AddPaymentDocumentInfo(xmlDocument, documentInfoNode, dataContract.PaymentDocumentInfoList);
 
+            // ДокПодтвОтгрНом
+            AddTransferDocumentShipmentInfo(xmlDocument, documentInfoNode, dataContract);
+
             // Сведения о покупателе (строки 6, 6а, 6б счета-фактуры)
             foreach (var buyer in dataContract.Buyers)
                 AddFirmInformation(xmlDocument, documentInfoNode, buyer, "СвПокуп");
 
+            if (!String.IsNullOrEmpty(dataContract.CurrencyCode))
+            {
+                var currencyrNode = xmlDocument.CreateElement("ДенИзм");
+                currencyrNode.SetAttribute("КодОКВ", dataContract.CurrencyCode); //Валюта: Код
+
+                if (!String.IsNullOrEmpty(dataContract.CurrencyName))
+                    currencyrNode.SetAttribute("НаимОКВ", dataContract.CurrencyName);
+
+                if (dataContract.CurrencyRate > 0M)
+                    currencyrNode.SetAttribute("КурсВал", dataContract.CurrencyRate.Value.ToString("0.00##", CultureInfo.InvariantCulture));
+
+                documentInfoNode.AppendChild(currencyrNode);
+            }
+
             // ДопСвФХЖ1
             AddAdditionalInfo(xmlDocument, documentInfoNode, dataContract);
-
-            // ДокПодтвОтгр
-            AddTransferDocumentShipmentInfo(xmlDocument, documentInfoNode, dataContract);
 
             // Информационное поле факта хозяйственной жизни 1
             AddOtherEconomicInfo(xmlDocument, documentInfoNode, dataContract.OtherEconomicInfo, "ИнфПолФХЖ1");
@@ -191,20 +197,15 @@ namespace CIS.EDM.CRPT.Helpers
         /// </summary>
         private static void AddRevisionInfo(XmlDocument xmlDocument, XmlElement parentElement, SellerUniversalTransferDocument dataContract)
         {
-            var revisionNode = xmlDocument.CreateElement("ИспрСчФ"); // Исправление (строка 1а счета - фактуры)
+            if (!string.IsNullOrEmpty(dataContract.RevisionNumber))
+            {
+                var revisionNode = xmlDocument.CreateElement("ИспрДок"); // Исправление (строка 1а счета - фактуры)
 
-            //Для отправки исходного УПД без номера и даты исправления всё равно нужно формировать тег «ИспрСчФ» с атрибутами «ДефНомИспрСчФ="-"» и «ДефДатаИспрСчФ="-"»
-            if (dataContract.IsHyphenRevisionNumber)
-                revisionNode.SetAttribute("ДефНомИспрСчФ", "-");
-            else if (!String.IsNullOrEmpty(dataContract.RevisionNumber))
-                revisionNode.SetAttribute("НомИспрСчФ", dataContract.RevisionNumber);
+                revisionNode.SetAttribute("НомИспр", dataContract.RevisionNumber);
+                revisionNode.SetAttribute("ДатаИспр", dataContract.RevisionDate.Value.ToString("dd.MM.yyyy"));
 
-            if (dataContract.IsHyphenRevisionDate)
-                revisionNode.SetAttribute("ДефДатаИспрСчФ", "-");
-            else if (dataContract.RevisionDate != null)
-                revisionNode.SetAttribute("ДатаИспрСчФ", dataContract.RevisionDate.Value.ToString("dd.MM.yyyy"));
-
-            parentElement.AppendChild(revisionNode);
+                parentElement.AppendChild(revisionNode);
+            }
         }
 
         /// <summary>
@@ -216,8 +217,6 @@ namespace CIS.EDM.CRPT.Helpers
         private static void AddAdditionalInfo(XmlDocument xmlDocument, XmlElement parentElement, SellerUniversalTransferDocument dataContract)
         {
             if (!String.IsNullOrEmpty(dataContract.GovernmentContractInfo)
-                || dataContract.CurrencyRate > 0
-                || !String.IsNullOrEmpty(dataContract.CurrencyName)
                 || dataContract.FactorInfo != null
                 || dataContract.SellerInfoCircumPublicProc != null
                 || dataContract.MainAssignMonetaryClaim != null
@@ -227,18 +226,12 @@ namespace CIS.EDM.CRPT.Helpers
                 if (!String.IsNullOrEmpty(dataContract.GovernmentContractInfo))
                     economicNode.SetAttribute("ИдГосКон", dataContract.GovernmentContractInfo);
 
-                if (!String.IsNullOrEmpty(dataContract.CurrencyName))
-                    economicNode.SetAttribute("НаимОКВ", dataContract.CurrencyName);
-
-                if (dataContract.CurrencyRate > 0)
-                    economicNode.SetAttribute("КурсВал", dataContract.CurrencyRate.Value.ToString("0.00##", CultureInfo.InvariantCulture));
-
                 if (dataContract.InvoiceFormationType != InvoiceFormationType.NotSpecified)
-                    economicNode.SetAttribute("ОбстФормСЧФ", ((int)dataContract.InvoiceFormationType).ToString());
+                    economicNode.SetAttribute("СпОбстФСЧФ", ((int)dataContract.InvoiceFormationType).ToString());
 
                 if (dataContract.SellerInfoCircumPublicProc != null)
                 {
-                    var circumPublicProcNode = xmlDocument.CreateElement("ИнфПродГосЗакКазн");
+                    var circumPublicProcNode = xmlDocument.CreateElement("ИнфПродЗаГосКазн");
                     circumPublicProcNode.SetAttribute("ДатаГосКонт", dataContract.SellerInfoCircumPublicProc.DateStateContract.ToString("dd.MM.yyyy"));
                     circumPublicProcNode.SetAttribute("НомерГосКонт", dataContract.SellerInfoCircumPublicProc.NumberStateContract);
 
@@ -268,19 +261,19 @@ namespace CIS.EDM.CRPT.Helpers
                 if (dataContract.MainAssignMonetaryClaim != null)
                 {
                     var monetaryClaimNode = xmlDocument.CreateElement("ОснУстДенТреб");
-                    monetaryClaimNode.SetAttribute("НаимОсн", dataContract.MainAssignMonetaryClaim.DocumentName);
+                    monetaryClaimNode.SetAttribute("РеквНаимДок", dataContract.MainAssignMonetaryClaim.DocumentName);
 
                     if (!String.IsNullOrEmpty(dataContract.MainAssignMonetaryClaim.DocumentNumber))
-                        monetaryClaimNode.SetAttribute("НомОсн", dataContract.MainAssignMonetaryClaim.DocumentNumber);
+                        monetaryClaimNode.SetAttribute("РеквНомерДок", dataContract.MainAssignMonetaryClaim.DocumentNumber);
 
                     if (dataContract.MainAssignMonetaryClaim.DocumentDate != null)
-                        monetaryClaimNode.SetAttribute("ДатаОсн", dataContract.MainAssignMonetaryClaim.DocumentDate.Value.ToString("dd.MM.yyyy"));
+                        monetaryClaimNode.SetAttribute("РеквДатаДок", dataContract.MainAssignMonetaryClaim.DocumentDate.Value.ToString("dd.MM.yyyy"));
 
                     if (!String.IsNullOrEmpty(dataContract.MainAssignMonetaryClaim.DocumentInfo))
-                        monetaryClaimNode.SetAttribute("ДопСвОсн", dataContract.MainAssignMonetaryClaim.DocumentInfo);
+                        monetaryClaimNode.SetAttribute("РеквИдФайлДок", dataContract.MainAssignMonetaryClaim.DocumentInfo);
 
                     if (!String.IsNullOrEmpty(dataContract.MainAssignMonetaryClaim.DocumentId))
-                        monetaryClaimNode.SetAttribute("ИдентОсн", dataContract.MainAssignMonetaryClaim.DocumentId);
+                        monetaryClaimNode.SetAttribute("РеквИдДок", dataContract.MainAssignMonetaryClaim.DocumentId);
 
                     economicNode.AppendChild(monetaryClaimNode);
                 }
@@ -386,7 +379,7 @@ namespace CIS.EDM.CRPT.Helpers
                 firmNode.SetAttribute("ИнфДляУчаст", firm.OrganizationAdditionalInfo); // Информация для участника документооборота
 
             if (!String.IsNullOrEmpty(firm.ShortName))
-                firmNode.SetAttribute("КраткНазв", firm.ShortName);
+                firmNode.SetAttribute("СокрНаим", firm.ShortName);
 
             var firmIdNode = xmlDocument.CreateElement("ИдСв"); // Идентификационные сведения
             if (firm.OrganizationIdentificationInfo.LegalPerson is LegalPerson legalPerson)
@@ -408,10 +401,7 @@ namespace CIS.EDM.CRPT.Helpers
             {
                 var firmInfoNode = xmlDocument.CreateElement("СвИП"); // Сведения об индивидуальном предпринимателе
 
-                if (individualEntrepreneur.IsHyphenInn)
-                    firmInfoNode.SetAttribute("ДефИННФЛ", "-");
-                else
-                    firmInfoNode.SetAttribute("ИННФЛ", individualEntrepreneur.Inn);
+                firmInfoNode.SetAttribute("ИННФЛ", individualEntrepreneur.Inn);
 
                 if (!String.IsNullOrEmpty(individualEntrepreneur.IndividualEntrepreneurRegistrationCertificate))
                     firmInfoNode.SetAttribute("СвГосРегИП", individualEntrepreneur.IndividualEntrepreneurRegistrationCertificate); // Реквизиты свидетельства о государственной регистрации индивидуального предпринимателя
@@ -426,11 +416,11 @@ namespace CIS.EDM.CRPT.Helpers
             }
             else if (firm.OrganizationIdentificationInfo.PhysicalPerson is PhysicalPerson physicalPerson)
             {
-                var firmInfoNode = xmlDocument.CreateElement("СвФЛУчастФХЖ"); // Сведения о физическом лице
+                var firmInfoNode = xmlDocument.CreateElement("СвФЛУч"); // Сведения о физическом лице
                 firmInfoNode.SetAttribute("ИННФЛ", physicalPerson.Inn);
 
-                if (!String.IsNullOrEmpty(physicalPerson.IndividualEntrepreneurRegistrationCertificate))
-                    firmInfoNode.SetAttribute("ГосРегИПВыдДов", physicalPerson.IndividualEntrepreneurRegistrationCertificate); // Реквизиты свидетельства о государственной регистрации индивидуального предпринимателя, выдавшего доверенность физическому лицу на подписание счета-фактуры
+                //if (!String.IsNullOrEmpty(physicalPerson.IndividualEntrepreneurRegistrationCertificate))
+                //    firmInfoNode.SetAttribute("ГосРегИПВыдДов", physicalPerson.IndividualEntrepreneurRegistrationCertificate); // Реквизиты свидетельства о государственной регистрации индивидуального предпринимателя, выдавшего доверенность физическому лицу на подписание счета-фактуры
 
                 if (!String.IsNullOrEmpty(physicalPerson.OtherInfo))
                     firmInfoNode.SetAttribute("ИныеСвед", physicalPerson.OtherInfo); // Иные сведения, идентифицирующие физическое лицо
@@ -443,7 +433,7 @@ namespace CIS.EDM.CRPT.Helpers
             else if (firm.OrganizationIdentificationInfo.ForeignPerson is ForeignPerson foreignPerson)
             {
                 var firmInfoNode = xmlDocument.CreateElement("СвИнНеУч"); // Сведения об иностранном лице, не состоящем на учете в налоговых органах
-                firmInfoNode.SetAttribute("НаимОрг", foreignPerson.Name);
+                firmInfoNode.SetAttribute("Наим", foreignPerson.Name);
 
                 if (!String.IsNullOrEmpty(foreignPerson.LegalEntityId))
                     firmInfoNode.SetAttribute("Идентиф", foreignPerson.LegalEntityId); // Идентификатор юридического лица
@@ -461,9 +451,9 @@ namespace CIS.EDM.CRPT.Helpers
 
             AddAddressInformation(xmlDocument, firm.Address, firmNode);
 
-            AddContactInformation(xmlDocument, firm.Contact, firmNode);
-
             AddBankDetailsInformation(xmlDocument, firm.BankAccountDetails, firmNode);
+
+            AddContactInformation(xmlDocument, firm.Contact, firmNode);
 
             parentElement.AppendChild(firmNode);
         }
@@ -478,6 +468,8 @@ namespace CIS.EDM.CRPT.Helpers
                     russianFirmAddressInfoNode.SetAttribute("Индекс", russianAddress.ZipCode);
 
                 russianFirmAddressInfoNode.SetAttribute("КодРегион", russianAddress.RegionCode);
+
+                russianFirmAddressInfoNode.SetAttribute("НаимРегион", russianAddress.Region);
 
                 if (!String.IsNullOrEmpty(russianAddress.Street))
                     russianFirmAddressInfoNode.SetAttribute("Улица", russianAddress.Street);
@@ -503,17 +495,17 @@ namespace CIS.EDM.CRPT.Helpers
                 russianFirmAddressNode.AppendChild(russianFirmAddressInfoNode);
                 parentElement.AppendChild(russianFirmAddressNode);
             }
-            else if (address.ForeignAddress is ForeignAddress foreignAddress)
-            {
-                var foreignFirmAddressNode = xmlDocument.CreateElement("Адрес");
-                var foreignFirmAddressInfoNode = xmlDocument.CreateElement("АдрИнф");
+            //else if (address.ForeignAddress is ForeignAddress foreignAddress)//todo
+            //{
+            //    var foreignFirmAddressNode = xmlDocument.CreateElement("Адрес");
+            //    var foreignFirmAddressInfoNode = xmlDocument.CreateElement("АдрИнф");
 
-                foreignFirmAddressInfoNode.SetAttribute("КодСтр", foreignAddress.CountryCode);
-                foreignFirmAddressInfoNode.SetAttribute("Адрес", foreignAddress.Address);
+            //    foreignFirmAddressInfoNode.SetAttribute("КодСтр", foreignAddress.CountryCode);
+            //    foreignFirmAddressInfoNode.SetAttribute("Адрес", foreignAddress.Address);
 
-                foreignFirmAddressNode.AppendChild(foreignFirmAddressInfoNode);
-                parentElement.AppendChild(foreignFirmAddressNode);
-            }
+            //    foreignFirmAddressNode.AppendChild(foreignFirmAddressInfoNode);
+            //    parentElement.AppendChild(foreignFirmAddressNode);
+            //}
             else if (address.AddressCode is AddressCode addressCode)
             {
                 var codeFirmAddressNode = xmlDocument.CreateElement("Адрес");
@@ -535,11 +527,24 @@ namespace CIS.EDM.CRPT.Helpers
             if (contact != null)
             {
                 var contactNode = xmlDocument.CreateElement("Контакт"); // Контактные данные
-                if (!String.IsNullOrEmpty(contact.Phone))
-                    contactNode.SetAttribute("Тлф", contact.Phone); // Номер контактного телефона/факс
 
-                if (!String.IsNullOrEmpty(contact.Email))
-                    contactNode.SetAttribute("ЭлПочта", contact.Email); // Адрес электронной почты
+                if (!String.IsNullOrEmpty(contact.Phone))//todo: to list on phones
+                {
+                    var phoneNode = xmlDocument.CreateElement("Тлф");
+
+                    phoneNode.InnerText = contact.Phone;// Номер контактного телефона/факс
+
+                    contactNode.AppendChild(phoneNode);
+                }
+
+                if (!String.IsNullOrEmpty(contact.Email)) //todo: to list
+                {
+                    var emailNode = xmlDocument.CreateElement("ЭлПочта");
+
+                    emailNode.InnerText = contact.Email;// Адрес электронной почты
+
+                    contactNode.AppendChild(emailNode);
+                }
 
                 firmNode.AppendChild(contactNode);
             }
@@ -644,8 +649,11 @@ namespace CIS.EDM.CRPT.Helpers
 
                 if (!String.IsNullOrEmpty(item.UnitCode))
                     itemNode.SetAttribute("ОКЕИ_Тов", item.UnitCode); // Код единицы измерения (графа 2 счета-фактуры)
-                else if (item.IsHyphenUnitCode)
-                    itemNode.SetAttribute("ДефОКЕИ_Тов", "-"); // Код единицы измерения (графа 2 счета-фактуры при составлении документа с Функция=СЧФ или Функция=СЧФДОП при отсутствии данных и для документа с Функция=СЧФ, выставляемом при получении оплаты, частичной оплаты в счет предстоящих поставок товаров (выполнения работ, оказания услуг), передачи имущественных прав)
+                //else if (item.IsHyphenUnitCode)
+                //    itemNode.SetAttribute("ДефОКЕИ_Тов", "-"); // Код единицы измерения (графа 2 счета-фактуры при составлении документа с Функция=СЧФ или Функция=СЧФДОП при отсутствии данных и для документа с Функция=СЧФ, выставляемом при получении оплаты, частичной оплаты в счет предстоящих поставок товаров (выполнения работ, оказания услуг), передачи имущественных прав)
+
+                if (!String.IsNullOrEmpty(item.AdditionalInfo.UnitName))
+                    itemNode.SetAttribute("НаимЕдИзм", item.AdditionalInfo.UnitName); // Наименование единицы измерения (условное обозначение национальное, графа 2а счета-фактуры)
 
                 itemNode.SetAttribute("КолТов", item.Quantity.ToString(quantityToStringPattern, CultureInfo.InvariantCulture)); // Количество (объем) (графа 3 счета - фактуры)
                 itemNode.SetAttribute("ЦенаТов", item.Price.ToString("0.00", CultureInfo.InvariantCulture)); // Цена (тариф) за единицу измерения (графа 4 счета-фактуры)
@@ -657,6 +665,12 @@ namespace CIS.EDM.CRPT.Helpers
                 else if (item.IsHyphenSum)
                     itemNode.SetAttribute("ДефСтТовУчНал", "-"); // Стоимость товаров (работ, услуг), имущественных прав с налогом - всего (графа 9 счета-фактуры) при составлении документа с Функция=СЧФ или Функция=СЧФДОП при отсутствии показателя
 
+                // СвДТ
+                AddCustomDeclarationsInformation(xmlDocument, item, itemNode);
+
+                // ДопСведТов
+                AddAdditionalInfo(xmlDocument, item, itemNode);
+
                 // Акциз
                 AddExciseValue(xmlDocument, item, itemNode);
 
@@ -664,12 +678,6 @@ namespace CIS.EDM.CRPT.Helpers
                 AddVatValue(xmlDocument, item.TaxRate == TaxRate.WithoutVat, item.IsHyphenVat, item.Vat, taxNode);
 
                 itemNode.AppendChild(taxNode);
-
-                // СвТД
-                AddCustomDeclarationsInformation(xmlDocument, item, itemNode);
-
-                // ДопСведТов
-                AddAdditionalInfo(xmlDocument, item, itemNode);
 
                 // ИнфПолФХЖ2
                 AddOtherEconomicInfo(xmlDocument, itemNode, item.OtherEconomicInfoItemList, "ИнфПолФХЖ2");
@@ -684,7 +692,7 @@ namespace CIS.EDM.CRPT.Helpers
         }
 
         /// <summary>
-        /// Реквизиты строки "Всего к оплате"
+        /// Реквизиты строки «Всего к оплате» (строка 9 счета-фактуры).
         /// </summary>
         private static void AddObjectiveTotal(XmlDocument xmlDocument, List<InvoiceItem> items, XmlElement objectiveNode)
         {
@@ -696,20 +704,17 @@ namespace CIS.EDM.CRPT.Helpers
             else if (isHyphenTotal)
                 totalPaidNode.SetAttribute("ДефСтТовУчНалВсего", "-"); // Всего к оплате, Стоимость товаров (работ, услуг), имущественных прав с налогом - всего (строка "Всего к оплате"/графа 9 счета-фактуры) при отсутствии показателя
 
+            var totalQuantity = items.Sum(x => x.Quantity);
+            if (totalQuantity > 0)
+            {
+                totalPaidNode.SetAttribute("КолНеттоВс", totalQuantity.ToString(quantityToStringPattern, CultureInfo.InvariantCulture));
+            }
+
             var totalTaxNode = xmlDocument.CreateElement("СумНалВсего"); // Всего к оплате, Сумма налога, предъявляемая покупателю (строка «Всего к оплате»/ графа 8 счета-фактуры)
             var isWithoutVat = !items.Any(x => x.TaxRate != TaxRate.WithoutVat);
             var isHyphenVat = !items.Any(x => !x.IsHyphenVat);
             AddVatValue(xmlDocument, isWithoutVat, isHyphenVat, items.Sum(x => x.Vat), totalTaxNode);
             totalPaidNode.AppendChild(totalTaxNode);
-
-            var totalQuantity = items.Sum(x => x.Quantity);
-            if (totalQuantity > 0)
-            {
-                var totalQuantityNode = xmlDocument.CreateElement("КолНеттоВс");
-                totalQuantityNode.InnerText = totalQuantity.ToString(quantityToStringPattern, CultureInfo.InvariantCulture);
-
-                totalPaidNode.AppendChild(totalQuantityNode);
-            }
 
             objectiveNode.AppendChild(totalPaidNode);
         }
@@ -730,11 +735,9 @@ namespace CIS.EDM.CRPT.Helpers
                 if (!String.IsNullOrEmpty(additionalInfo.AdditionalTypeInfo))
                     additionalInfoNode.SetAttribute("ДопПризн", additionalInfo.AdditionalTypeInfo); // Дополнительная информация о признаке
 
-                if (!String.IsNullOrEmpty(additionalInfo.UnitName))
-                    additionalInfoNode.SetAttribute("НаимЕдИзм", additionalInfo.UnitName); // Наименование единицы измерения (условное обозначение национальное, графа 2а счета-фактуры)
-
-                if (!String.IsNullOrEmpty(additionalInfo.CountryName))
-                    additionalInfoNode.SetAttribute("КрНаимСтрПр", additionalInfo.CountryName); // Краткое наименование страны происхождения товара (графа 10а счетафактуры)/страна регистрации производителя товара
+                // КрНаимСтрПр Формируется автоматически в соответствии с указанным элементом <КодПроисх>.
+                //if (!String.IsNullOrEmpty(additionalInfo.CountryName))
+                //    additionalInfoNode.SetAttribute("КрНаимСтрПр", additionalInfo.CountryName); // Краткое наименование страны происхождения товара (графа 10а счетафактуры)/страна регистрации производителя товара
 
                 if (additionalInfo.ItemToRelease != null)
                     additionalInfoNode.SetAttribute("НадлОтп", additionalInfo.ItemToRelease.Value.ToString("0.#######", CultureInfo.InvariantCulture)); // Заказанное количество (количество надлежит отпустить)
@@ -851,7 +854,7 @@ namespace CIS.EDM.CRPT.Helpers
         }
 
         /// <summary>
-        /// СвТД
+        /// СвДТ
         /// </summary>
         private static void AddCustomDeclarationsInformation(XmlDocument xmlDocument, InvoiceItem item, XmlElement itemNode)
         {
@@ -859,7 +862,7 @@ namespace CIS.EDM.CRPT.Helpers
             {
                 foreach (var customDeclaration in item.CustomsDeclarationList)
                 {
-                    var declaration = xmlDocument.CreateElement("СвТД"); // Сведения о таможенной декларации
+                    var declaration = xmlDocument.CreateElement("СвДТ"); // Сведения о декларации на товары
 
                     if (!String.IsNullOrEmpty(customDeclaration.CountryCode))
                         declaration.SetAttribute("КодПроисх", customDeclaration.CountryCode); // Цифровой код страны происхождения товара (Графа 10 счета-фактуры)
@@ -867,7 +870,7 @@ namespace CIS.EDM.CRPT.Helpers
                         declaration.SetAttribute("ДефКодПроисх", "-"); // Цифровой код страны происхождения товара (Графа 10 счета-фактуры; для документа с Функция=СЧФ, выставляемом при получении оплаты, частичной оплаты в счет предстоящих поставок товаров (выполнения работ, оказания услуг), передачи имущественных прав
 
                     if (!String.IsNullOrEmpty(customDeclaration.DeclarationNumber))
-                        declaration.SetAttribute("НомерТД", customDeclaration.DeclarationNumber); // Регистрационный номер таможенной декларации (номер декларации на товары; графа 11 счета-фактуры)
+                        declaration.SetAttribute("НомерДТ", customDeclaration.DeclarationNumber); // Регистрационный номер декларации на товары (графа 11 счета-фактуры)
 
                     itemNode.AppendChild(declaration);
                 }
@@ -883,13 +886,13 @@ namespace CIS.EDM.CRPT.Helpers
 
                 parentTaxNode.AppendChild(withoutVatNode);
             }
-            else if (isHyphenVat)
-            {
-                var hyphenVatNode = xmlDocument.CreateElement("ДефНДС");
-                hyphenVatNode.InnerText = "-";
+            //else if (isHyphenVat)
+            //{
+            //    var hyphenVatNode = xmlDocument.CreateElement("ДефНДС");
+            //    hyphenVatNode.InnerText = "-";
 
-                parentTaxNode.AppendChild(hyphenVatNode);
-            }
+            //    parentTaxNode.AppendChild(hyphenVatNode);
+            //}
             else
             {
                 if (vat == null)
@@ -927,30 +930,40 @@ namespace CIS.EDM.CRPT.Helpers
                 transferInfoNode.SetAttribute("ДатаПер", transferInfo.Date.Value.ToString("dd.MM.yyyy")); // Дата отгрузки товаров (передачи результатов работ), передачи имущественных прав (предъявления оказанных услуг)
 
             if (transferInfo.StartDate != null)
-                transferInfoNode.SetAttribute("ДатаНач", transferInfo.StartDate.Value.ToString("dd.MM.yyyy")); // Дата начала периода оказания услуг (выполнения работ, поставки товаров)
+                transferInfoNode.SetAttribute("ДатаНачПер", transferInfo.StartDate.Value.ToString("dd.MM.yyyy")); // Дата начала периода оказания услуг (выполнения работ, поставки товаров)
 
             if (transferInfo.EndDate != null)
-                transferInfoNode.SetAttribute("ДатаОкон", transferInfo.EndDate.Value.ToString("dd.MM.yyyy")); // Дата окончания периода оказания услуг (выполнения работ, поставки товаров)
+                transferInfoNode.SetAttribute("ДатаОконПер", transferInfo.EndDate.Value.ToString("dd.MM.yyyy")); // Дата окончания периода оказания услуг (выполнения работ, поставки товаров)
 
-
-            foreach (var transferDoc in transferInfo.TransferDocuments)
+            if (transferInfo.TransferDocuments?.Count > 0)
             {
-                var transferDocumentNode = xmlDocument.CreateElement("ОснПер"); // Основание отгрузки товаров (передачи результатов работ), передачи имущественных прав (предъявления оказанных услуг)
-                transferDocumentNode.SetAttribute("НаимОсн", transferDoc.DocumentName); // Наименование документа - основания
+                foreach (var transferDoc in transferInfo.TransferDocuments)
+                {
+                    var transferDocumentNode = xmlDocument.CreateElement("ОснПер"); // Основание отгрузки товаров (передачи результатов работ), передачи имущественных прав (предъявления оказанных услуг)
+                    transferDocumentNode.SetAttribute("РеквНаимДок", transferDoc.DocumentName); // Наименование документа - основания
 
-                if (!String.IsNullOrEmpty(transferDoc.DocumentNumber))
-                    transferDocumentNode.SetAttribute("НомОсн", transferDoc.DocumentNumber); // Номер документа - основания
+                    if (!String.IsNullOrEmpty(transferDoc.DocumentNumber))
+                        transferDocumentNode.SetAttribute("РеквНомерДок", transferDoc.DocumentNumber); // Номер документа - основания
 
-                if (transferDoc.DocumentDate != null)
-                    transferDocumentNode.SetAttribute("ДатаОсн", transferDoc.DocumentDate.Value.ToString("dd.MM.yyyy")); // Дата документа - основания
+                    if (transferDoc.DocumentDate != null)
+                        transferDocumentNode.SetAttribute("РеквДатаДок", transferDoc.DocumentDate.Value.ToString("dd.MM.yyyy")); // Дата документа - основания
 
-                if (!String.IsNullOrEmpty(transferDoc.DocumentInfo))
-                    transferDocumentNode.SetAttribute("ДопСвОсн", transferDoc.DocumentInfo); // Дополнительные сведения
+                    if (!String.IsNullOrEmpty(transferDoc.DocumentInfo))
+                        transferDocumentNode.SetAttribute("РеквДопСведДок", transferDoc.DocumentInfo); // Дополнительные сведения
 
-                if (!String.IsNullOrEmpty(transferDoc.DocumentId))
-                    transferDocumentNode.SetAttribute("ИдентОсн", transferDoc.DocumentId); // Идентификатор документа-основания
+                    if (!String.IsNullOrEmpty(transferDoc.DocumentId))
+                        transferDocumentNode.SetAttribute("РеквИдДок", transferDoc.DocumentId); // Идентификатор документа-основания
 
-                transferInfoNode.AppendChild(transferDocumentNode);
+                    transferInfoNode.AppendChild(transferDocumentNode);
+                }
+            }
+            else
+            {
+                var noDocNode = xmlDocument.CreateElement("БезДокОснПер");
+
+                noDocNode.InnerText = "1";
+
+                transferInfoNode.AppendChild(noDocNode);
             }
 
             if (transferInfo.SenderPerson != null)
@@ -966,84 +979,91 @@ namespace CIS.EDM.CRPT.Helpers
                     if (!String.IsNullOrEmpty(senderEmployee.EmployeeInfo))
                         senderEmployeeNode.SetAttribute("ИныеСвед", senderEmployee.EmployeeInfo); // Иные сведения, идентифицирующие физическое лицо
 
-                    if (!String.IsNullOrEmpty(senderEmployee.EmployeeBase))
-                        senderEmployeeNode.SetAttribute("ОснПолн", senderEmployee.EmployeeBase); // Основание полномочий (доверия)
+                    //if (!String.IsNullOrEmpty(senderEmployee.EmployeeBase))
+                    //    senderEmployeeNode.SetAttribute("ОснПолн", senderEmployee.EmployeeBase); // Основание полномочий (доверия)
 
                     senderNode.AppendChild(senderEmployeeNode);
 
                     AddPersonName(xmlDocument, senderEmployee, senderEmployeeNode);
                 }
-                else if (sender.OtherIssuer is OtherIssuer senderOtherIssue)
+                else
                 {
-                    if (senderOtherIssue.OrganizationPerson is TransferOrganizationPerson organizationPerson)
+                    if (sender.OtherIssuer is OtherIssuer senderOtherIssue)
                     {
-                        var senderOtherIssueEmployeeNode = xmlDocument.CreateElement("ПредОргПер"); // Представитель организации, которой доверена отгрузка товаров
-                        senderOtherIssueEmployeeNode.SetAttribute("Должность", organizationPerson.JobTitle); // Должность
+                        var senderOtherNode = xmlDocument.CreateElement("ИнЛицо"); // Сведения о лице, передавшем товар (груз)
+                        if (senderOtherIssue.OrganizationPerson is TransferOrganizationPerson organizationPerson)
+                        {
+                            var senderOtherIssueEmployeeNode = xmlDocument.CreateElement("ПредОргПер"); // Представитель организации, которой доверена отгрузка товаров
+                            senderOtherIssueEmployeeNode.SetAttribute("Должность", organizationPerson.JobTitle); // Должность
 
-                        if (!String.IsNullOrEmpty(organizationPerson.EmployeeInfo))
-                            senderOtherIssueEmployeeNode.SetAttribute("ИныеСвед", organizationPerson.EmployeeInfo); // Иные сведения, идентифицирующие физическое лицо
+                            if (!String.IsNullOrEmpty(organizationPerson.EmployeeInfo))
+                                senderOtherIssueEmployeeNode.SetAttribute("ИныеСвед", organizationPerson.EmployeeInfo); // Иные сведения, идентифицирующие физическое лицо
 
-                        senderOtherIssueEmployeeNode.SetAttribute("НаимОргПер", organizationPerson.OrganizationName); // Наименование организации
+                            senderOtherIssueEmployeeNode.SetAttribute("НаимОргПер", organizationPerson.OrganizationName); // Наименование организации
 
-                        if (!String.IsNullOrEmpty(organizationPerson.OrganizationBase))
-                            senderOtherIssueEmployeeNode.SetAttribute("ОснДоверОргПер", organizationPerson.OrganizationBase); // Основание, по которому организации доверена отгрузка товаров
+                            if (!String.IsNullOrEmpty(organizationPerson.OrganizationBase))
+                                senderOtherIssueEmployeeNode.SetAttribute("ОснДоверОргПер", organizationPerson.OrganizationBase); // Основание, по которому организации доверена отгрузка товаров
 
-                        if (!String.IsNullOrEmpty(organizationPerson.EmployeeBase))
-                            senderOtherIssueEmployeeNode.SetAttribute("ОснПолнПредПер", organizationPerson.EmployeeBase); // Основание полномочий представителя организации на отгрузку товаров
+                            if (!String.IsNullOrEmpty(organizationPerson.EmployeeBase))
+                                senderOtherIssueEmployeeNode.SetAttribute("ОснПолнПредПер", organizationPerson.EmployeeBase); // Основание полномочий представителя организации на отгрузку товаров
 
-                        senderNode.AppendChild(senderOtherIssueEmployeeNode);
+                            senderOtherNode.AppendChild(senderOtherIssueEmployeeNode);
 
-                        AddPersonName(xmlDocument, organizationPerson, senderOtherIssueEmployeeNode);
-                    }
-                    else if (senderOtherIssue.PhysicalPerson is TransferPhysicalPerson physicalPerson)
-                    {
-                        var senderOtherIssuePersonNode = xmlDocument.CreateElement("ФЛПер"); // Представитель организации, которой доверена отгрузка товаров
+                            AddPersonName(xmlDocument, organizationPerson, senderOtherIssueEmployeeNode);
+                        }
+                        else if (senderOtherIssue.PhysicalPerson is TransferPhysicalPerson physicalPerson)
+                        {
+                            var senderOtherIssuePersonNode = xmlDocument.CreateElement("ФЛПер"); // Представитель организации, которой доверена отгрузка товаров
 
-                        if (!String.IsNullOrEmpty(physicalPerson.PersonInfo))
-                            senderOtherIssuePersonNode.SetAttribute("ИныеСвед", physicalPerson.PersonInfo); // Иные сведения, идентифицирующие физическое лицо
+                            if (!String.IsNullOrEmpty(physicalPerson.PersonInfo))
+                                senderOtherIssuePersonNode.SetAttribute("ИныеСвед", physicalPerson.PersonInfo); // Иные сведения, идентифицирующие физическое лицо
 
-                        if (!String.IsNullOrEmpty(physicalPerson.PersonBase))
-                            senderOtherIssuePersonNode.SetAttribute("ОснДоверФЛ", physicalPerson.PersonBase); // Основание, по которому физическому лицу доверена отгрузка товаров
+                            if (!String.IsNullOrEmpty(physicalPerson.PersonBase))
+                                senderOtherIssuePersonNode.SetAttribute("ОснДоверФЛ", physicalPerson.PersonBase); // Основание, по которому физическому лицу доверена отгрузка товаров
 
-                        senderNode.AppendChild(senderOtherIssuePersonNode);
+                            senderOtherNode.AppendChild(senderOtherIssuePersonNode);
 
-                        AddPersonName(xmlDocument, physicalPerson, senderOtherIssuePersonNode);
+                            AddPersonName(xmlDocument, physicalPerson, senderOtherIssuePersonNode);
+                        }
+                        else
+                        {
+                            throw new ArgumentNullException("Не указаны сведения о ином лице, передавшем товар (ИнЛицо).");
+                        }
+
                     }
                     else
                     {
-                        throw new ArgumentNullException("Не указаны сведения о ином лице, передавшем товар (ИнЛицо).");
+                        throw new ArgumentNullException("Не указаны сведения о лице, передавшем товар (СвЛицПер).");
                     }
-                }
-                else
-                {
-                    throw new ArgumentNullException("Не указаны сведения о лице, передавшем товар (СвЛицПер).");
                 }
 
                 transferInfoNode.AppendChild(senderNode);
             }
 
-            var transferTextInfoNode = xmlDocument.CreateElement("ТранГруз"); // Транспортировка и груз
+            var transferTextInfoNode = xmlDocument.CreateElement("Тран"); // Транспортировка
             if (transferInfo.Transportation != null)
             {
                 if (!String.IsNullOrEmpty(transferInfo.Transportation.TransferTextInfo))
-                    transferTextInfoNode.SetAttribute("СвТранГруз", transferInfo.Transportation.TransferTextInfo); // Сведения о транспортировке и грузе
+                    transferTextInfoNode.SetAttribute("СвТран", transferInfo.Transportation.TransferTextInfo); // Сведения о транспортировке и грузе
 
-                if (transferInfo.Transportation.Waybills?.Count > 0)
-                {
-                    foreach (var waybill in transferInfo.Transportation.Waybills)
-                    {
-                        var waybillNode = xmlDocument.CreateElement("ТранНакл"); // Транспортная накладная
-                        waybillNode.SetAttribute("НомТранНакл", waybill.TransferDocumentNumber); // Номер транспортной накладной
-                        waybillNode.SetAttribute("ДатаТранНакл", waybill.TransferDocumentDate.ToString("dd.MM.yyyy")); // Дата транспортной накладной
+                //todo: remove Waybills?
+                //if (transferInfo.Transportation.Waybills?.Count > 0)
+                //{
+                //    foreach (var waybill in transferInfo.Transportation.Waybills)
+                //    {
+                //        var waybillNode = xmlDocument.CreateElement("ТранНакл"); // Транспортная накладная
+                //        waybillNode.SetAttribute("НомТранНакл", waybill.TransferDocumentNumber); // Номер транспортной накладной
+                //        waybillNode.SetAttribute("ДатаТранНакл", waybill.TransferDocumentDate.ToString("dd.MM.yyyy")); // Дата транспортной накладной
 
-                        transferTextInfoNode.AppendChild(waybillNode);
-                    }
-                }
+                //        transferTextInfoNode.AppendChild(waybillNode);
+                //    }
+                //}
 
-                if (transferInfo.Transportation.Carrier != null)
-                {
-                    AddFirmInformation(xmlDocument, transferTextInfoNode, transferInfo.Transportation.Carrier, "Перевозчик");
-                }
+                //todo: remove Carrier?
+                //if (transferInfo.Transportation.Carrier != null)
+                //{
+                //    AddFirmInformation(xmlDocument, transferTextInfoNode, transferInfo.Transportation.Carrier, "Перевозчик");
+                //}
 
                 transferInfoNode.AppendChild(transferTextInfoNode);
             }
@@ -1095,16 +1115,16 @@ namespace CIS.EDM.CRPT.Helpers
 
             foreach (var documentShipment in documentShipmentList)
             {
-                var documentShipmentInfoNode = xmlDocument.CreateElement("ДокПодтвОтгр"); // Реквизиты документа, подтверждающего отгрузку товаров (работ, услуг, имущественных прав) (графа 5а счёт-фактуры)
+                var documentShipmentInfoNode = xmlDocument.CreateElement("ДокПодтвОтгрНом"); // Реквизиты документа, подтверждающего отгрузку товаров (работ, услуг, имущественных прав) (графа 5а счёт-фактуры)
 
                 if (!String.IsNullOrEmpty(documentShipment.Name))
-                    documentShipmentInfoNode.SetAttribute("НаимДокОтгр", documentShipment.Name); // Наименование документа об отгрузке
+                    documentShipmentInfoNode.SetAttribute("РеквНаимДок", documentShipment.Name); // Наименование документа об отгрузке
 
                 if (!String.IsNullOrEmpty(documentShipment.Number))
-                    documentShipmentInfoNode.SetAttribute("НомДокОтгр", documentShipment.Number); // Номер документа об отгрузке
+                    documentShipmentInfoNode.SetAttribute("РеквНомерДок", documentShipment.Number); // Номер документа об отгрузке
 
                 if (documentShipment.Date != null)
-                    documentShipmentInfoNode.SetAttribute("ДатаДокОтгр", documentShipment.Date.Value.ToString("dd.MM.yyyy")); // Дата документа об отгрузке
+                    documentShipmentInfoNode.SetAttribute("РеквДатаДок", documentShipment.Date.Value.ToString("dd.MM.yyyy")); // Дата документа об отгрузке
 
                 parentElement.AppendChild(documentShipmentInfoNode);
             }
@@ -1125,79 +1145,56 @@ namespace CIS.EDM.CRPT.Helpers
             foreach (var signer in signers)
             {
                 var signerNode = xmlDocument.CreateElement("Подписант"); // Сведения о лице, подписывающем файл обмена счета - фактуры(информации продавца) в электронной форме
-                signerNode.SetAttribute("ОблПолн", ((int)signer.SignerAuthority).ToString()); // Область полномочий
-                signerNode.SetAttribute("Статус", ((int)signer.SignerStatus).ToString());// Статус
-                signerNode.SetAttribute("ОснПолн", signer.SignerAuthorityBase); // Основание полномочий (доверия)
+                signerNode.SetAttribute("Должн", signer.JobTitle); // Должность
+                if (signer.SignatureType != null)
+                    signerNode.SetAttribute("ТипПодпис", ((int)signer.SignatureType).ToString()); // Тип подписи
 
-                if (!String.IsNullOrEmpty(signer.SignerOrgAuthorityBase))
-                    signerNode.SetAttribute("ОснПолнОрг", signer.SignerOrgAuthorityBase); // Основание полномочий (доверия) организации
+                if (signer.SigningDate != null)
+                    signerNode.SetAttribute("ДатаПодДок", signer.SigningDate.Value.ToString("dd.MM.yyyy"));// Дата подписания документа
 
-                AddSellerSignerPersonInfo(xmlDocument, signer, signerNode);
+                signerNode.SetAttribute("СпосПодтПолном", ((int)signer.AuthorityConfirmationType).ToString()); // Способ подтверждения полномочий представителя на подписание документа
+
+                if (signer.AdditionalInfo != null)
+                    signerNode.SetAttribute("ДопСведПодп", signer.AdditionalInfo); // Дополнительные сведения о подписанте
+
+                AddPersonName(xmlDocument, signer.Person, signerNode);
+
+                if (signer.ElectronicPoAInfo is ElectronicPoAInfo epoaInfo)
+                {
+                    var epoaNode = xmlDocument.CreateElement("СвДоверЭл");
+                    epoaNode.SetAttribute("НомДовер", epoaInfo.RegistrationNumber.ToString("D"));
+                    epoaNode.SetAttribute("ДатаВыдДовер", epoaInfo.IssueDate.ToString("dd.MM.yyyy"));
+
+                    if (!string.IsNullOrEmpty(epoaInfo.InternalNumber))
+                        epoaNode.SetAttribute("ВнНомДовер", epoaInfo.InternalNumber);
+
+                    if (epoaInfo.InternalRegistrationDate != null)
+                        epoaNode.SetAttribute("ДатаВнРегДовер", epoaInfo.InternalRegistrationDate.Value.ToString("dd.MM.yyyy"));
+
+                    epoaNode.SetAttribute("ИдСистХран", epoaInfo.SystemIdentification);
+
+                    if (!string.IsNullOrEmpty(epoaInfo.SystemURL))
+                        epoaNode.SetAttribute("УРЛСист", epoaInfo.SystemURL);
+
+                    signerNode.AppendChild(epoaNode);
+                }
+                else if (signer.PaperPoAInfo is PaperPoAInfo ppoaInfo)
+                {
+                    var ppoaNode = xmlDocument.CreateElement("СвДоверБум");
+                    ppoaNode.SetAttribute("ДатаВыдДовер", ppoaInfo.IssueDate.ToString("dd.MM.yyyy"));
+                    ppoaNode.SetAttribute("ВнНомДовер", ppoaInfo.InternalNumber);
+
+                    if (!string.IsNullOrEmpty(ppoaInfo.TrusteeInfo))
+                        ppoaNode.SetAttribute("СвИдДовер", ppoaInfo.TrusteeInfo);
+
+                    if (ppoaInfo.Signer != null)
+                        AddPersonName(xmlDocument, ppoaInfo.Signer, ppoaNode);
+
+                    signerNode.AppendChild(ppoaNode);
+                }
 
                 parentElement.AppendChild(signerNode);
             }
-        }
-
-        private static void AddSellerSignerPersonInfo(XmlDocument xmlDocument, SellerSigner signerInfo, XmlElement parentNode)
-        {
-            XmlElement signerPersonNode;
-            if (signerInfo.LegalPersonRepresentative is LegalPersonRepresentative legalPersonRepresentative)
-            {
-                signerPersonNode = xmlDocument.CreateElement("ЮЛ"); // Представитель юридического лица
-
-                if (!string.IsNullOrEmpty(legalPersonRepresentative.IndividualEntrepreneurRegistrationCertificate))
-                    signerPersonNode.SetAttribute("ГосРегИПВыдДов", legalPersonRepresentative.IndividualEntrepreneurRegistrationCertificate);
-
-                signerPersonNode.SetAttribute("ИННЮЛ", legalPersonRepresentative.Inn);
-
-                if (!string.IsNullOrEmpty(legalPersonRepresentative.OrgName))
-                    signerPersonNode.SetAttribute("НаимОрг", legalPersonRepresentative.OrgName);
-
-                signerPersonNode.SetAttribute("Должн", legalPersonRepresentative.JobTitle); // Должность
-
-                if (!string.IsNullOrEmpty(legalPersonRepresentative.OtherInfo))
-                    signerPersonNode.SetAttribute("ИныеСвед", legalPersonRepresentative.OtherInfo); // Иные сведения, идентифицирующие физическое лицо
-
-                AddPersonName(xmlDocument, legalPersonRepresentative, signerPersonNode);
-            }
-            else if (signerInfo.IndividualEntrepreneur is IndividualEntrepreneur individualEntrepreneur)
-            {
-                signerPersonNode = xmlDocument.CreateElement("ИП"); // Индивидуальный предприниматель
-
-                if (individualEntrepreneur.IsHyphenInn)
-                    signerPersonNode.SetAttribute("ДефИННФЛ", "-");
-                else
-                    signerPersonNode.SetAttribute("ИННФЛ", individualEntrepreneur.Inn);
-
-                if (!string.IsNullOrEmpty(individualEntrepreneur.IndividualEntrepreneurRegistrationCertificate))
-                    signerPersonNode.SetAttribute("СвГосРегИП", individualEntrepreneur.IndividualEntrepreneurRegistrationCertificate); // Реквизиты свидетельства о государственной регистрации индивидуального предпринимателя
-
-                if (!string.IsNullOrEmpty(individualEntrepreneur.OtherInfo))
-                    signerPersonNode.SetAttribute("ИныеСвед", individualEntrepreneur.OtherInfo); // Иные сведения, идентифицирующие физическое лицо
-
-                AddPersonName(xmlDocument, individualEntrepreneur, signerPersonNode);
-            }
-            else if (signerInfo.PhysicalPerson is PhysicalPerson physicalPerson)
-            {
-                signerPersonNode = xmlDocument.CreateElement("ФЛ"); // Физическое лицо
-
-                if (!string.IsNullOrEmpty(physicalPerson.Inn))
-                    signerPersonNode.SetAttribute("ИННФЛ", physicalPerson.Inn);
-
-                if (!string.IsNullOrEmpty(physicalPerson.IndividualEntrepreneurRegistrationCertificate))
-                    signerPersonNode.SetAttribute("ГосРегИПВыдДов", physicalPerson.IndividualEntrepreneurRegistrationCertificate); // Реквизиты свидетельства о государственной регистрации индивидуального предпринимателя, выдавшего доверенность физическому лицу на подписание счета-фактуры
-
-                if (!string.IsNullOrEmpty(physicalPerson.OtherInfo))
-                    signerPersonNode.SetAttribute("ИныеСвед", physicalPerson.OtherInfo); // Иные сведения, идентифицирующие физическое лицо
-
-                AddPersonName(xmlDocument, physicalPerson, signerPersonNode);
-            }
-            else
-            {
-                throw new ArgumentNullException("Не указана информация о подписанте.");
-            }
-
-            parentNode.AppendChild(signerPersonNode);
         }
 
         private static bool IsOrganizationsEquals(Organization org1, Organization org2)

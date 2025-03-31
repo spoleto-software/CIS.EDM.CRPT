@@ -5,7 +5,7 @@ namespace CIS.EDM.CRPT.Models
     /// <summary>
     /// Zip файл с именем.
     /// </summary>
-    public class ZipArchiveInfo
+    public record ZipArchiveInfo
     {
         /// <summary>
         /// Zip файл.

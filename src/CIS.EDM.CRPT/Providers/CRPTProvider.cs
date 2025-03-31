@@ -13,6 +13,7 @@ using CIS.EDM.Extensions;
 using CIS.EDM.Helpers;
 using CIS.EDM.Models;
 using CIS.EDM.Models.Buyer;
+using CIS.EDM.Models.Common;
 using CIS.EDM.Models.Seller;
 using Microsoft.Extensions.Logging;
 
@@ -260,23 +261,52 @@ namespace CIS.EDM.CRPT.Providers
 			await InvokeAsync<object>(settings, uri, HttpMethod.Post, signatureContent).ConfigureAwait(false);
 		}
 
-		/// <summary>
-		/// Отправка универсального передаточного документа (УПД) в формате приказа "№820".
-		/// Метод загрузки файла информации продавца УПД согласно приказу 820 от 19.12.2018 № ММВ-7-15/820@ в формате XML
-		/// </summary>
-		/// <param name="settings">Настройки для API.</param>
-		/// <param name="sellerDataContract">Информация продавца.</param>
-		/// <param name="isDraft">Создать только черновник. Не отправлять документ получателю.</param>
-		/// <returns>Идентификатор сообщения.</returns>
-		public async Task<ResultInfo> PostUniversalTransferDocumentAsync(CRPTOption settings, SellerUniversalTransferDocument sellerDataContract, bool isDraft = false)
+        /// <summary>
+        /// Отправка универсального передаточного документа (УПД) в формате приказа "№820".
+        /// Метод загрузки файла информации продавца УПД согласно приказа 820 от 19.12.2018 № ММВ-7-15/820@ в формате XML
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="sellerDataContract">Информация продавца.</param>
+        /// <param name="isDraft">Создать только черновник. Не отправлять документ получателю.</param>
+        /// <returns>Идентификатор сообщения.</returns>
+        public async Task<ResultInfo> PostUniversalTransferDocumentAsync(CRPTOption settings, SellerUniversalTransferDocument sellerDataContract, bool isDraft = false)
+        {
+            var address = sellerDataContract.IsHyphenRevisionNumber ? "/api/v1/outgoing-documents" : "/api/v1/outgoing-documents/xml/updi";
+            var uri = new Uri(new Uri(settings.ServiceUrl), address);
+
+            var xmlDoc = XmlHelper.GenerateXml(sellerDataContract);
+
+            var result = await PostUniversalTransferDocumentAsync(settings, uri, xmlDoc, isDraft);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Отправка универсального передаточного документа (УПД) в формате приказа "№970".
+        /// Метод загрузки файла информации продавца УПД согласно приказа ФНС России от 19.12.2023 N ЕД-7-26/970@ (ред. от 15.11.2024) в формате XML
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="sellerDataContract">Информация продавца.</param>
+        /// <param name="isDraft">Создать только черновник. Не отправлять документ получателю.</param>
+        /// <returns>Идентификатор сообщения.</returns>
+        public async Task<ResultInfo> PostUniversalTransferDocumentAsync(CRPTOption settings, CIS.EDM.Models.V5_03.Seller.SellerUniversalTransferDocument sellerDataContract, bool isDraft = false)
+        {
+            var address = sellerDataContract.IsHyphenRevisionNumber ? "/api/v1/outgoing-documents" : "/api/v1/outgoing-documents/xml/updi";
+            var uri = new Uri(new Uri(settings.ServiceUrl), address);
+
+            var xmlDoc = XmlHelperV5_03.GenerateXml(sellerDataContract);
+
+            var result = await PostUniversalTransferDocumentAsync(settings, uri, xmlDoc, isDraft);
+
+            return result;
+        }
+
+        private async Task<ResultInfo> PostUniversalTransferDocumentAsync(CRPTOption settings, Uri uri, DocumentData selllerDocumentData, bool isDraft = false)
 		{
-			var address = sellerDataContract.IsHyphenRevisionNumber ? "/api/v1/outgoing-documents" : "/api/v1/outgoing-documents/xml/updi";
-			var uri = new Uri(new Uri(settings.ServiceUrl), address);
+            var xmlDoc = selllerDocumentData;
 
-			var xmlDoc = XmlHelper.GenerateXml(sellerDataContract);
-
-			// convert string to stream
-			var byteArray = xmlDoc.FileEncoding.GetBytes(xmlDoc.Content);
+            // convert string to stream
+            var byteArray = xmlDoc.FileEncoding.GetBytes(xmlDoc.Content);
 			using var stream = new MemoryStream(byteArray);
 
 			var streamContent = new StreamContent(stream);
@@ -317,65 +347,95 @@ namespace CIS.EDM.CRPT.Providers
 			return resultInfo;
 		}
 
-		/// <summary>
-		/// Добавление извещения о получении к документу
-		/// </summary>
-		/// <param name="settings">Настройки для API.</param>
-		/// <param name="buyerDataContract">Информация покупателя.</param>
-		/// <returns>Идентификатор созданного извещения о получении</returns>
-		public async Task<ResultInfo> ReceiptUniversalTransferDocumentAsync(CRPTOption settings, BuyerUniversalTransferDocument buyerDataContract)
+        /// <summary>
+        /// Добавление извещения о получении к документу в формате приказа "№820".
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="buyerDataContract">Информация покупателя.</param>
+        /// <returns>Идентификатор созданного извещения о получении</returns>
+        public async Task<ResultInfo> ReceiptUniversalTransferDocumentAsync(CRPTOption settings, BuyerUniversalTransferDocument buyerDataContract)
 		{
-			var sellerDocument = await GetIncomingSignedDocumentInfoAsync(settings, buyerDataContract.EdmDocumentId).ConfigureAwait(false);
-			buyerDataContract.SellerDocumentInfo = XmlParser.SellerInfoFromXml(sellerDocument);
+            var sellerDocument = await GetIncomingSignedDocumentInfoAsync(settings, buyerDataContract.EdmDocumentId).ConfigureAwait(false);
+            buyerDataContract.SellerDocumentInfo = XmlParser.SellerInfoFromXml(sellerDocument);
 
-			var xmlDoc = XmlHelper.GenerateXml(buyerDataContract);
+            var xmlDoc = XmlHelper.GenerateXml(buyerDataContract);
 
-			var address = buyerDataContract.SellerDocumentInfo.IsUPDi ? "/api/v1/incoming-documents/xml/updi/title" : "/api/v1/incoming-documents/xml/upd/title";
-			var uri = new Uri(new Uri(settings.ServiceUrl), address);
+            var address = buyerDataContract.SellerDocumentInfo.IsUPDi ? "/api/v1/incoming-documents/xml/updi/title" : "/api/v1/incoming-documents/xml/upd/title";
+            var uri = new Uri(new Uri(settings.ServiceUrl), address);
 
-			// convert string to stream
-			var byteArray = xmlDoc.FileEncoding.GetBytes(xmlDoc.Content);
-			using var stream = new MemoryStream(byteArray);
+            var result = await ReceiptUniversalTransferDocumentAsync(settings, uri, buyerDataContract.EdmDocumentId, xmlDoc);
 
-			var streamContent = new StreamContent(stream);
-			streamContent.Headers.Add("Content-Type", ContentType.TextXml);
-			streamContent.Headers.Add("Content-Disposition", "form-data; name=\"content\"; filename=\"" + xmlDoc.Id + "\"");
+            return result;
+        }
 
-			var docIdContent = new StringContent(buyerDataContract.EdmDocumentId, Encoding.UTF8, ContentType.TextPlain);
+        /// <summary>
+        /// Добавление извещения о получении к документу в формате приказа "№970".
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="buyerDataContract">Информация покупателя.</param>
+        /// <returns>Идентификатор созданного извещения о получении</returns>
+        public async Task<ResultInfo> ReceiptUniversalTransferDocumentAsync(CRPTOption settings, EDM.Models.V5_03.Buyer.BuyerUniversalTransferDocument buyerDataContract)
+        {
+            var sellerDocument = await GetIncomingSignedDocumentInfoAsync(settings, buyerDataContract.EdmDocumentId).ConfigureAwait(false);
+            buyerDataContract.SellerDocumentInfo = XmlParserV5_03.SellerInfoFromXml(sellerDocument);
 
-			var contentIn64 = HttpHelper.ConvertToBase64(xmlDoc.Content, xmlDoc.FileEncoding);
-			var signature = Cryptography.CryptographyHelper.SignBase64Data(contentIn64, detached: true, thumbprint: settings.CertificateThumbprint);
-			var signatureContent = new StringContent(signature, Encoding.UTF8, ContentType.TextPlain);
-			signatureContent.Headers.ContentEncoding.Add("base64");
+            var xmlDoc = XmlHelperV5_03.GenerateXml(buyerDataContract);
 
-			var content = new MultipartFormDataContent
-			{
-				{ streamContent },
-				{ docIdContent, "doc_id" },
-				{ signatureContent, "signature" }
+            var address = buyerDataContract.SellerDocumentInfo.IsUPDi ? "/api/v1/incoming-documents/xml/updi/title/970" : "/api/v1/incoming-documents/xml/upd/title/970";
+            var uri = new Uri(new Uri(settings.ServiceUrl), address);
 
-			};
+            var result = await ReceiptUniversalTransferDocumentAsync(settings, uri, buyerDataContract.EdmDocumentId, xmlDoc);
 
-			var resultInfo = new ResultInfo
-			{
-				Content = xmlDoc.Content
-			};
+            return result;
+        }
 
-			try
-			{
-				var result = await InvokeAsync<StringResult>(settings, uri, HttpMethod.Post, content).ConfigureAwait(false);
-				resultInfo.Id = result?.Id;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, "Ошибка при добавлении извещения о получении к документу.");
-				resultInfo.Exception = ex;
-			}
+        private async Task<ResultInfo> ReceiptUniversalTransferDocumentAsync(CRPTOption settings, Uri uri, string sellerDocumentId, DocumentData buyerDocumentData)
+        {
+            var xmlDoc = buyerDocumentData;
 
-			return resultInfo;
-		}
+            // convert string to stream
+            var byteArray = xmlDoc.FileEncoding.GetBytes(xmlDoc.Content);
+            using var stream = new MemoryStream(byteArray);
 
-		public async Task<SignedDocumentInfo> GetIncomingSignedDocumentInfoAsync(CRPTOption settings, string documentId)
+            var streamContent = new StreamContent(stream);
+            streamContent.Headers.Add("Content-Type", ContentType.TextXml);
+            streamContent.Headers.Add("Content-Disposition", "form-data; name=\"content\"; filename=\"" + xmlDoc.Id + "\"");
+
+            var docIdContent = new StringContent(sellerDocumentId, Encoding.UTF8, ContentType.TextPlain);
+
+            var contentIn64 = HttpHelper.ConvertToBase64(xmlDoc.Content, xmlDoc.FileEncoding);
+            var signature = Cryptography.CryptographyHelper.SignBase64Data(contentIn64, detached: true, thumbprint: settings.CertificateThumbprint);
+            var signatureContent = new StringContent(signature, Encoding.UTF8, ContentType.TextPlain);
+            signatureContent.Headers.ContentEncoding.Add("base64");
+
+            var content = new MultipartFormDataContent
+            {
+                { streamContent },
+                { docIdContent, "doc_id" },
+                { signatureContent, "signature" }
+
+            };
+
+            var resultInfo = new ResultInfo
+            {
+                Content = xmlDoc.Content
+            };
+
+            try
+            {
+                var result = await InvokeAsync<StringResult>(settings, uri, HttpMethod.Post, content).ConfigureAwait(false);
+                resultInfo.Id = result?.Id;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при добавлении извещения о получении к документу.");
+                resultInfo.Exception = ex;
+            }
+
+            return resultInfo;
+        }
+
+        public async Task<SignedDocumentInfo> GetIncomingSignedDocumentInfoAsync(CRPTOption settings, string documentId)
 		{
 			var sUrl = $"/api/v1/incoming-documents/{documentId}";
 			var uri = new Uri(new Uri(settings.ServiceUrl), sUrl);
@@ -415,5 +475,5 @@ namespace CIS.EDM.CRPT.Providers
 
 			return sellerDocument;
 		}
-	}
+    }
 }

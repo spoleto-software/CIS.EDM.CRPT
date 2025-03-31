@@ -14,8 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkFlow", "WorkFlow", "{624B3557-0D87-46CD-A43E-0DE9E61BCF29}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\cd.yml = .github\workflows\cd.yml
+		.github\workflows\ci.yml = .github\workflows\ci.yml
 		.github\workflows\docs.yml = .github\workflows\docs.yml
-		.github\workflows\publish-to-nuget.yml = .github\workflows\publish-to-nuget.yml
+		publish-assets-to-github.sh = publish-assets-to-github.sh
 	EndProjectSection
 EndProject
 Global

@@ -1,5 +1,5 @@
 ﻿using System;
-using CIS.EDM.Models.Seller;
+using CIS.EDM.Models.Common.Reference;
 
 namespace CIS.EDM.CRPT.Extensions
 {

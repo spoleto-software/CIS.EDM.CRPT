@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Тело документа + его открепленная подпись.
 	/// </summary>
-	public class SignedDocumentInfo
+	public record SignedDocumentInfo
 	{
 		/// <summary>
 		/// Тело документа.

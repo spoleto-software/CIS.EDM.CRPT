@@ -5,7 +5,7 @@ namespace CIS.EDM.CRPT.Models
     /// <summary>
     /// Результат отправки УПД
     /// </summary>
-    public class StringResult
+    public record StringResult
     {
         /// <summary>
         /// Уникальный идентификатор события создания файла информации продавца

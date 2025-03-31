@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Xml;
 using CIS.EDM.CRPT.Models;
-using CIS.EDM.Models.Buyer;
 using CIS.EDM.Models.Common.Reference;
+using CIS.EDM.Models.V5_03.Buyer;
 
 namespace CIS.EDM.CRPT.Helpers
 {
-    internal class XmlParser
+    internal class XmlParserV5_03
     {
         /// <summary>
         /// Парсинг XML документа продавца для заполнения информации в файле покупателя.
@@ -31,15 +30,15 @@ namespace CIS.EDM.CRPT.Helpers
 
             var documentInfoNode = (XmlElement)documentNode.GetElementsByTagName("СвСчФакт")[0];
 
-            sellerInfo.DocumentDate = documentInfoNode.GetAttribute("ДатаСчФ");
-            sellerInfo.DocumentNumber = documentInfoNode.GetAttribute("НомерСчФ");
+            sellerInfo.DocumentDate = documentInfoNode.GetAttribute("ДатаДок");
+            sellerInfo.DocumentNumber = documentInfoNode.GetAttribute("НомерДок");
 
-            sellerInfo.EdsBodyList = new List<string> { sellerDocumentInfo.DetachedSignature };
+            sellerInfo.EdsBodyList = [sellerDocumentInfo.DetachedSignature];
 
-            var revisionNodeList = documentInfoNode.GetElementsByTagName("ИспрСчФ");
+            var revisionNodeList = documentInfoNode.GetElementsByTagName("ИспрДок");
             foreach (XmlElement revisionNode in revisionNodeList)
             {
-                sellerInfo.IsUPDi = revisionNode.HasAttribute("НомИспрСчФ");
+                sellerInfo.IsUPDi = revisionNode.HasAttribute("НомИспр");
             }
 
             return sellerInfo;

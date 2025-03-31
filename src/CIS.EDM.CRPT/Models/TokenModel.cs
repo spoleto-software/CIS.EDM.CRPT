@@ -6,7 +6,7 @@ namespace CIS.EDM.CRPT.Models
     /// <summary>
     ///  Пакет успешного ответа на POST запрос получения токена.
     /// </summary>
-    public class TokenModel
+    public record TokenModel
     {
         /// <summary>
         /// Аутентификационный токен.
