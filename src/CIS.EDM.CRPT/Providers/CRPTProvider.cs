@@ -288,7 +288,7 @@ namespace CIS.EDM.CRPT.Providers
         /// <returns>Идентификатор сообщения.</returns>
         public async Task<ResultInfo> PostUniversalTransferDocumentAsync(CRPTOption settings, CIS.EDM.Models.V5_03.Seller.SellerUniversalTransferDocument sellerDataContract, bool isDraft = false)
         {
-            var address = sellerDataContract.IsHyphenRevisionNumber ? "/api/v1/outgoing-documents" : "/api/v1/outgoing-documents/xml/updi";
+            var address = string.IsNullOrEmpty(sellerDataContract.RevisionNumber) ? "/api/v1/outgoing-documents" : "/api/v1/outgoing-documents/xml/updi";
             var uri = new Uri(new Uri(settings.ServiceUrl), address);
 
             var xmlDoc = XmlHelperV5_03.GenerateXml(sellerDataContract);

@@ -386,9 +386,7 @@ namespace CIS.EDM.CRPT.Helpers
                 var firmInfoNode = xmlDocument.CreateElement("СвЮЛУч"); // Сведения о юридическом лице, состоящем на учете в налоговых органах
                 firmInfoNode.SetAttribute("НаимОрг", legalPerson.Name);
 
-                if (legalPerson.IsHyphenInn)
-                    firmInfoNode.SetAttribute("ДефИННЮЛ", "-");
-                else
+                if (!string.IsNullOrEmpty(legalPerson.Inn))
                     firmInfoNode.SetAttribute("ИННЮЛ", legalPerson.Inn);
 
                 firmInfoNode.SetAttribute("КПП", legalPerson.Kpp);
@@ -648,21 +646,23 @@ namespace CIS.EDM.CRPT.Helpers
 
                 if (!String.IsNullOrEmpty(item.UnitCode))
                     itemNode.SetAttribute("ОКЕИ_Тов", item.UnitCode); // Код единицы измерения (графа 2 счета-фактуры)
-                                                                      //else if (item.IsHyphenUnitCode)
-                                                                      //    itemNode.SetAttribute("ДефОКЕИ_Тов", "-"); // Код единицы измерения (графа 2 счета-фактуры при составлении документа с Функция=СЧФ или Функция=СЧФДОП при отсутствии данных и для документа с Функция=СЧФ, выставляемом при получении оплаты, частичной оплаты в счет предстоящих поставок товаров (выполнения работ, оказания услуг), передачи имущественных прав)
 
                 if (!String.IsNullOrEmpty(item.UnitName))
                     itemNode.SetAttribute("НаимЕдИзм", item.UnitName); // Наименование единицы измерения (условное обозначение национальное, графа 2а счета-фактуры)
 
-                itemNode.SetAttribute("КолТов", item.Quantity.ToString(quantityToStringPattern, CultureInfo.InvariantCulture)); // Количество (объем) (графа 3 счета - фактуры)
-                itemNode.SetAttribute("ЦенаТов", item.Price.ToString("0.00", CultureInfo.InvariantCulture)); // Цена (тариф) за единицу измерения (графа 4 счета-фактуры)
-                itemNode.SetAttribute("СтТовБезНДС", item.SumWithoutVat.ToString("0.00", CultureInfo.InvariantCulture)); // Стоимость товаров (работ, услуг), имущественных прав без налога - всего (графа 5 счета-фактуры)
-                itemNode.SetAttribute("НалСт", item.TaxRate.GetTaxRateName()); // Налоговая ставка (графа 7 счета-фактуры)
+                if (item.Quantity > 0)
+                    itemNode.SetAttribute("КолТов", item.Quantity.ToString(quantityToStringPattern, CultureInfo.InvariantCulture)); // Количество (объем) (графа 3 счета - фактуры)
 
-                if (item.Sum != null)
+                if (item.Price > 0)
+                    itemNode.SetAttribute("ЦенаТов", item.Price.ToString("0.00", CultureInfo.InvariantCulture)); // Цена (тариф) за единицу измерения (графа 4 счета-фактуры)
+
+                if (item.SumWithoutVat > 0)
+                    itemNode.SetAttribute("СтТовБезНДС", item.SumWithoutVat.ToString("0.00", CultureInfo.InvariantCulture)); // Стоимость товаров (работ, услуг), имущественных прав без налога - всего (графа 5 счета-фактуры)
+
+                itemNode.SetAttribute("НалСт", item.TaxRate.GetTaxRateName());// Налоговая ставка (графа 7 счета-фактуры)
+
+                if (item.Sum > 0)
                     itemNode.SetAttribute("СтТовУчНал", item.Sum.Value.ToString("0.00", CultureInfo.InvariantCulture)); // Стоимость товаров(работ, услуг), имущественных прав с налогом - всего (графа 9 счетафактуры)
-                else if (item.IsHyphenSum)
-                    itemNode.SetAttribute("ДефСтТовУчНал", "-"); // Стоимость товаров (работ, услуг), имущественных прав с налогом - всего (графа 9 счета-фактуры) при составлении документа с Функция=СЧФ или Функция=СЧФДОП при отсутствии показателя
 
                 // СвДТ
                 AddCustomDeclarationsInformation(xmlDocument, item, itemNode);
@@ -674,7 +674,7 @@ namespace CIS.EDM.CRPT.Helpers
                 AddExciseValue(xmlDocument, item, itemNode);
 
                 var taxNode = xmlDocument.CreateElement("СумНал");// Сумма налога, предъявляемая покупателю (графа 8 счета-фактуры)
-                AddVatValue(xmlDocument, item.TaxRate == TaxRate.WithoutVat, item.IsHyphenVat, item.Vat, taxNode);
+                AddVatValue(xmlDocument, item.TaxRate == TaxRate.WithoutVat, item.Vat, taxNode);
 
                 itemNode.AppendChild(taxNode);
 
@@ -696,23 +696,22 @@ namespace CIS.EDM.CRPT.Helpers
         private static void AddObjectiveTotal(XmlDocument xmlDocument, List<InvoiceItem> items, XmlElement objectiveNode)
         {
             var totalPaidNode = xmlDocument.CreateElement("ВсегоОпл"); // Реквизиты строки «Всего к оплате»
-            totalPaidNode.SetAttribute("СтТовБезНДСВсего", items.Sum(x => x.SumWithoutVat).ToString("0.00", CultureInfo.InvariantCulture)); // Всего к оплате, Стоимость товаров (работ, услуг), имущественных прав без налога - всего(строка «Всего к оплате»/ графа 5 счета - фактуры)
-            var isHyphenTotal = !items.Any(x => x.Sum != null);
+            var total = items.Sum(x => x.SumWithoutVat);
+            if (total > 0)
+                totalPaidNode.SetAttribute("СтТовБезНДСВсего", total.ToString("0.00", CultureInfo.InvariantCulture)); // Всего к оплате, Стоимость товаров (работ, услуг), имущественных прав без налога - всего(строка «Всего к оплате»/ графа 5 счета - фактуры)
+
+            var isHyphenTotal = !items.Any(x => x.Sum > 0);
             if (!isHyphenTotal)
                 totalPaidNode.SetAttribute("СтТовУчНалВсего", items.Sum(x => (x.Sum ?? 0M)).ToString("0.00", CultureInfo.InvariantCulture)); // Всего к оплате, Стоимость товаров(работ, услуг), имущественных прав с налогом - всего (строка «Всего к оплате»/ графа 9 счета - фактуры)
-            else if (isHyphenTotal)
-                totalPaidNode.SetAttribute("ДефСтТовУчНалВсего", "-"); // Всего к оплате, Стоимость товаров (работ, услуг), имущественных прав с налогом - всего (строка "Всего к оплате"/графа 9 счета-фактуры) при отсутствии показателя
 
             var totalQuantity = items.Sum(x => x.Quantity);
             if (totalQuantity > 0)
-            {
                 totalPaidNode.SetAttribute("КолНеттоВс", totalQuantity.ToString(quantityToStringPattern, CultureInfo.InvariantCulture));
-            }
+
 
             var totalTaxNode = xmlDocument.CreateElement("СумНалВсего"); // Всего к оплате, Сумма налога, предъявляемая покупателю (строка «Всего к оплате»/ графа 8 счета-фактуры)
             var isWithoutVat = !items.Any(x => x.TaxRate != TaxRate.WithoutVat);
-            var isHyphenVat = !items.Any(x => !x.IsHyphenVat);
-            AddVatValue(xmlDocument, isWithoutVat, isHyphenVat, items.Sum(x => x.Vat), totalTaxNode);
+            AddVatValue(xmlDocument, isWithoutVat, items.Sum(x => x.Vat), totalTaxNode);
             totalPaidNode.AppendChild(totalTaxNode);
 
             objectiveNode.AppendChild(totalPaidNode);
@@ -880,7 +879,7 @@ namespace CIS.EDM.CRPT.Helpers
             }
         }
 
-        private static void AddVatValue(XmlDocument xmlDocument, bool isWithoutVat, bool isHyphenVat, decimal? vat, XmlElement parentTaxNode)
+        private static void AddVatValue(XmlDocument xmlDocument, bool isWithoutVat, decimal? vat, XmlElement parentTaxNode)
         {
             if (isWithoutVat)
             {
