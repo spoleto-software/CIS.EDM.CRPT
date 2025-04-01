@@ -661,8 +661,7 @@ namespace CIS.EDM.CRPT.Helpers
 
                 itemNode.SetAttribute("НалСт", item.TaxRate.GetTaxRateName());// Налоговая ставка (графа 7 счета-фактуры)
 
-                if (item.Sum > 0)
-                    itemNode.SetAttribute("СтТовУчНал", item.Sum.Value.ToString("0.00", CultureInfo.InvariantCulture)); // Стоимость товаров(работ, услуг), имущественных прав с налогом - всего (графа 9 счетафактуры)
+                itemNode.SetAttribute("СтТовУчНал", item.Sum.Value.ToString("0.00", CultureInfo.InvariantCulture)); // Стоимость товаров(работ, услуг), имущественных прав с налогом - всего (графа 9 счетафактуры)
 
                 // СвДТ
                 AddCustomDeclarationsInformation(xmlDocument, item, itemNode);
@@ -700,14 +699,11 @@ namespace CIS.EDM.CRPT.Helpers
             if (total > 0)
                 totalPaidNode.SetAttribute("СтТовБезНДСВсего", total.ToString("0.00", CultureInfo.InvariantCulture)); // Всего к оплате, Стоимость товаров (работ, услуг), имущественных прав без налога - всего(строка «Всего к оплате»/ графа 5 счета - фактуры)
 
-            var isHyphenTotal = !items.Any(x => x.Sum > 0);
-            if (!isHyphenTotal)
-                totalPaidNode.SetAttribute("СтТовУчНалВсего", items.Sum(x => (x.Sum ?? 0M)).ToString("0.00", CultureInfo.InvariantCulture)); // Всего к оплате, Стоимость товаров(работ, услуг), имущественных прав с налогом - всего (строка «Всего к оплате»/ графа 9 счета - фактуры)
+            totalPaidNode.SetAttribute("СтТовУчНалВсего", items.Sum(x => (x.Sum ?? 0M)).ToString("0.00", CultureInfo.InvariantCulture)); // Всего к оплате, Стоимость товаров(работ, услуг), имущественных прав с налогом - всего (строка «Всего к оплате»/ графа 9 счета - фактуры)
 
             var totalQuantity = items.Sum(x => x.Quantity);
             if (totalQuantity > 0)
                 totalPaidNode.SetAttribute("КолНеттоВс", totalQuantity.ToString(quantityToStringPattern, CultureInfo.InvariantCulture));
-
 
             var totalTaxNode = xmlDocument.CreateElement("СумНалВсего"); // Всего к оплате, Сумма налога, предъявляемая покупателю (строка «Всего к оплате»/ графа 8 счета-фактуры)
             var isWithoutVat = !items.Any(x => x.TaxRate != TaxRate.WithoutVat);
