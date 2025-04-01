@@ -1,0 +1,460 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: CIS.EDM.CRPT.Models
+  name: CIS.EDM.CRPT.Models
+  href: api/CIS.EDM.CRPT.Models.html
+  commentId: N:CIS.EDM.CRPT.Models
+  fullName: CIS.EDM.CRPT.Models
+  nameWithType: CIS.EDM.CRPT.Models
+- uid: CIS.EDM.CRPT.Models.CRPTOption
+  name: CRPTOption
+  href: api/CIS.EDM.CRPT.Models.CRPTOption.html
+  commentId: T:CIS.EDM.CRPT.Models.CRPTOption
+  fullName: CIS.EDM.CRPT.Models.CRPTOption
+  nameWithType: CRPTOption
+- uid: CIS.EDM.CRPT.Models.CRPTOption.AuthUrl
+  name: AuthUrl
+  href: api/CIS.EDM.CRPT.Models.CRPTOption.AuthUrl.html#CIS_EDM_CRPT_Models_CRPTOption_AuthUrl
+  commentId: P:CIS.EDM.CRPT.Models.CRPTOption.AuthUrl
+  fullName: CIS.EDM.CRPT.Models.CRPTOption.AuthUrl
+  nameWithType: CRPTOption.AuthUrl
+- uid: CIS.EDM.CRPT.Models.CRPTOption.AuthUrl*
+  name: AuthUrl
+  href: api/CIS.EDM.CRPT.Models.CRPTOption.AuthUrl.html
+  commentId: Overload:CIS.EDM.CRPT.Models.CRPTOption.AuthUrl
+  fullName: CIS.EDM.CRPT.Models.CRPTOption.AuthUrl
+  nameWithType: CRPTOption.AuthUrl
+- uid: CIS.EDM.CRPT.Models.CRPTOption.CertificateThumbprint
+  name: CertificateThumbprint
+  href: api/CIS.EDM.CRPT.Models.CRPTOption.CertificateThumbprint.html#CIS_EDM_CRPT_Models_CRPTOption_CertificateThumbprint
+  commentId: P:CIS.EDM.CRPT.Models.CRPTOption.CertificateThumbprint
+  fullName: CIS.EDM.CRPT.Models.CRPTOption.CertificateThumbprint
+  nameWithType: CRPTOption.CertificateThumbprint
+- uid: CIS.EDM.CRPT.Models.CRPTOption.CertificateThumbprint*
+  name: CertificateThumbprint
+  href: api/CIS.EDM.CRPT.Models.CRPTOption.CertificateThumbprint.html
+  commentId: Overload:CIS.EDM.CRPT.Models.CRPTOption.CertificateThumbprint
+  fullName: CIS.EDM.CRPT.Models.CRPTOption.CertificateThumbprint
+  nameWithType: CRPTOption.CertificateThumbprint
+- uid: CIS.EDM.CRPT.Models.CRPTOption.ServiceUrl
+  name: ServiceUrl
+  href: api/CIS.EDM.CRPT.Models.CRPTOption.ServiceUrl.html#CIS_EDM_CRPT_Models_CRPTOption_ServiceUrl
+  commentId: P:CIS.EDM.CRPT.Models.CRPTOption.ServiceUrl
+  fullName: CIS.EDM.CRPT.Models.CRPTOption.ServiceUrl
+  nameWithType: CRPTOption.ServiceUrl
+- uid: CIS.EDM.CRPT.Models.CRPTOption.ServiceUrl*
+  name: ServiceUrl
+  href: api/CIS.EDM.CRPT.Models.CRPTOption.ServiceUrl.html
+  commentId: Overload:CIS.EDM.CRPT.Models.CRPTOption.ServiceUrl
+  fullName: CIS.EDM.CRPT.Models.CRPTOption.ServiceUrl
+  nameWithType: CRPTOption.ServiceUrl
+- uid: CIS.EDM.CRPT.Models.SignedDocumentInfo
+  name: SignedDocumentInfo
+  href: api/CIS.EDM.CRPT.Models.SignedDocumentInfo.html
+  commentId: T:CIS.EDM.CRPT.Models.SignedDocumentInfo
+  fullName: CIS.EDM.CRPT.Models.SignedDocumentInfo
+  nameWithType: SignedDocumentInfo
+- uid: CIS.EDM.CRPT.Models.SignedDocumentInfo.Content
+  name: Content
+  href: api/CIS.EDM.CRPT.Models.SignedDocumentInfo.Content.html#CIS_EDM_CRPT_Models_SignedDocumentInfo_Content
+  commentId: P:CIS.EDM.CRPT.Models.SignedDocumentInfo.Content
+  fullName: CIS.EDM.CRPT.Models.SignedDocumentInfo.Content
+  nameWithType: SignedDocumentInfo.Content
+- uid: CIS.EDM.CRPT.Models.SignedDocumentInfo.Content*
+  name: Content
+  href: api/CIS.EDM.CRPT.Models.SignedDocumentInfo.Content.html
+  commentId: Overload:CIS.EDM.CRPT.Models.SignedDocumentInfo.Content
+  fullName: CIS.EDM.CRPT.Models.SignedDocumentInfo.Content
+  nameWithType: SignedDocumentInfo.Content
+- uid: CIS.EDM.CRPT.Models.SignedDocumentInfo.DetachedSignature
+  name: DetachedSignature
+  href: api/CIS.EDM.CRPT.Models.SignedDocumentInfo.DetachedSignature.html#CIS_EDM_CRPT_Models_SignedDocumentInfo_DetachedSignature
+  commentId: P:CIS.EDM.CRPT.Models.SignedDocumentInfo.DetachedSignature
+  fullName: CIS.EDM.CRPT.Models.SignedDocumentInfo.DetachedSignature
+  nameWithType: SignedDocumentInfo.DetachedSignature
+- uid: CIS.EDM.CRPT.Models.SignedDocumentInfo.DetachedSignature*
+  name: DetachedSignature
+  href: api/CIS.EDM.CRPT.Models.SignedDocumentInfo.DetachedSignature.html
+  commentId: Overload:CIS.EDM.CRPT.Models.SignedDocumentInfo.DetachedSignature
+  fullName: CIS.EDM.CRPT.Models.SignedDocumentInfo.DetachedSignature
+  nameWithType: SignedDocumentInfo.DetachedSignature
+- uid: CIS.EDM.CRPT.Models.StringResult
+  name: StringResult
+  href: api/CIS.EDM.CRPT.Models.StringResult.html
+  commentId: T:CIS.EDM.CRPT.Models.StringResult
+  fullName: CIS.EDM.CRPT.Models.StringResult
+  nameWithType: StringResult
+- uid: CIS.EDM.CRPT.Models.StringResult.Id
+  name: Id
+  href: api/CIS.EDM.CRPT.Models.StringResult.Id.html#CIS_EDM_CRPT_Models_StringResult_Id
+  commentId: P:CIS.EDM.CRPT.Models.StringResult.Id
+  fullName: CIS.EDM.CRPT.Models.StringResult.Id
+  nameWithType: StringResult.Id
+- uid: CIS.EDM.CRPT.Models.StringResult.Id*
+  name: Id
+  href: api/CIS.EDM.CRPT.Models.StringResult.Id.html
+  commentId: Overload:CIS.EDM.CRPT.Models.StringResult.Id
+  fullName: CIS.EDM.CRPT.Models.StringResult.Id
+  nameWithType: StringResult.Id
+- uid: CIS.EDM.CRPT.Models.StringResult.ToString
+  name: ToString()
+  href: api/CIS.EDM.CRPT.Models.StringResult.ToString.html#CIS_EDM_CRPT_Models_StringResult_ToString
+  commentId: M:CIS.EDM.CRPT.Models.StringResult.ToString
+  fullName: CIS.EDM.CRPT.Models.StringResult.ToString()
+  nameWithType: StringResult.ToString()
+- uid: CIS.EDM.CRPT.Models.StringResult.ToString*
+  name: ToString
+  href: api/CIS.EDM.CRPT.Models.StringResult.ToString.html
+  commentId: Overload:CIS.EDM.CRPT.Models.StringResult.ToString
+  fullName: CIS.EDM.CRPT.Models.StringResult.ToString
+  nameWithType: StringResult.ToString
+- uid: CIS.EDM.CRPT.Models.TokenModel
+  name: TokenModel
+  href: api/CIS.EDM.CRPT.Models.TokenModel.html
+  commentId: T:CIS.EDM.CRPT.Models.TokenModel
+  fullName: CIS.EDM.CRPT.Models.TokenModel
+  nameWithType: TokenModel
+- uid: CIS.EDM.CRPT.Models.TokenModel.Token
+  name: Token
+  href: api/CIS.EDM.CRPT.Models.TokenModel.Token.html#CIS_EDM_CRPT_Models_TokenModel_Token
+  commentId: P:CIS.EDM.CRPT.Models.TokenModel.Token
+  fullName: CIS.EDM.CRPT.Models.TokenModel.Token
+  nameWithType: TokenModel.Token
+- uid: CIS.EDM.CRPT.Models.TokenModel.Token*
+  name: Token
+  href: api/CIS.EDM.CRPT.Models.TokenModel.Token.html
+  commentId: Overload:CIS.EDM.CRPT.Models.TokenModel.Token
+  fullName: CIS.EDM.CRPT.Models.TokenModel.Token
+  nameWithType: TokenModel.Token
+- uid: CIS.EDM.CRPT.Models.TokenModel.ToString
+  name: ToString()
+  href: api/CIS.EDM.CRPT.Models.TokenModel.ToString.html#CIS_EDM_CRPT_Models_TokenModel_ToString
+  commentId: M:CIS.EDM.CRPT.Models.TokenModel.ToString
+  fullName: CIS.EDM.CRPT.Models.TokenModel.ToString()
+  nameWithType: TokenModel.ToString()
+- uid: CIS.EDM.CRPT.Models.TokenModel.ToString*
+  name: ToString
+  href: api/CIS.EDM.CRPT.Models.TokenModel.ToString.html
+  commentId: Overload:CIS.EDM.CRPT.Models.TokenModel.ToString
+  fullName: CIS.EDM.CRPT.Models.TokenModel.ToString
+  nameWithType: TokenModel.ToString
+- uid: CIS.EDM.CRPT.Models.TokenModel.Type
+  name: Type
+  href: api/CIS.EDM.CRPT.Models.TokenModel.Type.html#CIS_EDM_CRPT_Models_TokenModel_Type
+  commentId: P:CIS.EDM.CRPT.Models.TokenModel.Type
+  fullName: CIS.EDM.CRPT.Models.TokenModel.Type
+  nameWithType: TokenModel.Type
+- uid: CIS.EDM.CRPT.Models.TokenModel.Type*
+  name: Type
+  href: api/CIS.EDM.CRPT.Models.TokenModel.Type.html
+  commentId: Overload:CIS.EDM.CRPT.Models.TokenModel.Type
+  fullName: CIS.EDM.CRPT.Models.TokenModel.Type
+  nameWithType: TokenModel.Type
+- uid: CIS.EDM.CRPT.Models.ZipArchiveInfo
+  name: ZipArchiveInfo
+  href: api/CIS.EDM.CRPT.Models.ZipArchiveInfo.html
+  commentId: T:CIS.EDM.CRPT.Models.ZipArchiveInfo
+  fullName: CIS.EDM.CRPT.Models.ZipArchiveInfo
+  nameWithType: ZipArchiveInfo
+- uid: CIS.EDM.CRPT.Models.ZipArchiveInfo.FileName
+  name: FileName
+  href: api/CIS.EDM.CRPT.Models.ZipArchiveInfo.FileName.html#CIS_EDM_CRPT_Models_ZipArchiveInfo_FileName
+  commentId: P:CIS.EDM.CRPT.Models.ZipArchiveInfo.FileName
+  fullName: CIS.EDM.CRPT.Models.ZipArchiveInfo.FileName
+  nameWithType: ZipArchiveInfo.FileName
+- uid: CIS.EDM.CRPT.Models.ZipArchiveInfo.FileName*
+  name: FileName
+  href: api/CIS.EDM.CRPT.Models.ZipArchiveInfo.FileName.html
+  commentId: Overload:CIS.EDM.CRPT.Models.ZipArchiveInfo.FileName
+  fullName: CIS.EDM.CRPT.Models.ZipArchiveInfo.FileName
+  nameWithType: ZipArchiveInfo.FileName
+- uid: CIS.EDM.CRPT.Models.ZipArchiveInfo.ZipArchive
+  name: ZipArchive
+  href: api/CIS.EDM.CRPT.Models.ZipArchiveInfo.ZipArchive.html#CIS_EDM_CRPT_Models_ZipArchiveInfo_ZipArchive
+  commentId: P:CIS.EDM.CRPT.Models.ZipArchiveInfo.ZipArchive
+  fullName: CIS.EDM.CRPT.Models.ZipArchiveInfo.ZipArchive
+  nameWithType: ZipArchiveInfo.ZipArchive
+- uid: CIS.EDM.CRPT.Models.ZipArchiveInfo.ZipArchive*
+  name: ZipArchive
+  href: api/CIS.EDM.CRPT.Models.ZipArchiveInfo.ZipArchive.html
+  commentId: Overload:CIS.EDM.CRPT.Models.ZipArchiveInfo.ZipArchive
+  fullName: CIS.EDM.CRPT.Models.ZipArchiveInfo.ZipArchive
+  nameWithType: ZipArchiveInfo.ZipArchive
+- uid: CIS.EDM.CRPT.Providers
+  name: CIS.EDM.CRPT.Providers
+  href: api/CIS.EDM.CRPT.Providers.html
+  commentId: N:CIS.EDM.CRPT.Providers
+  fullName: CIS.EDM.CRPT.Providers
+  nameWithType: CIS.EDM.CRPT.Providers
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider
+  name: CRPTProvider
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.html
+  commentId: T:CIS.EDM.CRPT.Providers.CRPTProvider
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider
+  nameWithType: CRPTProvider
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.#ctor(ILogger{CIS.EDM.CRPT.Providers.CRPTProvider},IHttpClientFactory,CIS.EDM.CRPT.Providers.ICRPTTokenProvider)
+  name: CRPTProvider(ILogger<CRPTProvider>, IHttpClientFactory, ICRPTTokenProvider)
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.-ctor.html#CIS_EDM_CRPT_Providers_CRPTProvider__ctor_ILogger_CIS_EDM_CRPT_Providers_CRPTProvider__IHttpClientFactory_CIS_EDM_CRPT_Providers_ICRPTTokenProvider_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.#ctor(ILogger{CIS.EDM.CRPT.Providers.CRPTProvider},IHttpClientFactory,CIS.EDM.CRPT.Providers.ICRPTTokenProvider)
+  name.vb: CRPTProvider(ILogger(Of CRPTProvider), IHttpClientFactory, ICRPTTokenProvider)
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.CRPTProvider(ILogger<CIS.EDM.CRPT.Providers.CRPTProvider>, IHttpClientFactory, CIS.EDM.CRPT.Providers.ICRPTTokenProvider)
+  fullName.vb: CIS.EDM.CRPT.Providers.CRPTProvider.CRPTProvider(ILogger(Of CIS.EDM.CRPT.Providers.CRPTProvider), IHttpClientFactory, CIS.EDM.CRPT.Providers.ICRPTTokenProvider)
+  nameWithType: CRPTProvider.CRPTProvider(ILogger<CRPTProvider>, IHttpClientFactory, ICRPTTokenProvider)
+  nameWithType.vb: CRPTProvider.CRPTProvider(ILogger(Of CRPTProvider), IHttpClientFactory, ICRPTTokenProvider)
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.#ctor*
+  name: CRPTProvider
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.-ctor.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.#ctor
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.CRPTProvider
+  nameWithType: CRPTProvider.CRPTProvider
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.Code
+  name: Code
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.Code.html#CIS_EDM_CRPT_Providers_CRPTProvider_Code
+  commentId: P:CIS.EDM.CRPT.Providers.CRPTProvider.Code
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.Code
+  nameWithType: CRPTProvider.Code
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.Code*
+  name: Code
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.Code.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.Code
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.Code
+  nameWithType: CRPTProvider.Code
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.DisplayName
+  name: DisplayName
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.DisplayName.html#CIS_EDM_CRPT_Providers_CRPTProvider_DisplayName
+  commentId: P:CIS.EDM.CRPT.Providers.CRPTProvider.DisplayName
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.DisplayName
+  nameWithType: CRPTProvider.DisplayName
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.DisplayName*
+  name: DisplayName
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.DisplayName.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.DisplayName
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.DisplayName
+  nameWithType: CRPTProvider.DisplayName
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  name: GetIncomingDocumentAsync(CRPTOption, String)
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentAsync.html#CIS_EDM_CRPT_Providers_CRPTProvider_GetIncomingDocumentAsync_CIS_EDM_CRPT_Models_CRPTOption_System_String_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption, System.String)
+  nameWithType: CRPTProvider.GetIncomingDocumentAsync(CRPTOption, String)
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentAsync*
+  name: GetIncomingDocumentAsync
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentAsync
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentAsync
+  nameWithType: CRPTProvider.GetIncomingDocumentAsync
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentListAsync(CIS.EDM.CRPT.Models.CRPTOption,DocumentCollectionSearchModel)
+  name: GetIncomingDocumentListAsync(CRPTOption, DocumentCollectionSearchModel)
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentListAsync.html#CIS_EDM_CRPT_Providers_CRPTProvider_GetIncomingDocumentListAsync_CIS_EDM_CRPT_Models_CRPTOption_DocumentCollectionSearchModel_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentListAsync(CIS.EDM.CRPT.Models.CRPTOption,DocumentCollectionSearchModel)
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentListAsync(CIS.EDM.CRPT.Models.CRPTOption, DocumentCollectionSearchModel)
+  nameWithType: CRPTProvider.GetIncomingDocumentListAsync(CRPTOption, DocumentCollectionSearchModel)
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentListAsync*
+  name: GetIncomingDocumentListAsync
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentListAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentListAsync
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingDocumentListAsync
+  nameWithType: CRPTProvider.GetIncomingDocumentListAsync
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingSignedDocumentInfoAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  name: GetIncomingSignedDocumentInfoAsync(CRPTOption, String)
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingSignedDocumentInfoAsync.html#CIS_EDM_CRPT_Providers_CRPTProvider_GetIncomingSignedDocumentInfoAsync_CIS_EDM_CRPT_Models_CRPTOption_System_String_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingSignedDocumentInfoAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingSignedDocumentInfoAsync(CIS.EDM.CRPT.Models.CRPTOption, System.String)
+  nameWithType: CRPTProvider.GetIncomingSignedDocumentInfoAsync(CRPTOption, String)
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingSignedDocumentInfoAsync*
+  name: GetIncomingSignedDocumentInfoAsync
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingSignedDocumentInfoAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingSignedDocumentInfoAsync
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.GetIncomingSignedDocumentInfoAsync
+  nameWithType: CRPTProvider.GetIncomingSignedDocumentInfoAsync
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  name: GetOutgoingDocumentAsync(CRPTOption, String)
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentAsync.html#CIS_EDM_CRPT_Providers_CRPTProvider_GetOutgoingDocumentAsync_CIS_EDM_CRPT_Models_CRPTOption_System_String_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption, System.String)
+  nameWithType: CRPTProvider.GetOutgoingDocumentAsync(CRPTOption, String)
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentAsync*
+  name: GetOutgoingDocumentAsync
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentAsync
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentAsync
+  nameWithType: CRPTProvider.GetOutgoingDocumentAsync
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentListAsync(CIS.EDM.CRPT.Models.CRPTOption,DocumentCollectionSearchModel)
+  name: GetOutgoingDocumentListAsync(CRPTOption, DocumentCollectionSearchModel)
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentListAsync.html#CIS_EDM_CRPT_Providers_CRPTProvider_GetOutgoingDocumentListAsync_CIS_EDM_CRPT_Models_CRPTOption_DocumentCollectionSearchModel_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentListAsync(CIS.EDM.CRPT.Models.CRPTOption,DocumentCollectionSearchModel)
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentListAsync(CIS.EDM.CRPT.Models.CRPTOption, DocumentCollectionSearchModel)
+  nameWithType: CRPTProvider.GetOutgoingDocumentListAsync(CRPTOption, DocumentCollectionSearchModel)
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentListAsync*
+  name: GetOutgoingDocumentListAsync
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentListAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentListAsync
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.GetOutgoingDocumentListAsync
+  nameWithType: CRPTProvider.GetOutgoingDocumentListAsync
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,CIS.EDM.Models.V5_01.Seller.SellerUniversalTransferDocument,System.Boolean)
+  name: PostUniversalTransferDocumentAsync(CRPTOption, Models.V5_01.Seller.SellerUniversalTransferDocument, Boolean)
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync.html#CIS_EDM_CRPT_Providers_CRPTProvider_PostUniversalTransferDocumentAsync_CIS_EDM_CRPT_Models_CRPTOption_CIS_EDM_Models_V5_01_Seller_SellerUniversalTransferDocument_System_Boolean_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,CIS.EDM.Models.V5_01.Seller.SellerUniversalTransferDocument,System.Boolean)
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption, CIS.EDM.Models.V5_01.Seller.SellerUniversalTransferDocument, System.Boolean)
+  nameWithType: CRPTProvider.PostUniversalTransferDocumentAsync(CRPTOption, Models.V5_01.Seller.SellerUniversalTransferDocument, Boolean)
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,CIS.EDM.Models.V5_03.Seller.SellerUniversalTransferDocument,System.Boolean)
+  name: PostUniversalTransferDocumentAsync(CRPTOption, Models.V5_03.Seller.SellerUniversalTransferDocument, Boolean)
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync.html#CIS_EDM_CRPT_Providers_CRPTProvider_PostUniversalTransferDocumentAsync_CIS_EDM_CRPT_Models_CRPTOption_CIS_EDM_Models_V5_03_Seller_SellerUniversalTransferDocument_System_Boolean_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,CIS.EDM.Models.V5_03.Seller.SellerUniversalTransferDocument,System.Boolean)
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption, CIS.EDM.Models.V5_03.Seller.SellerUniversalTransferDocument, System.Boolean)
+  nameWithType: CRPTProvider.PostUniversalTransferDocumentAsync(CRPTOption, Models.V5_03.Seller.SellerUniversalTransferDocument, Boolean)
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync*
+  name: PostUniversalTransferDocumentAsync
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.PostUniversalTransferDocumentAsync
+  nameWithType: CRPTProvider.PostUniversalTransferDocumentAsync
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,CIS.EDM.Models.V5_01.Buyer.BuyerUniversalTransferDocument)
+  name: ReceiptUniversalTransferDocumentAsync(CRPTOption, Models.V5_01.Buyer.BuyerUniversalTransferDocument)
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync.html#CIS_EDM_CRPT_Providers_CRPTProvider_ReceiptUniversalTransferDocumentAsync_CIS_EDM_CRPT_Models_CRPTOption_CIS_EDM_Models_V5_01_Buyer_BuyerUniversalTransferDocument_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,CIS.EDM.Models.V5_01.Buyer.BuyerUniversalTransferDocument)
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption, CIS.EDM.Models.V5_01.Buyer.BuyerUniversalTransferDocument)
+  nameWithType: CRPTProvider.ReceiptUniversalTransferDocumentAsync(CRPTOption, Models.V5_01.Buyer.BuyerUniversalTransferDocument)
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,CIS.EDM.Models.V5_03.Buyer.BuyerUniversalTransferDocument)
+  name: ReceiptUniversalTransferDocumentAsync(CRPTOption, Models.V5_03.Buyer.BuyerUniversalTransferDocument)
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync.html#CIS_EDM_CRPT_Providers_CRPTProvider_ReceiptUniversalTransferDocumentAsync_CIS_EDM_CRPT_Models_CRPTOption_CIS_EDM_Models_V5_03_Buyer_BuyerUniversalTransferDocument_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,CIS.EDM.Models.V5_03.Buyer.BuyerUniversalTransferDocument)
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption, CIS.EDM.Models.V5_03.Buyer.BuyerUniversalTransferDocument)
+  nameWithType: CRPTProvider.ReceiptUniversalTransferDocumentAsync(CRPTOption, Models.V5_03.Buyer.BuyerUniversalTransferDocument)
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync*
+  name: ReceiptUniversalTransferDocumentAsync
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.ReceiptUniversalTransferDocumentAsync
+  nameWithType: CRPTProvider.ReceiptUniversalTransferDocumentAsync
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.SignOutgoingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  name: SignOutgoingDocumentAsync(CRPTOption, String)
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.SignOutgoingDocumentAsync.html#CIS_EDM_CRPT_Providers_CRPTProvider_SignOutgoingDocumentAsync_CIS_EDM_CRPT_Models_CRPTOption_System_String_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.SignOutgoingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.SignOutgoingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption, System.String)
+  nameWithType: CRPTProvider.SignOutgoingDocumentAsync(CRPTOption, String)
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.SignOutgoingDocumentAsync*
+  name: SignOutgoingDocumentAsync
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.SignOutgoingDocumentAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.SignOutgoingDocumentAsync
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.SignOutgoingDocumentAsync
+  nameWithType: CRPTProvider.SignOutgoingDocumentAsync
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.ToString
+  name: ToString()
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.ToString.html#CIS_EDM_CRPT_Providers_CRPTProvider_ToString
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTProvider.ToString
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.ToString()
+  nameWithType: CRPTProvider.ToString()
+- uid: CIS.EDM.CRPT.Providers.CRPTProvider.ToString*
+  name: ToString
+  href: api/CIS.EDM.CRPT.Providers.CRPTProvider.ToString.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTProvider.ToString
+  fullName: CIS.EDM.CRPT.Providers.CRPTProvider.ToString
+  nameWithType: CRPTProvider.ToString
+- uid: CIS.EDM.CRPT.Providers.CRPTTokenProvider
+  name: CRPTTokenProvider
+  href: api/CIS.EDM.CRPT.Providers.CRPTTokenProvider.html
+  commentId: T:CIS.EDM.CRPT.Providers.CRPTTokenProvider
+  fullName: CIS.EDM.CRPT.Providers.CRPTTokenProvider
+  nameWithType: CRPTTokenProvider
+- uid: CIS.EDM.CRPT.Providers.CRPTTokenProvider.#ctor(IHttpClientFactory)
+  name: CRPTTokenProvider(IHttpClientFactory)
+  href: api/CIS.EDM.CRPT.Providers.CRPTTokenProvider.-ctor.html#CIS_EDM_CRPT_Providers_CRPTTokenProvider__ctor_IHttpClientFactory_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTTokenProvider.#ctor(IHttpClientFactory)
+  fullName: CIS.EDM.CRPT.Providers.CRPTTokenProvider.CRPTTokenProvider(IHttpClientFactory)
+  nameWithType: CRPTTokenProvider.CRPTTokenProvider(IHttpClientFactory)
+- uid: CIS.EDM.CRPT.Providers.CRPTTokenProvider.#ctor*
+  name: CRPTTokenProvider
+  href: api/CIS.EDM.CRPT.Providers.CRPTTokenProvider.-ctor.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTTokenProvider.#ctor
+  fullName: CIS.EDM.CRPT.Providers.CRPTTokenProvider.CRPTTokenProvider
+  nameWithType: CRPTTokenProvider.CRPTTokenProvider
+- uid: CIS.EDM.CRPT.Providers.CRPTTokenProvider.CIS#EDM#CRPT#Providers#ICRPTTokenProvider#GetTokenAsync(CIS.EDM.CRPT.Models.CRPTOption)
+  name: ICRPTTokenProvider.GetTokenAsync(CRPTOption)
+  href: api/CIS.EDM.CRPT.Providers.CRPTTokenProvider.CIS-EDM-CRPT-Providers-ICRPTTokenProvider-GetTokenAsync.html#CIS_EDM_CRPT_Providers_CRPTTokenProvider_CIS_EDM_CRPT_Providers_ICRPTTokenProvider_GetTokenAsync_CIS_EDM_CRPT_Models_CRPTOption_
+  commentId: M:CIS.EDM.CRPT.Providers.CRPTTokenProvider.CIS#EDM#CRPT#Providers#ICRPTTokenProvider#GetTokenAsync(CIS.EDM.CRPT.Models.CRPTOption)
+  name.vb: CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync(CRPTOption)
+  fullName: CIS.EDM.CRPT.Providers.CRPTTokenProvider.CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync(CIS.EDM.CRPT.Models.CRPTOption)
+  nameWithType: CRPTTokenProvider.ICRPTTokenProvider.GetTokenAsync(CRPTOption)
+  nameWithType.vb: CRPTTokenProvider.CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync(CRPTOption)
+- uid: CIS.EDM.CRPT.Providers.CRPTTokenProvider.CIS#EDM#CRPT#Providers#ICRPTTokenProvider#GetTokenAsync*
+  name: ICRPTTokenProvider.GetTokenAsync
+  href: api/CIS.EDM.CRPT.Providers.CRPTTokenProvider.CIS-EDM-CRPT-Providers-ICRPTTokenProvider-GetTokenAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.CRPTTokenProvider.CIS#EDM#CRPT#Providers#ICRPTTokenProvider#GetTokenAsync
+  name.vb: CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync
+  fullName: CIS.EDM.CRPT.Providers.CRPTTokenProvider.CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync
+  nameWithType: CRPTTokenProvider.ICRPTTokenProvider.GetTokenAsync
+  nameWithType.vb: CRPTTokenProvider.CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync
+- uid: CIS.EDM.CRPT.Providers.ICRPTProvider
+  name: ICRPTProvider
+  href: api/CIS.EDM.CRPT.Providers.ICRPTProvider.html
+  commentId: T:CIS.EDM.CRPT.Providers.ICRPTProvider
+  fullName: CIS.EDM.CRPT.Providers.ICRPTProvider
+  nameWithType: ICRPTProvider
+- uid: CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfo(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  name: GetIncomingSignedDocumentInfo(CRPTOption, String)
+  href: api/CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfo.html#CIS_EDM_CRPT_Providers_ICRPTProvider_GetIncomingSignedDocumentInfo_CIS_EDM_CRPT_Models_CRPTOption_System_String_
+  commentId: M:CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfo(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  fullName: CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfo(CIS.EDM.CRPT.Models.CRPTOption, System.String)
+  nameWithType: ICRPTProvider.GetIncomingSignedDocumentInfo(CRPTOption, String)
+- uid: CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfo*
+  name: GetIncomingSignedDocumentInfo
+  href: api/CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfo.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfo
+  fullName: CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfo
+  nameWithType: ICRPTProvider.GetIncomingSignedDocumentInfo
+- uid: CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfoAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  name: GetIncomingSignedDocumentInfoAsync(CRPTOption, String)
+  href: api/CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfoAsync.html#CIS_EDM_CRPT_Providers_ICRPTProvider_GetIncomingSignedDocumentInfoAsync_CIS_EDM_CRPT_Models_CRPTOption_System_String_
+  commentId: M:CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfoAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  fullName: CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfoAsync(CIS.EDM.CRPT.Models.CRPTOption, System.String)
+  nameWithType: ICRPTProvider.GetIncomingSignedDocumentInfoAsync(CRPTOption, String)
+- uid: CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfoAsync*
+  name: GetIncomingSignedDocumentInfoAsync
+  href: api/CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfoAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfoAsync
+  fullName: CIS.EDM.CRPT.Providers.ICRPTProvider.GetIncomingSignedDocumentInfoAsync
+  nameWithType: ICRPTProvider.GetIncomingSignedDocumentInfoAsync
+- uid: CIS.EDM.CRPT.Providers.ICRPTProvider.SignOutgoingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  name: SignOutgoingDocumentAsync(CRPTOption, String)
+  href: api/CIS.EDM.CRPT.Providers.ICRPTProvider.SignOutgoingDocumentAsync.html#CIS_EDM_CRPT_Providers_ICRPTProvider_SignOutgoingDocumentAsync_CIS_EDM_CRPT_Models_CRPTOption_System_String_
+  commentId: M:CIS.EDM.CRPT.Providers.ICRPTProvider.SignOutgoingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption,System.String)
+  fullName: CIS.EDM.CRPT.Providers.ICRPTProvider.SignOutgoingDocumentAsync(CIS.EDM.CRPT.Models.CRPTOption, System.String)
+  nameWithType: ICRPTProvider.SignOutgoingDocumentAsync(CRPTOption, String)
+- uid: CIS.EDM.CRPT.Providers.ICRPTProvider.SignOutgoingDocumentAsync*
+  name: SignOutgoingDocumentAsync
+  href: api/CIS.EDM.CRPT.Providers.ICRPTProvider.SignOutgoingDocumentAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.ICRPTProvider.SignOutgoingDocumentAsync
+  fullName: CIS.EDM.CRPT.Providers.ICRPTProvider.SignOutgoingDocumentAsync
+  nameWithType: ICRPTProvider.SignOutgoingDocumentAsync
+- uid: CIS.EDM.CRPT.Providers.ICRPTTokenProvider
+  name: ICRPTTokenProvider
+  href: api/CIS.EDM.CRPT.Providers.ICRPTTokenProvider.html
+  commentId: T:CIS.EDM.CRPT.Providers.ICRPTTokenProvider
+  fullName: CIS.EDM.CRPT.Providers.ICRPTTokenProvider
+  nameWithType: ICRPTTokenProvider
+- uid: CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetToken(CIS.EDM.CRPT.Models.CRPTOption)
+  name: GetToken(CRPTOption)
+  href: api/CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetToken.html#CIS_EDM_CRPT_Providers_ICRPTTokenProvider_GetToken_CIS_EDM_CRPT_Models_CRPTOption_
+  commentId: M:CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetToken(CIS.EDM.CRPT.Models.CRPTOption)
+  fullName: CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetToken(CIS.EDM.CRPT.Models.CRPTOption)
+  nameWithType: ICRPTTokenProvider.GetToken(CRPTOption)
+- uid: CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetToken*
+  name: GetToken
+  href: api/CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetToken.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetToken
+  fullName: CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetToken
+  nameWithType: ICRPTTokenProvider.GetToken
+- uid: CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync(CIS.EDM.CRPT.Models.CRPTOption)
+  name: GetTokenAsync(CRPTOption)
+  href: api/CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync.html#CIS_EDM_CRPT_Providers_ICRPTTokenProvider_GetTokenAsync_CIS_EDM_CRPT_Models_CRPTOption_
+  commentId: M:CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync(CIS.EDM.CRPT.Models.CRPTOption)
+  fullName: CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync(CIS.EDM.CRPT.Models.CRPTOption)
+  nameWithType: ICRPTTokenProvider.GetTokenAsync(CRPTOption)
+- uid: CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync*
+  name: GetTokenAsync
+  href: api/CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync.html
+  commentId: Overload:CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync
+  fullName: CIS.EDM.CRPT.Providers.ICRPTTokenProvider.GetTokenAsync
+  nameWithType: ICRPTTokenProvider.GetTokenAsync
