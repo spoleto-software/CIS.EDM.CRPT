@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Xml;
-using CIS.EDM.Models.Common;
+using CIS.EDM.Models;
 using CIS.EDM.Models.V5_03;
 using CIS.EDM.Models.V5_03.Buyer;
 
@@ -127,7 +127,7 @@ namespace CIS.EDM.CRPT.Helpers
                 if (!String.IsNullOrEmpty(obligationInfo.ObjectFAIPCode))
                     circumPublicProcInfoNode.SetAttribute("КодОбъектФАИП", obligationInfo.ObjectFAIPCode);
 
-                if (obligationInfo.FundType != EDM.Models.Common.Buyer.Reference.FundType.NotSpecified)
+                if (obligationInfo.FundType != EDM.Models.Buyer.Reference.FundType.NotSpecified)
                     circumPublicProcInfoNode.SetAttribute("ВидСредств", ((int)obligationInfo.FundType).ToString());
 
                 circumPublicProcInfoNode.SetAttribute("КодПокБюджКласс", obligationInfo.BuyerBudgetClassCode);
@@ -180,7 +180,7 @@ namespace CIS.EDM.CRPT.Helpers
                 confirmInfoNode.SetAttribute("КодИтога", ((int)operationNameInfo.Code).ToString()); // Код, обозначающий итог приемки товара (работ, услуг, прав).
                 confirmNode.AppendChild(confirmInfoNode);
 
-                if (operationNameInfo.DiscrepancyDocument is Document document)
+                if (operationNameInfo.DiscrepancyDocument is EDM.Models.V5_03.Document document)
                 {
                     var confirmDocumentInfoNode = xmlDocument.CreateElement("РеквДокРасх"); // Реквизиты документа, оформляющего расхождения
 

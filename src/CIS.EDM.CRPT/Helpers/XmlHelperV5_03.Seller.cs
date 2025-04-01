@@ -7,8 +7,7 @@ using System.Xml;
 using CIS.EDM.CRPT.Extensions;
 using CIS.EDM.Extensions;
 using CIS.EDM.Models;
-using CIS.EDM.Models.Common;
-using CIS.EDM.Models.Common.Reference;
+using CIS.EDM.Models.Reference;
 using CIS.EDM.Models.V5_03;
 using CIS.EDM.Models.V5_03.Seller;
 using CIS.EDM.Models.V5_03.Seller.Address;
@@ -649,11 +648,11 @@ namespace CIS.EDM.CRPT.Helpers
 
                 if (!String.IsNullOrEmpty(item.UnitCode))
                     itemNode.SetAttribute("ОКЕИ_Тов", item.UnitCode); // Код единицы измерения (графа 2 счета-фактуры)
-                //else if (item.IsHyphenUnitCode)
-                //    itemNode.SetAttribute("ДефОКЕИ_Тов", "-"); // Код единицы измерения (графа 2 счета-фактуры при составлении документа с Функция=СЧФ или Функция=СЧФДОП при отсутствии данных и для документа с Функция=СЧФ, выставляемом при получении оплаты, частичной оплаты в счет предстоящих поставок товаров (выполнения работ, оказания услуг), передачи имущественных прав)
+                                                                      //else if (item.IsHyphenUnitCode)
+                                                                      //    itemNode.SetAttribute("ДефОКЕИ_Тов", "-"); // Код единицы измерения (графа 2 счета-фактуры при составлении документа с Функция=СЧФ или Функция=СЧФДОП при отсутствии данных и для документа с Функция=СЧФ, выставляемом при получении оплаты, частичной оплаты в счет предстоящих поставок товаров (выполнения работ, оказания услуг), передачи имущественных прав)
 
-                if (!String.IsNullOrEmpty(item.AdditionalInfo.UnitName))
-                    itemNode.SetAttribute("НаимЕдИзм", item.AdditionalInfo.UnitName); // Наименование единицы измерения (условное обозначение национальное, графа 2а счета-фактуры)
+                if (!String.IsNullOrEmpty(item.UnitName))
+                    itemNode.SetAttribute("НаимЕдИзм", item.UnitName); // Наименование единицы измерения (условное обозначение национальное, графа 2а счета-фактуры)
 
                 itemNode.SetAttribute("КолТов", item.Quantity.ToString(quantityToStringPattern, CultureInfo.InvariantCulture)); // Количество (объем) (графа 3 счета - фактуры)
                 itemNode.SetAttribute("ЦенаТов", item.Price.ToString("0.00", CultureInfo.InvariantCulture)); // Цена (тариф) за единицу измерения (графа 4 счета-фактуры)
@@ -735,9 +734,15 @@ namespace CIS.EDM.CRPT.Helpers
                 if (!String.IsNullOrEmpty(additionalInfo.AdditionalTypeInfo))
                     additionalInfoNode.SetAttribute("ДопПризн", additionalInfo.AdditionalTypeInfo); // Дополнительная информация о признаке
 
-                // КрНаимСтрПр Формируется автоматически в соответствии с указанным элементом <КодПроисх>.
-                //if (!String.IsNullOrEmpty(additionalInfo.CountryName))
-                //    additionalInfoNode.SetAttribute("КрНаимСтрПр", additionalInfo.CountryName); // Краткое наименование страны происхождения товара (графа 10а счетафактуры)/страна регистрации производителя товара
+                if (additionalInfo.CountryNames?.Count > 0)
+                {
+                    foreach (var countryName in additionalInfo.CountryNames)
+                    {
+                        var countryNode = xmlDocument.CreateElement("КрНаимСтрПр"); // Краткое наименование страны происхождения товара (графа 10а счетафактуры)/страна регистрации производителя товара
+                        countryNode.InnerText = countryName;
+                        additionalInfoNode.AppendChild(countryNode);
+                    }
+                }
 
                 if (additionalInfo.ItemToRelease != null)
                     additionalInfoNode.SetAttribute("НадлОтп", additionalInfo.ItemToRelease.Value.ToString("0.#######", CultureInfo.InvariantCulture)); // Заказанное количество (количество надлежит отпустить)
@@ -866,8 +871,6 @@ namespace CIS.EDM.CRPT.Helpers
 
                     if (!String.IsNullOrEmpty(customDeclaration.CountryCode))
                         declaration.SetAttribute("КодПроисх", customDeclaration.CountryCode); // Цифровой код страны происхождения товара (Графа 10 счета-фактуры)
-                    else if (customDeclaration.IsHyphenCountryCode)
-                        declaration.SetAttribute("ДефКодПроисх", "-"); // Цифровой код страны происхождения товара (Графа 10 счета-фактуры; для документа с Функция=СЧФ, выставляемом при получении оплаты, частичной оплаты в счет предстоящих поставок товаров (выполнения работ, оказания услуг), передачи имущественных прав
 
                     if (!String.IsNullOrEmpty(customDeclaration.DeclarationNumber))
                         declaration.SetAttribute("НомерДТ", customDeclaration.DeclarationNumber); // Регистрационный номер декларации на товары (графа 11 счета-фактуры)

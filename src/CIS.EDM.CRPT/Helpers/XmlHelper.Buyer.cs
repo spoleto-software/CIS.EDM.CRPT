@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Xml;
-using CIS.EDM.Models.Buyer;
-using CIS.EDM.Models.Common;
+using CIS.EDM.Models;
+using CIS.EDM.Models.V5_01.Buyer;
+using CIS.EDM.Models.V5_01.Buyer.Reference;
 
 namespace CIS.EDM.CRPT.Helpers
 {
@@ -121,7 +122,7 @@ namespace CIS.EDM.CRPT.Helpers
             if (!String.IsNullOrEmpty(buyerInfoCircum.PaymentOrder))
                 circumPublicProcNode.SetAttribute("ОчерПлат", buyerInfoCircum.PaymentOrder);
 
-            if (buyerInfoCircum.PaymentType != EDM.Models.Buyer.Reference.PaymentType.NotSpecified)
+            if (buyerInfoCircum.PaymentType != PaymentType.NotSpecified)
                 circumPublicProcNode.SetAttribute("ВидПлат", ((int)buyerInfoCircum.PaymentType).ToString());
 
             foreach (var obligationInfo in buyerInfoCircum.FinancialObligationInfoList)
@@ -132,7 +133,7 @@ namespace CIS.EDM.CRPT.Helpers
                 if (!String.IsNullOrEmpty(obligationInfo.ObjectFAIPCode))
                     circumPublicProcInfoNode.SetAttribute("КодОбъектФАИП", obligationInfo.ObjectFAIPCode);
 
-                if (obligationInfo.FundType != EDM.Models.Common.Buyer.Reference.FundType.NotSpecified)
+                if (obligationInfo.FundType != EDM.Models.Buyer.Reference.FundType.NotSpecified)
                     circumPublicProcInfoNode.SetAttribute("ВидСредств", ((int)obligationInfo.FundType).ToString());
 
                 circumPublicProcInfoNode.SetAttribute("КодПокБюджКласс", obligationInfo.BuyerBudgetClassCode);
@@ -187,7 +188,7 @@ namespace CIS.EDM.CRPT.Helpers
                 if (!String.IsNullOrEmpty(operationNameInfo.DiscrepancyDocumentName))
                     confirmNode.SetAttribute("НаимДокРасх", operationNameInfo.DiscrepancyDocumentName); // Наименование документа, оформляющего расхождения
 
-                if (operationNameInfo.DiscrepancyDocumentCode != EDM.Models.Buyer.Reference.DiscrepancyDocumentCode.NotSpecified)
+                if (operationNameInfo.DiscrepancyDocumentCode != DiscrepancyDocumentCode.NotSpecified)
                     confirmNode.SetAttribute("ВидДокРасх", ((int)operationNameInfo.DiscrepancyDocumentCode).ToString()); // Код вида документа о расхождениях
 
                 if (!String.IsNullOrEmpty(operationNameInfo.DiscrepancyDocumentNumber))

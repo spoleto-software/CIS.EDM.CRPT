@@ -7,11 +7,10 @@ using System.Xml;
 using CIS.EDM.CRPT.Extensions;
 using CIS.EDM.Extensions;
 using CIS.EDM.Models;
-using CIS.EDM.Models.Common;
-using CIS.EDM.Models.Common.Reference;
-using CIS.EDM.Models.Seller;
-using CIS.EDM.Models.Seller.Address;
-using CIS.EDM.Models.Seller.Reference;
+using CIS.EDM.Models.Reference;
+using CIS.EDM.Models.V5_01.Seller;
+using CIS.EDM.Models.V5_01.Seller.Address;
+using CIS.EDM.Models.V5_01.Seller.Reference;
 
 namespace CIS.EDM.CRPT.Helpers
 {

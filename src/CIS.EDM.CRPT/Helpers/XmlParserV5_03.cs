@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml;
 using CIS.EDM.CRPT.Models;
-using CIS.EDM.Models.Common.Reference;
-using CIS.EDM.Models.V5_03.Buyer;
+using CIS.EDM.Models.Buyer;
+using CIS.EDM.Models.Reference;
 
 namespace CIS.EDM.CRPT.Helpers
 {
