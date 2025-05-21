@@ -219,14 +219,25 @@ namespace CIS.EDM.CRPT.Helpers
                 || dataContract.FactorInfo != null
                 || dataContract.SellerInfoCircumPublicProc != null
                 || dataContract.MainAssignMonetaryClaim != null
-                || dataContract.InvoiceFormationType != InvoiceFormationType.NotSpecified)
+                || dataContract.InvoiceFormationType != InvoiceFormationType.NotSpecified
+                || !string.IsNullOrEmpty(dataContract.UPDInvoiceFormationType)
+                || !string.IsNullOrEmpty(dataContract.UPDFormationType))
             {
                 var economicNode = xmlDocument.CreateElement("ДопСвФХЖ1");
                 if (!String.IsNullOrEmpty(dataContract.GovernmentContractInfo))
                     economicNode.SetAttribute("ИдГосКон", dataContract.GovernmentContractInfo);
 
-                if (dataContract.InvoiceFormationType != InvoiceFormationType.NotSpecified)
+                if (dataContract.Function == UniversalTransferDocumentFunction.СЧФ 
+                    && dataContract.InvoiceFormationType != InvoiceFormationType.NotSpecified)
                     economicNode.SetAttribute("СпОбстФСЧФ", ((int)dataContract.InvoiceFormationType).ToString());
+
+                if (dataContract.Function == UniversalTransferDocumentFunction.СЧФДОП
+                    && !string.IsNullOrEmpty( dataContract.UPDInvoiceFormationType))
+                    economicNode.SetAttribute("СпОбстФСЧФДОП", dataContract.UPDInvoiceFormationType);
+
+                if (dataContract.Function == UniversalTransferDocumentFunction.ДОП
+                    && !string.IsNullOrEmpty(dataContract.UPDFormationType))
+                    economicNode.SetAttribute("СпОбстФДОП", dataContract.UPDFormationType);
 
                 if (dataContract.SellerInfoCircumPublicProc != null)
                 {
