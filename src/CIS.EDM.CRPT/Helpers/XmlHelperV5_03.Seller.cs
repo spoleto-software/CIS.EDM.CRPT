@@ -470,63 +470,176 @@ namespace CIS.EDM.CRPT.Helpers
         {
             if (address.RussianAddress is RussianAddress russianAddress)
             {
-                var russianFirmAddressNode = xmlDocument.CreateElement("Адрес");
-                var russianFirmAddressInfoNode = xmlDocument.CreateElement("АдрРФ");
+                var russianAddressNode = xmlDocument.CreateElement("Адрес");
+                if (!String.IsNullOrEmpty(address.GlobalLocationNumber))
+                {
+                    russianAddressNode.SetAttribute("ГЛНМеста", address.GlobalLocationNumber);
+                }
+
+                var russianAddressInfoNode = xmlDocument.CreateElement("АдрРФ");
                 if (!String.IsNullOrEmpty(russianAddress.ZipCode))
-                    russianFirmAddressInfoNode.SetAttribute("Индекс", russianAddress.ZipCode);
+                    russianAddressInfoNode.SetAttribute("Индекс", russianAddress.ZipCode);
 
-                russianFirmAddressInfoNode.SetAttribute("КодРегион", russianAddress.RegionCode);
-
-                russianFirmAddressInfoNode.SetAttribute("НаимРегион", russianAddress.Region);
-
-                if (!String.IsNullOrEmpty(russianAddress.Street))
-                    russianFirmAddressInfoNode.SetAttribute("Улица", russianAddress.Street);
-
-                if (!String.IsNullOrEmpty(russianAddress.Building))
-                    russianFirmAddressInfoNode.SetAttribute("Дом", russianAddress.Building);
-
-                if (!String.IsNullOrEmpty(russianAddress.Block))
-                    russianFirmAddressInfoNode.SetAttribute("Корпус", russianAddress.Block);
-
-                if (!String.IsNullOrEmpty(russianAddress.Apartment))
-                    russianFirmAddressInfoNode.SetAttribute("Кварт", russianAddress.Apartment);
-
-                if (!String.IsNullOrEmpty(russianAddress.City))
-                    russianFirmAddressInfoNode.SetAttribute("Город", russianAddress.City);
+                russianAddressInfoNode.SetAttribute("КодРегион", russianAddress.RegionCode);
+                russianAddressInfoNode.SetAttribute("НаимРегион", russianAddress.Region);
 
                 if (!String.IsNullOrEmpty(russianAddress.Territory))
-                    russianFirmAddressInfoNode.SetAttribute("Район", russianAddress.Territory);
+                    russianAddressInfoNode.SetAttribute("Район", russianAddress.Territory);
+
+                if (!String.IsNullOrEmpty(russianAddress.City))
+                    russianAddressInfoNode.SetAttribute("Город", russianAddress.City);
 
                 if (!String.IsNullOrEmpty(russianAddress.Locality))
-                    russianFirmAddressInfoNode.SetAttribute("НаселПункт", russianAddress.Locality);
+                    russianAddressInfoNode.SetAttribute("НаселПункт", russianAddress.Locality);
 
-                russianFirmAddressNode.AppendChild(russianFirmAddressInfoNode);
-                parentElement.AppendChild(russianFirmAddressNode);
+                if (!String.IsNullOrEmpty(russianAddress.Street))
+                    russianAddressInfoNode.SetAttribute("Улица", russianAddress.Street);
+
+                if (!String.IsNullOrEmpty(russianAddress.Building))
+                    russianAddressInfoNode.SetAttribute("Дом", russianAddress.Building);
+
+                if (!String.IsNullOrEmpty(russianAddress.Block))
+                    russianAddressInfoNode.SetAttribute("Корпус", russianAddress.Block);
+
+                if (!String.IsNullOrEmpty(russianAddress.Apartment))
+                    russianAddressInfoNode.SetAttribute("Кварт", russianAddress.Apartment);
+
+                if (!String.IsNullOrEmpty(russianAddress.OtherInfo))
+                    russianAddressInfoNode.SetAttribute("ИныеСвед", russianAddress.OtherInfo);
+
+                russianAddressNode.AppendChild(russianAddressInfoNode);
+                parentElement.AppendChild(russianAddressNode);
             }
-            //else if (address.ForeignAddress is ForeignAddress foreignAddress)//todo
-            //{
-            //    var foreignFirmAddressNode = xmlDocument.CreateElement("Адрес");
-            //    var foreignFirmAddressInfoNode = xmlDocument.CreateElement("АдрИнф");
-
-            //    foreignFirmAddressInfoNode.SetAttribute("КодСтр", foreignAddress.CountryCode);
-            //    foreignFirmAddressInfoNode.SetAttribute("Адрес", foreignAddress.Address);
-
-            //    foreignFirmAddressNode.AppendChild(foreignFirmAddressInfoNode);
-            //    parentElement.AppendChild(foreignFirmAddressNode);
-            //}
             else if (address.AddressCode is AddressCode addressCode)
             {
-                var codeFirmAddressNode = xmlDocument.CreateElement("Адрес");
-                var codeFirmAddressInfoNode = xmlDocument.CreateElement("КодГАР");
+                var addressCodeNode = xmlDocument.CreateElement("Адрес");
+                if (!string.IsNullOrEmpty(address.GlobalLocationNumber))
+                {
+                    addressCodeNode.SetAttribute("ГЛНМеста", address.GlobalLocationNumber);
+                }
 
-                codeFirmAddressInfoNode.InnerText = addressCode.UniqueCode;
+                var addressCodeInfoNode = xmlDocument.CreateElement("АдрГАР");
+                addressCodeInfoNode.SetAttribute("ИдНом", addressCode.UniqueCode.ToString());
+                addressCodeInfoNode.SetAttribute("Индекс", addressCode.ZipCode);
 
-                codeFirmAddressNode.AppendChild(codeFirmAddressInfoNode);
-                parentElement.AppendChild(codeFirmAddressNode);
+                if (!string.IsNullOrEmpty(addressCode.Region))
+                {
+                    var regionAddressInfoNode = xmlDocument.CreateElement("Регион");
+                    regionAddressInfoNode.InnerText = addressCode.Region;
+
+                    addressCodeInfoNode.AppendChild(regionAddressInfoNode);
+                }
+
+                if (!string.IsNullOrEmpty(addressCode.RegionName))
+                {
+                    var regionNameAddressInfoNode = xmlDocument.CreateElement("НаимРегион");
+                    regionNameAddressInfoNode.InnerText = addressCode.Region;
+
+                    addressCodeInfoNode.AppendChild(regionNameAddressInfoNode);
+                }
+
+                if (addressCode.MunicipalDistrict is AddressElementCode municipal)
+                {
+                    var addressInfoNode = xmlDocument.CreateElement("МуниципРайон");
+                    addressInfoNode.SetAttribute("ВидКод", municipal.TypeCode);
+                    addressInfoNode.SetAttribute("Наим", municipal.Name);
+
+                    addressCodeInfoNode.AppendChild(addressInfoNode);
+                }
+
+                if (addressCode.UrbanRuralSettlement is AddressElementCode urban)
+                {
+                    var addressInfoNode = xmlDocument.CreateElement("ГородСелПоселен");
+                    addressInfoNode.SetAttribute("ВидКод", urban.TypeCode);
+                    addressInfoNode.SetAttribute("Наим", urban.Name);
+
+                    addressCodeInfoNode.AppendChild(addressInfoNode);
+                }
+
+                if (addressCode.Settlement is AddressElement settlement)
+                {
+                    var addressInfoNode = xmlDocument.CreateElement("НаселенПункт");
+                    addressInfoNode.SetAttribute("Вид", settlement.Type);
+                    addressInfoNode.SetAttribute("Наим", settlement.Name);
+
+                    addressCodeInfoNode.AppendChild(addressInfoNode);
+                }
+
+                if (addressCode.PlanningStructureElement is AddressElementType planningStructure)
+                {
+                    var addressInfoNode = xmlDocument.CreateElement("ЭлПланСтруктур");
+                    addressInfoNode.SetAttribute("Тип", planningStructure.Type);
+                    addressInfoNode.SetAttribute("Наим", planningStructure.Name);
+
+                    addressCodeInfoNode.AppendChild(addressInfoNode);
+                }
+
+                if (addressCode.StreetRoadNetworkElement is AddressElementType streetRoadNetwork)
+                {
+                    var addressInfoNode = xmlDocument.CreateElement("ЭлУлДорСети");
+                    addressInfoNode.SetAttribute("Тип", streetRoadNetwork.Type);
+                    addressInfoNode.SetAttribute("Наим", streetRoadNetwork.Name);
+
+                    addressCodeInfoNode.AppendChild(addressInfoNode);
+                }
+
+                if (!string.IsNullOrEmpty(addressCode.LandPlotNumber))
+                {
+                    var addressInfoNode = xmlDocument.CreateElement("ЗемелУчасток");
+                    addressInfoNode.InnerText = addressCode.LandPlotNumber;
+
+                    addressCodeInfoNode.AppendChild(addressInfoNode);
+                }
+
+                if (addressCode.BuildingList != null)
+                {
+                    foreach (var building in addressCode.BuildingList)
+                    {
+                        var addressInfoNode = xmlDocument.CreateElement("Здание");
+                        addressInfoNode.SetAttribute("Тип", building.Type);
+                        addressInfoNode.SetAttribute("Номер", building.Number);
+
+                        addressCodeInfoNode.AppendChild(addressInfoNode);
+                    }
+                }
+
+                if (addressCode.BuildingRoom is AddressElementNumber buildingRoom)
+                {
+                    var addressInfoNode = xmlDocument.CreateElement("ПомещЗдания");
+                    addressInfoNode.SetAttribute("Тип", buildingRoom.Type);
+                    addressInfoNode.SetAttribute("Номер", buildingRoom.Number);
+
+                    addressCodeInfoNode.AppendChild(addressInfoNode);
+                }
+
+                if (addressCode.ApartmentRoom is AddressElementNumber apartmentRoom)
+                {
+                    var addressInfoNode = xmlDocument.CreateElement("ПомещКвартиры");
+                    addressInfoNode.SetAttribute("Тип", apartmentRoom.Type);
+                    addressInfoNode.SetAttribute("Номер", apartmentRoom.Number);
+
+                    addressCodeInfoNode.AppendChild(addressInfoNode);
+                }
+
+                addressCodeNode.AppendChild(addressCodeInfoNode);
+                parentElement.AppendChild(addressCodeNode);
             }
-            else
+            else if (address.AddressInformation is AddressInformation addressInformation)
             {
+                var addressInfoNode = xmlDocument.CreateElement("Адрес");
+                if (!String.IsNullOrEmpty(address.GlobalLocationNumber))
+                {
+                    addressInfoNode.SetAttribute("ГЛНМеста", address.GlobalLocationNumber);
+                }
 
+                var infoAddressInfoNode = xmlDocument.CreateElement("АдрИнф");
+
+                infoAddressInfoNode.SetAttribute("КодСтр", addressInformation.CountryCode);
+                infoAddressInfoNode.SetAttribute("НаимСтран", addressInformation.CountryName);
+                infoAddressInfoNode.SetAttribute("АдрТекст", addressInformation.Address);
+
+                addressInfoNode.AppendChild(infoAddressInfoNode);
+                parentElement.AppendChild(addressInfoNode);
             }
         }
 
