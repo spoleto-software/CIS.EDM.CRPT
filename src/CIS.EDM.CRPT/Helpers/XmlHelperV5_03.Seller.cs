@@ -648,23 +648,39 @@ namespace CIS.EDM.CRPT.Helpers
             if (contact != null)
             {
                 var contactNode = xmlDocument.CreateElement("Контакт"); // Контактные данные
-
-                if (!String.IsNullOrEmpty(contact.Phone))//todo: to list on phones
+                if (!string.IsNullOrEmpty(contact.OtherInfo))
                 {
-                    var phoneNode = xmlDocument.CreateElement("Тлф");
-
-                    phoneNode.InnerText = contact.Phone;// Номер контактного телефона/факс
-
-                    contactNode.AppendChild(phoneNode);
+                    contactNode.SetAttribute("ИнКонт", contact.OtherInfo);
                 }
 
-                if (!String.IsNullOrEmpty(contact.Email)) //todo: to list
+                if (contact.PhoneList != null)
                 {
-                    var emailNode = xmlDocument.CreateElement("ЭлПочта");
+                    foreach (var phone in contact.PhoneList)
+                    {
+                        if (!String.IsNullOrEmpty(phone))
+                        {
+                            var phoneNode = xmlDocument.CreateElement("Тлф");
 
-                    emailNode.InnerText = contact.Email;// Адрес электронной почты
+                            phoneNode.InnerText = phone;// Номер контактного телефона/факс
 
-                    contactNode.AppendChild(emailNode);
+                            contactNode.AppendChild(phoneNode);
+                        }
+                    }
+                }
+
+                if (contact.EmailList != null)
+                {
+                    foreach (var email in contact.EmailList)
+                    {
+                        if (!String.IsNullOrEmpty(email))
+                        {
+                            var emailNode = xmlDocument.CreateElement("ЭлПочта");
+
+                            emailNode.InnerText = email;// Адрес электронной почты
+
+                            contactNode.AppendChild(emailNode);
+                        }
+                    }
                 }
 
                 firmNode.AppendChild(contactNode);
