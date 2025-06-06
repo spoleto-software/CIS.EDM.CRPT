@@ -34,9 +34,9 @@
 		<PackageTags>CRPT; EDM; Electronic document management; ЦРПТ; Электронный документооборот</PackageTags>
 		<Copyright>Copyright © $([System.DateTime]::Now.Year.ToString())</Copyright>
 		<PackageReleaseNotes></PackageReleaseNotes>
-		<Version>5.4.5</Version>
-		<AssemblyVersion>5.4.5</AssemblyVersion>
-		<FileVersion>5.4.5</FileVersion>
+		<Version>5.4.6</Version>
+		<AssemblyVersion>5.4.6</AssemblyVersion>
+		<FileVersion>5.4.6</FileVersion>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>	
 
