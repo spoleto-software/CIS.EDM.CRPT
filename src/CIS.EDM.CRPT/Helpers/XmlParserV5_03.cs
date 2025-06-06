@@ -27,6 +27,7 @@ namespace CIS.EDM.CRPT.Helpers
             sellerInfo.TimeCreation = documentNode.GetAttribute("ВремИнфПр");
             sellerInfo.DocumentName = documentNode.GetAttribute("НаимДокОпр");
             sellerInfo.Function = Enum.Parse<UniversalTransferDocumentFunction>(documentNode.GetAttribute("Функция"));
+            sellerInfo.DocumentUid = documentNode.GetAttribute("УИД");
 
             var documentInfoNode = (XmlElement)documentNode.GetElementsByTagName("СвСчФакт")[0];
 

@@ -41,13 +41,16 @@ namespace CIS.EDM.CRPT.Helpers
             var documentNode = xmlDocument.CreateElement("Документ"); // Информация покупателя
             documentNode.SetAttribute("КНД", buyerDataContract.TaxDocumentCode);
 
+            var sellerDocumentInfo = buyerDataContract.SellerDocumentInfo;
+            if (!string.IsNullOrEmpty(sellerDocumentInfo.DocumentUid))
+                documentNode.SetAttribute("УИД", sellerDocumentInfo.DocumentUid);
+
             documentNode.SetAttribute("ДатаИнфПок", buyerDataContract.DateCreation.ToString("dd.MM.yyyy")); // Дата формирования файла обмена информации покупателя
             documentNode.SetAttribute("ВремИнфПок", buyerDataContract.DateCreation.ToString("HH.mm.ss")); // Время формирования файла обмена информации покупателя
             documentNode.SetAttribute("НаимЭконСубСост", GetEconomicEntityName(buyerDataContract.DocumentCreator)); // Наименование экономического субъекта - составителя файла обмена информации покупателя
 
             xmlDocument.DocumentElement.AppendChild(documentNode);
 
-            var sellerDocumentInfo = buyerDataContract.SellerDocumentInfo;
             var sellerFileNode = xmlDocument.CreateElement("ИдИнфПрод");// Идентификация файла обмена счета-фактуры (информации продавца) или файла обмена информации продавца
             sellerFileNode.SetAttribute("ИдФайлИнфПр", sellerDocumentInfo.FileId); // Идентификатор файла обмена информации продавца. Содержит (повторяет) имя файла обмена счета-фактуры (информации продавца) или файла обмена информации продавца (без расширения)
             sellerFileNode.SetAttribute("ДатаФайлИнфПр", sellerDocumentInfo.DateCreation); // Дата формирования файла обмена информации продавца. Указывается (повторяет) значение ДатаИнфПр, указанное в файле обмена счета-фактуры (информации продавца) или файле обмена информации продавца
@@ -67,11 +70,8 @@ namespace CIS.EDM.CRPT.Helpers
 
             AddBuyerSigners(xmlDocument, buyerDataContract, documentNode);
 
-            //todo:
-            //if (!String.IsNullOrEmpty(buyerDataContract.DocumentCreatorBase))
-            //    documentNode.SetAttribute("ОснДоверОргСост", buyerDataContract.DocumentCreatorBase); // Основание, по которому экономический субъект является составителем файла обмена счета-фактуры (информации продавца)
-
-
+            if (buyerDataContract.DocumentCreatorBase is EDM.Models.V5_03.Document creatorBase)
+                AddDocumentInfo(xmlDocument, documentNode, [creatorBase], "ОснДоверОргСост"); // Основание, по которому экономический субъект является составителем файла обмена счета-фактуры (информации продавца)
         }
 
         /// <summary>
@@ -86,34 +86,34 @@ namespace CIS.EDM.CRPT.Helpers
 
             var circumPublicProcNode = xmlDocument.CreateElement("ИнфПокЗаГоскКазн");
 
-            if (!String.IsNullOrEmpty(buyerInfoCircum.PurchasingIdentificationCode))
+            if (!string.IsNullOrEmpty(buyerInfoCircum.PurchasingIdentificationCode))
                 circumPublicProcNode.SetAttribute("ИдКодЗак", buyerInfoCircum.PurchasingIdentificationCode);
 
             circumPublicProcNode.SetAttribute("ЛицСчетПок", buyerInfoCircum.PersonalAccountBuyer);
             circumPublicProcNode.SetAttribute("НаимФинОргПок", buyerInfoCircum.BuyerFinancialAuthorityName);
             circumPublicProcNode.SetAttribute("НомРеестрЗапПок", buyerInfoCircum.BuyerBudgetRegisterNumber);
 
-            if (!String.IsNullOrEmpty(buyerInfoCircum.BuyerBudgetObligationAccountNumber))
+            if (!string.IsNullOrEmpty(buyerInfoCircum.BuyerBudgetObligationAccountNumber))
                 circumPublicProcNode.SetAttribute("УчНомБюдОбязПок", buyerInfoCircum.BuyerBudgetObligationAccountNumber);
 
-            if (!String.IsNullOrEmpty(buyerInfoCircum.BuyerTreasuryCode))
+            if (!string.IsNullOrEmpty(buyerInfoCircum.BuyerTreasuryCode))
                 circumPublicProcNode.SetAttribute("КодКазначПок", buyerInfoCircum.BuyerTreasuryCode);
 
-            if (!String.IsNullOrEmpty(buyerInfoCircum.BuyerTreasuryName))
+            if (!string.IsNullOrEmpty(buyerInfoCircum.BuyerTreasuryName))
                 circumPublicProcNode.SetAttribute("НаимКазначПок", buyerInfoCircum.BuyerTreasuryName);
 
             circumPublicProcNode.SetAttribute("ОКТМОПок", buyerInfoCircum.BuyerMunicipalCode);
 
-            if (!String.IsNullOrEmpty(buyerInfoCircum.DeliveryMunicipalCode))
+            if (!string.IsNullOrEmpty(buyerInfoCircum.DeliveryMunicipalCode))
                 circumPublicProcNode.SetAttribute("ОКТМОМесПост", buyerInfoCircum.DeliveryMunicipalCode);
 
             if (buyerInfoCircum.PaymentDate != null)
                 circumPublicProcNode.SetAttribute("ДатаОплПред", buyerInfoCircum.PaymentDate.Value.ToString("dd.MM.yyyy"));
 
-            if (!String.IsNullOrEmpty(buyerInfoCircum.FinancialObligationAccountNumber))
+            if (!string.IsNullOrEmpty(buyerInfoCircum.FinancialObligationAccountNumber))
                 circumPublicProcNode.SetAttribute("УчНомДенОбяз", buyerInfoCircum.FinancialObligationAccountNumber);
 
-            if (!String.IsNullOrEmpty(buyerInfoCircum.PaymentOrder))
+            if (!string.IsNullOrEmpty(buyerInfoCircum.PaymentOrder))
                 circumPublicProcNode.SetAttribute("ОчерПлат", buyerInfoCircum.PaymentOrder);
 
             if (buyerInfoCircum.PaymentType != EDM.Models.V5_03.Buyer.Reference.PaymentType.NotSpecified)
@@ -124,7 +124,7 @@ namespace CIS.EDM.CRPT.Helpers
                 var circumPublicProcInfoNode = xmlDocument.CreateElement("ИнфСведДенОбяз");
                 circumPublicProcInfoNode.SetAttribute("НомСтр", obligationInfo.RowNumber.ToString());
 
-                if (!String.IsNullOrEmpty(obligationInfo.ObjectFAIPCode))
+                if (!string.IsNullOrEmpty(obligationInfo.ObjectFAIPCode))
                     circumPublicProcInfoNode.SetAttribute("КодОбъектФАИП", obligationInfo.ObjectFAIPCode);
 
                 if (obligationInfo.FundType != EDM.Models.Buyer.Reference.FundType.NotSpecified)
@@ -132,7 +132,7 @@ namespace CIS.EDM.CRPT.Helpers
 
                 circumPublicProcInfoNode.SetAttribute("КодПокБюджКласс", obligationInfo.BuyerBudgetClassCode);
 
-                if (!String.IsNullOrEmpty(obligationInfo.BuyerTargetCode))
+                if (!string.IsNullOrEmpty(obligationInfo.BuyerTargetCode))
                     circumPublicProcInfoNode.SetAttribute("КодЦелиПокуп", obligationInfo.BuyerTargetCode);
 
                 circumPublicProcInfoNode.SetAttribute("СумАванс", obligationInfo.AmountAdvance.ToString("0.00", CultureInfo.InvariantCulture));
@@ -157,7 +157,7 @@ namespace CIS.EDM.CRPT.Helpers
             documentInfoNode.SetAttribute("ПорНомДокИнфПр", sellerDocumentInfo.DocumentNumber); // Порядковый номер (строка 1 счета-фактуры) документа об отгрузке товаров (выполнении работ), передаче имущественных прав (документа об оказании услуг). Указывается (повторяет) значение <НомерДок>, указанное в файле обмена счета-фактуры (информации продавца) или файле обмена информации продавца
             documentInfoNode.SetAttribute("ДатаДокИнфПр", sellerDocumentInfo.DocumentDate); // Дата документа об отгрузке товаров (выполнении работ), передаче имущественных прав (документа об оказании услуг). Указывается (повторяет) значение <ДатаДок>, указанное в файле обмена счета-фактуры (информации продавца) или файле обмена информации продавца
 
-            if (!String.IsNullOrEmpty(dataContract.OperationType))
+            if (!string.IsNullOrEmpty(dataContract.OperationType))
                 documentInfoNode.SetAttribute("ВидОперации", dataContract.OperationType); // Дополнительная информация, позволяющая в автоматизированном режиме определять необходимый для конкретного случая порядок использования информации документа у покупателя
 
             parentElement.AppendChild(documentInfoNode);
@@ -165,134 +165,101 @@ namespace CIS.EDM.CRPT.Helpers
             var confirmNode = xmlDocument.CreateElement("СвПрин"); // Сведения о принятии товаров (результатов выполненных работ), имущественных прав (о подтверждении факта оказания услуг)
             var acceptanceInfo = dataContract.AcceptanceInfo;
 
-            if (!String.IsNullOrEmpty(acceptanceInfo.OperationName))
+            if (!string.IsNullOrEmpty(acceptanceInfo.OperationName))
                 confirmNode.SetAttribute("СодОпер", acceptanceInfo.OperationName); // Содержание операции (текст)
 
-            if (acceptanceInfo.Date != null)
-                confirmNode.SetAttribute("ДатаПрин", acceptanceInfo.Date.Value.ToString("dd.MM.yyyy")); // Дата принятия товаров (результатов выполненных работ), имущественных прав (подтверждения факта оказания услуг)
+            confirmNode.SetAttribute("ДатаПрин", acceptanceInfo.Date.ToString("dd.MM.yyyy")); // Дата принятия товаров (результатов выполненных работ), имущественных прав (подтверждения факта оказания услуг)
 
             documentInfoNode.AppendChild(confirmNode);
 
-            var operationNameInfo = acceptanceInfo.OperationNameInfo;
-            if (operationNameInfo != null)
+            if (acceptanceInfo.OperationNameInfo is OperationNameInfo operationNameInfo)
             {
                 var confirmInfoNode = xmlDocument.CreateElement("КодСодОпер"); // Код содержания операции
                 confirmInfoNode.SetAttribute("КодИтога", ((int)operationNameInfo.Code).ToString()); // Код, обозначающий итог приемки товара (работ, услуг, прав).
-                confirmNode.AppendChild(confirmInfoNode);
 
                 if (operationNameInfo.DiscrepancyDocument is EDM.Models.V5_03.Document document)
                 {
-                    var confirmDocumentInfoNode = xmlDocument.CreateElement("РеквДокРасх"); // Реквизиты документа, оформляющего расхождения
-
-                    confirmDocumentInfoNode.SetAttribute("РеквНаимДок", document.DocumentName); // Наименование документа
-
-                    confirmDocumentInfoNode.SetAttribute("РеквНомерДок", document.DocumentNumber); // Номер документа
-
-                    if (document.DocumentDate != null)
-                        confirmDocumentInfoNode.SetAttribute("РеквДатаДок", document.DocumentDate.Value.ToString("dd.MM.yyyy")); // Дата документа
-
-                    if (!String.IsNullOrEmpty(document.FileId))
-                        confirmDocumentInfoNode.SetAttribute("РеквИдФайлДок", document.FileId); // Идентификатор файла обмена документа, подписанного первой стороной
-
-                    if (!String.IsNullOrEmpty(document.DocumentId))
-                        confirmDocumentInfoNode.SetAttribute("РеквИдДок", document.DocumentId); // Идентификатор документа
-
-                    if (!String.IsNullOrEmpty(document.StorageSystemId))
-                        confirmDocumentInfoNode.SetAttribute("РИдСистХранД", document.StorageSystemId); // Идентифицирующая информация об информационной системе, в которой осуществляется хранение документа, необходимая для запроса информации из информационной системы
-
-                    if (!String.IsNullOrEmpty(document.SystemUrl))
-                        confirmDocumentInfoNode.SetAttribute("РеквУРЛСистДок", document.SystemUrl); // Сведения в формате URL об информационной системе, которая предоставляет техническую возможность получения информации о документе
-
-                    if (!String.IsNullOrEmpty(document.DocumentInfo))
-                        confirmDocumentInfoNode.SetAttribute("РеквДопСведДок", document.DocumentInfo); // Дополнительные сведения
-
-                    if (document.Creators != null)
-                        foreach (var creator in document.Creators)
-                        {
-                            //todo:Идентифицирующие реквизиты экономических субъектов, составивших (сформировавших) документ
-
-                        }
-
-                    confirmNode.AppendChild(confirmDocumentInfoNode);
+                    AddDocumentInfo(xmlDocument, confirmNode, [document], "РеквДокРасх");
                 }
 
-                if (acceptanceInfo.ReceiverPerson != null)
+                confirmNode.AppendChild(confirmInfoNode);
+            }
+
+            if (acceptanceInfo.ReceiverPerson is ReceiverPerson receiver)
+            {
+                var receiverNode = xmlDocument.CreateElement("СвЛицПрин"); // Сведения о лице, принявшем товары (груз)
+                
+                if (receiver.Employee is ReceiverEmployee receiverEmployee)
                 {
-                    var receiver = acceptanceInfo.ReceiverPerson;
+                    var receiverEmployeeNode = xmlDocument.CreateElement("РабОргПок"); // Работник организации продавца
+                    receiverEmployeeNode.SetAttribute("Должность", receiverEmployee.JobTitle); // Должность
 
-                    var receiverNode = xmlDocument.CreateElement("СвЛицПрин"); // Сведения о лице, принявшем товары (груз)
-                    if (receiver.Employee is ReceiverEmployee receiverEmployee)
+                    if (!string.IsNullOrEmpty(receiverEmployee.OtherInfo))
+                        receiverEmployeeNode.SetAttribute("ИныеСвед", receiverEmployee.OtherInfo); // Иные сведения, идентифицирующие физическое лицо
+
+                    AddPersonName(xmlDocument, receiverEmployee, receiverEmployeeNode);
+
+                    receiverNode.AppendChild(receiverEmployeeNode);
+                }
+                else if (receiver.OtherIssuer is OtherIssuer receiverOtherIssue)
+                {
+                    var receiverOtherNode = xmlDocument.CreateElement("ИнЛицо"); // Сведения о лице, передавшем товар (груз)
+
+                    if (receiverOtherIssue.OrganizationPerson is TransferOrganizationPerson organizationPerson)
                     {
-                        var receiverEmployeeNode = xmlDocument.CreateElement("РабОргПок"); // Работник организации продавца
-                        receiverEmployeeNode.SetAttribute("Должность", receiverEmployee.JobTitle); // Должность
+                        var receiverOtherIssueEmployeeNode = xmlDocument.CreateElement("ПредОргПрин"); // Представитель организации, которой доверено принятие товаров (груза)
+                        receiverOtherIssueEmployeeNode.SetAttribute("Должность", organizationPerson.JobTitle); // Должность
 
-                        if (!String.IsNullOrEmpty(receiverEmployee.EmployeeInfo))
-                            receiverEmployeeNode.SetAttribute("ИныеСвед", receiverEmployee.EmployeeInfo); // Иные сведения, идентифицирующие физическое лицо
+                        if (!string.IsNullOrEmpty(organizationPerson.OtherInfo))
+                            receiverOtherIssueEmployeeNode.SetAttribute("ИныеСвед", organizationPerson.OtherInfo); // Иные сведения, идентифицирующие физическое лицо
 
-                        AddPersonName(xmlDocument, receiverEmployee, receiverEmployeeNode);
+                        receiverOtherIssueEmployeeNode.SetAttribute("НаимОргПрин", organizationPerson.OrganizationName); // Наименование организации
 
-                        receiverNode.AppendChild(receiverEmployeeNode);
+                        if (!string.IsNullOrEmpty(organizationPerson.OrganizationInn))
+                            receiverOtherIssueEmployeeNode.SetAttribute("ИННОргПрин", organizationPerson.OrganizationInn);
+
+                        if (organizationPerson.OrganizationBase is EDM.Models.V5_03.Document orgDocument)
+                            AddDocumentInfo(xmlDocument, receiverOtherIssueEmployeeNode, [orgDocument], "ОснДоверОргПрин"); // Основание, по которому организации доверено принятие товаров
+
+                        if (organizationPerson.EmployeeBase is EDM.Models.V5_03.Document empDocument)
+                            AddDocumentInfo(xmlDocument, receiverOtherIssueEmployeeNode, [empDocument], "ОснПолнПредПрин"); // Основание полномочий представителя организации на принятие товаров
+
+                        AddPersonName(xmlDocument, organizationPerson, receiverOtherIssueEmployeeNode);
+
+                        receiverOtherNode.AppendChild(receiverOtherIssueEmployeeNode);
                     }
-                    else if (receiver.OtherIssuer is EDM.Models.V5_03.Buyer.OtherIssuer receiverOtherIssue)
+                    else if (receiverOtherIssue.PhysicalPerson is TransferPhysicalPerson physicalPerson)
                     {
-                        if (receiverOtherIssue.OrganizationPerson is EDM.Models.V5_03.Buyer.TransferOrganizationPerson organizationPerson)
-                        {
-                            var receiverOtherIssueEmployeeNode = xmlDocument.CreateElement("ПредОргПрин"); // Представитель организации, которой доверено принятие товаров (груза)
-                            receiverOtherIssueEmployeeNode.SetAttribute("Должность", organizationPerson.JobTitle); // Должность
+                        var receiverOtherIssuePersonNode = xmlDocument.CreateElement("ФЛПрин"); // Представитель организации, которой доверена отгрузка товаров
 
-                            if (!String.IsNullOrEmpty(organizationPerson.EmployeeInfo))
-                                receiverOtherIssueEmployeeNode.SetAttribute("ИныеСвед", organizationPerson.EmployeeInfo); // Иные сведения, идентифицирующие физическое лицо
+                        if (!string.IsNullOrEmpty(physicalPerson.PersonInn))
+                            receiverOtherIssuePersonNode.SetAttribute("ИННФЛПрин", physicalPerson.PersonInn); // ИНН физического лица, в том числе индивидуального предпринимателя, которому доверен прием
 
-                            receiverOtherIssueEmployeeNode.SetAttribute("НаимОргПрин", organizationPerson.OrganizationName); // Наименование организации
+                        if (!string.IsNullOrEmpty(physicalPerson.OtherInfo))
+                            receiverOtherIssuePersonNode.SetAttribute("ИныеСвед", physicalPerson.OtherInfo); // Иные сведения, идентифицирующие физическое лицо
 
-                            if (organizationPerson.OrganizationBase != null)
-                            //todo:
-                            {
-                                //receiverOtherIssueEmployeeNode.SetAttribute("ОснДоверОргПрин", organizationPerson.OrganizationBase); // Основание, по которому организации доверено принятие товаров (груза)
-                            }
+                        if (physicalPerson.PersonBase is EDM.Models.V5_03.Document persDocument)
+                            AddDocumentInfo(xmlDocument, receiverOtherIssuePersonNode, [persDocument], "ОснДоверФЛ"); // Основание, по которому физическому лицу доверено принятие товаров
 
-                            if (organizationPerson.EmployeeBase != null)
-                            //todo:
-                            {
-                                //receiverOtherIssueEmployeeNode.SetAttribute("ОснПолнПредПрин", organizationPerson.EmployeeBase); // Основание полномочий представителя организации на принятие товаров (груза)
-                            }
+                        AddPersonName(xmlDocument, physicalPerson, receiverOtherIssuePersonNode);
 
-                            AddPersonName(xmlDocument, organizationPerson, receiverOtherIssueEmployeeNode);
+                        receiverOtherNode.AppendChild(receiverOtherIssuePersonNode);
 
-                            receiverNode.AppendChild(receiverOtherIssueEmployeeNode);
-                        }
-                        else if (receiverOtherIssue.PhysicalPerson is EDM.Models.V5_03.Buyer.TransferPhysicalPerson physicalPerson)
-                        {
-                            var receiverOtherIssuePersonNode = xmlDocument.CreateElement("ФЛПрин"); // Представитель организации, которой доверена отгрузка товаров
-
-                            if (!String.IsNullOrEmpty(physicalPerson.PersonInn))
-                                receiverOtherIssuePersonNode.SetAttribute("ИННФЛПрин", physicalPerson.PersonInn); // ИНН физического лица, в том числе индивидуального предпринимателя, которому доверен прием
-
-                            if (!String.IsNullOrEmpty(physicalPerson.PersonInfo))
-                                receiverOtherIssuePersonNode.SetAttribute("ИныеСвед", physicalPerson.PersonInfo); // Иные сведения, идентифицирующие физическое лицо
-
-                            if (physicalPerson.PersonBase != null)
-                            //todo:
-                            {
-                                //receiverOtherIssuePersonNode.SetAttribute("ОснДоверФЛ", physicalPerson.PersonBase); // Основание, по которому физическому лицу доверена отгрузка товаров
-                            }
-
-                            receiverNode.AppendChild(receiverOtherIssuePersonNode);
-
-                            AddPersonName(xmlDocument, physicalPerson, receiverOtherIssuePersonNode);
-                        }
-                        else
-                        {
-                            throw new ArgumentNullException("Не указаны сведения о ином лице, принявшем товар (ИнЛицо).");
-                        }
                     }
                     else
                     {
-                        throw new ArgumentNullException("Не указаны сведения о лице, принявшем товар (СвЛицПрин).");
+                        throw new ArgumentNullException("Не указаны сведения о ином лице, принявшем товар (ИнЛицо).");
                     }
 
-                    confirmNode.AppendChild(receiverNode);
+                    receiverNode.AppendChild(receiverOtherNode);
                 }
+                else
+                {
+                    throw new ArgumentNullException("Не указаны сведения о лице, принявшем товар (СвЛицПрин).");
+                }
+
+                confirmNode.AppendChild(receiverNode);
+
             }
 
             AddOtherEconomicInfo(xmlDocument, documentInfoNode, dataContract.OtherEconomicInfo, "ИнфПолФХЖ4"); // Информационное поле факта хозяйственной жизни 4

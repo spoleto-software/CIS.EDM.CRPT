@@ -87,7 +87,7 @@ namespace CIS.EDM.CRPT.Helpers
             headerNode.AppendChild(subHeaderNode);
 
             var documentNode = xmlDocument.CreateElement("Документ");
-            documentNode.SetAttribute("КНД", "1115131"); // Классификатор налоговых документов
+            documentNode.SetAttribute("КНД", dataContract.TaxDocumentCode); // Классификатор налоговых документов
             documentNode.SetAttribute("Функция", dataContract.Function.ToString());
 
             var documentEconomicName = !String.IsNullOrEmpty(dataContract.DocumentEconomicName) ? dataContract.DocumentEconomicName : dataContract.Function.GetDocumentEconomicName();
