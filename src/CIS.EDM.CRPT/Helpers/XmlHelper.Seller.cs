@@ -24,7 +24,6 @@ namespace CIS.EDM.CRPT.Helpers
 
         static XmlHelper()
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);//support for "windows-1251"
             DefaultEncoding = Encoding.GetEncoding(FileEncoding);
         }
 

@@ -10,6 +10,7 @@ indent_style = space
 indent_size = 4
 insert_final_newline = false
 charset = utf-8-bom
+spelling_languages = en-us,ru-ru
 ###############################
 # .NET Coding Conventions     #
 ###############################
@@ -153,6 +154,7 @@ csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 csharp_style_prefer_top_level_statements = true:silent
 csharp_style_prefer_primary_constructors = true:suggestion
+csharp_prefer_system_threading_lock = true:suggestion
 ###############################
 # VB Coding Conventions       #
 ###############################

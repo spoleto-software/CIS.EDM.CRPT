@@ -30,6 +30,11 @@ namespace CIS.EDM.CRPT.Providers
         /// </summary>
         private TokenModel _token;
 
+        static CRPTProvider()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);//support for "windows-1251"
+		}
+
         /// <summary>
         /// Конструктор с параметрами.
         /// </summary>
@@ -121,6 +126,11 @@ namespace CIS.EDM.CRPT.Providers
                 var result = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                 if (String.IsNullOrEmpty(result))
                     return default;
+
+                if (typeof(T) == typeof(string))
+                {
+                    return (T)(object)result;
+                }
 
                 try
                 {
@@ -471,6 +481,75 @@ namespace CIS.EDM.CRPT.Providers
             };
 
             return sellerDocument;
+        }
+
+        public async Task<SignedDocumentInfo> GetOutgoingSignedDocumentInfoAsync(CRPTOption settings, string documentId)
+        {
+            var sUrl = $"/api/v1/outgoing-documents/{documentId}";
+            var uri = new Uri(new Uri(settings.ServiceUrl), sUrl);
+
+            var zipArchiveInfo = await InvokeAsync<ZipArchiveInfo>(settings, uri, HttpMethod.Get, isZipResponse: true).ConfigureAwait(false);
+            using var zipArchive = zipArchiveInfo.ZipArchive;
+            ZipArchiveEntry contentFileEntry;
+            ZipArchiveEntry signatureFileEntry;
+            if (!String.IsNullOrEmpty(zipArchiveInfo.FileName))
+            {
+                var fileName = zipArchiveInfo.FileName.Replace(".zip", string.Empty);
+                contentFileEntry = zipArchive.GetEntry(fileName + ".xml");
+                signatureFileEntry = zipArchive.GetEntry(fileName + ".p7s");
+            }
+            else
+            {
+                var fileEntries = zipArchive.Entries.Where(x => x.Name.StartsWith(EDM.Models.V5_03.Seller.SellerUniversalTransferDocument.FileIdPattern));
+                contentFileEntry = fileEntries.Single(x => x.Name.EndsWith(".xml", StringComparison.Ordinal));
+                signatureFileEntry = fileEntries.Single(x => x.Name.EndsWith(".p7s", StringComparison.Ordinal));
+            }
+
+            using var contentFileEntryStream = contentFileEntry.Open();
+            using var contentReader = new StreamReader(contentFileEntryStream, XmlHelper.DefaultEncoding);
+            var content = contentReader.ReadToEnd();
+
+            using var signatureFileEntryStream = signatureFileEntry.Open();
+            using var signatureReader = new MemoryStream();
+            signatureFileEntryStream.CopyTo(signatureReader);
+            var signatureBytes = signatureReader.ToArray();
+            var signature = Convert.ToBase64String(signatureBytes);
+
+            var sellerDocument = new SignedDocumentInfo
+            {
+                Content = content,
+                DetachedSignature = signature
+            };
+
+            return sellerDocument;
+        }
+
+        /// <summary>
+		/// Асинхронное получение информации из входящего файла продавца
+		/// </summary>
+		/// <param name="settings">Настройки для API</param>
+		/// <param name="sellerDocumentId">Идентификатор файла продавца</param>
+		/// <returns>Информации из файла продавца</returns>
+		public async Task<SellerDocumentInfo> GetIncomingSellerDocumentInfoAsync(CRPTOption settings, string sellerDocumentId)
+        {
+            var sellerDocument = await GetIncomingSignedDocumentInfoAsync(settings, sellerDocumentId).ConfigureAwait(false);
+            var sellerDocumentInfo = XmlParserV5_03.SellerInfoFromXml(sellerDocument);
+
+            return sellerDocumentInfo;
+        }
+
+        /// <summary>
+        /// Асинхронное получение информации из исходящего файла продавца
+        /// </summary>
+        /// <param name="settings">Настройки для API</param>
+        /// <param name="sellerDocumentId">Идентификатор файла продавца</param>
+        /// <returns>Информации из файла продавца</returns>
+        public async Task<SellerDocumentInfo> GetOutgoingSellerDocumentInfoAsync(CRPTOption settings, string sellerDocumentId)
+        {
+            var sellerDocument = await GetOutgoingSignedDocumentInfoAsync(settings, sellerDocumentId).ConfigureAwait(false);
+            var sellerDocumentInfo = XmlParserV5_03.SellerInfoFromXml(sellerDocument);
+
+            return sellerDocumentInfo;
         }
     }
 }

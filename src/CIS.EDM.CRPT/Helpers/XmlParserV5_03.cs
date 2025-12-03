@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 using CIS.EDM.CRPT.Models;
-using CIS.EDM.Models.Buyer;
+using CIS.EDM.Models;
 using CIS.EDM.Models.Reference;
 
 namespace CIS.EDM.CRPT.Helpers
