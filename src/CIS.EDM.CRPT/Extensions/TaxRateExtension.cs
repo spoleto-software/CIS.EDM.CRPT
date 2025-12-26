@@ -33,6 +33,10 @@ namespace CIS.EDM.CRPT.Extensions
 
                 TaxRate.TaxedByAgent => "НДС исчисляется налоговым агентом",
 
+                TaxRate.TwentyTwoFraction => "22/122",
+
+                TaxRate.TwentyTwoPercent => "22%",
+
                 _ => throw new NotImplementedException()
             };
     }
