@@ -1,0 +1,701 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+    
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>&#1041;&#1099;&#1089;&#1090;&#1088;&#1099;&#1081; &#1089;&#1090;&#1072;&#1088;&#1090; | Spoleto.CIS.EDM.CRPT </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="&#1041;&#1099;&#1089;&#1090;&#1088;&#1099;&#1081; &#1089;&#1090;&#1072;&#1088;&#1090; | Spoleto.CIS.EDM.CRPT ">
+      <meta name="generator" content="docfx 2.59.4.0">
+      
+      <link rel="shortcut icon" href="../images/logo.png">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/night-owl.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" integrity="sha384-EvBWSlnoFgZlXJvpzS+MAUEjvN7+gcCwH+qh7GRFOGgZO0PuwOFro7qPOJnLfe7l" crossorigin="anonymous">
+      <link rel="stylesheet" href="../styles/config.css">
+      <link rel="stylesheet" href="../styles/discord.css">
+      <link rel="stylesheet" href="../styles/singulink.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+      
+      <meta property="docfx:rel" content="../">
+      <meta property="docfx:newtab" content="true">
+    </head>
+    <body>
+        <div class="top-navbar">
+            <a class="burger-icon" onclick="toggleMenu()">
+                <svg name="Hamburger" style="vertical-align: middle;" width="34" height="34" viewbox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M20 6H4V9H20V6ZM4 10.999H20V13.999H4V10.999ZM4 15.999H20V18.999H4V15.999Z"></path></svg>
+            </a>
+
+            
+            <a class="brand" href="../index.html">
+              <img src="../images/logo.png" alt="C# SDK &#1076;&#1083;&#1103; API &#1069;&#1044;&#1054; Lite" class="logomark">
+              <span class="brand-title">C# SDK &#1076;&#1083;&#1103; API &#1069;&#1044;&#1054; Lite</span>
+            </a>        </div>
+
+        <div class="body-content">
+            <div id="blackout" class="blackout" onclick="toggleMenu()"></div>
+
+            <nav id="sidebar" role="navigation">
+                <div class="sidebar">
+                    
+                    <div>
+                      <div class="mobile-hide">
+                        
+                        <a class="brand" href="../index.html">
+                          <img src="../images/logo.png" alt="C# SDK &#1076;&#1083;&#1103; API &#1069;&#1044;&#1054; Lite" class="logomark">
+                          <span class="brand-title">C# SDK &#1076;&#1083;&#1103; API &#1069;&#1044;&#1054; Lite</span>
+                        </a>  </div>
+                    
+                      <div class="sidesearch">
+                        <form id="search" role="search" class="search">
+                            <i class="bi bi-search search-icon"></i>
+                            <input type="text" id="search-query" placeholder="Search" autocomplete="off">
+                        </form>
+                      </div>
+                    
+                      <div id="navbar">
+                      </div>
+                    </div>                    <div class="sidebar-item-separator"></div>
+                        
+                        <div id="sidetoggle">
+                          <div id="sidetoc"></div>
+                        </div>
+                </div>
+                <div class="footer">
+                  <strong>SPOLETO Software Development</strong>
+                  
+                </div>            </nav>
+
+            <main class="main-panel">
+                
+                <div id="search-results" style="display: none;">
+                  <h1 class="search-list">Search Results for <span></span></h1>
+                  <div class="sr-items">
+                    <p><i class="bi bi-hourglass-split index-loading"></i></p>
+                  </div>
+                  <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+                </div>
+                <div role="main" class="hide-when-search">
+                        
+                        <div class="subnav navbar navbar-default">
+                          <div class="container hide-when-search" id="breadcrumb">
+                            <ul class="breadcrumb">
+                              <li></li>
+                            </ul>
+                          </div>
+                        </div>
+
+                    <article class="content wrap" id="_content" data-uid="">
+<h1 id="быстрый-старт">Быстрый старт</h1>
+
+<p>Клиент написан на C#, .NET Core 3.1 с использованием Dependency Injection от <a href="https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-usage">Microsoft</a>.</p>
+<h1 id="определение-зависимостей">Определение зависимостей</h1>
+<pre><code class="lang-csharp">services.AddHttpClient();
+services.AddTransient&lt;ICRPTTokenProvider, CRPTTokenProvider&gt;();
+services.AddTransient&lt;IEdmProvider, CRPTProvider&gt;();
+</code></pre>
+<h1 id="инициализация-сертификата-и-адреса-сервиса-црпт">Инициализация сертификата и адреса сервиса ЦРПТ</h1>
+<pre><code class="lang-csharp">var certificateThumbprint = &quot;12345&quot;;
+
+var option = new CRPTOption
+{
+	ServiceUrl = &quot;https://markirovka.sandbox.crptech.ru/&quot;,
+	CertificateThumbprint = certificateThumbprint
+};
+option.CertificateThumbprint = certificateThumbprint;
+</code></pre>
+<h1 id="создание-документа-с-информацией-продавца">Создание документа с информацией продавца</h1>
+<p>В данном примере максимально заполнены все свойства документа. В реальной ситуации необходимо указывать только нужные свойства.</p>
+<pre><code class="lang-csharp">private static SellerUniversalTransferDocument CreateSellerDataContract()
+{
+	var function = UniversalTransferDocumentFunction.ДОП;
+	var docDate = DateTime.Parse(&quot;2023-11-24&quot;);
+	var docNumber = &quot;111 v.5.03 (by API) &quot; + DateTime.Now.ToString(&quot;yyyyMMdd_HHmmss&quot;);
+	var dataContract = new SellerUniversalTransferDocument
+	{
+		DocumentUid = &quot;1234567890&quot;,
+		Function = function,
+		SenderEdmParticipant = new EdmParticipant(&quot;2LT&quot;, &quot;111&quot;),
+		RecipientEdmParticipant = new EdmParticipant(&quot;2LT&quot;, &quot;222&quot;),
+		Sellers = new()
+		{
+			new ()
+			{
+				OrganizationIdentificationInfo = new()
+				{
+					LegalPerson = new()
+					{
+                        Name = &quot;ООО \&quot;Продавец\&quot;&quot;,
+                        Inn = &quot;7776666666&quot;,
+                        Kpp = &quot;772222222&quot;,
+					}
+				},
+				Okpo = &quot;52573834&quot;,
+				Department = &quot;Департамент по умолчанию&quot;,
+				Address = new()
+				{
+					RussianAddress = new()
+					{
+						ZipCode = &quot;123007&quot;,
+						RegionCode = &quot;77&quot;,
+							Street = &quot;Тверская&quot;,
+							Building = &quot;2&quot;,
+							Block = &quot;2&quot;
+					}
+				},
+				Contact = new()
+				{
+					EmailList = [&quot;test@test.ru&quot;],
+					PhoneList = [&quot;7 495 123 1234&quot;],
+				},
+				BankAccountDetails = new()
+				{
+						BankAccountNumber = &quot;123456&quot;,
+					BankDetails = new()
+					{
+						BankName = &quot;Test bank&quot;,
+                        BankId = &quot;123456789&quot;,
+                        CorrespondentAccount = &quot;123456&quot;
+					}
+				}
+			}
+		},
+		Shippers = new()
+		{
+			new()
+			{
+				OrganizationIdentificationInfo = new()
+				{
+					LegalPerson = new()
+					{
+                        Name = &quot;ООО \&quot;Продавец\&quot;&quot;,
+                        Inn = &quot;7776666666&quot;,
+                        Kpp = &quot;772222222&quot;,
+					}
+				},
+                Okpo = &quot;52575757&quot;,
+				Department = &quot;Департамент по умолчанию&quot;,
+				Address = new()
+				{
+					RussianAddress = new()
+					{
+						ZipCode = &quot;123007&quot;,
+						RegionCode = &quot;77&quot;,
+                        Street = &quot;Тверская&quot;,
+                        Building = &quot;2&quot;,
+                        Block = &quot;2&quot;
+					}
+				},
+				Contact = new()
+				{
+					EmailList = [&quot;test@test.ru&quot;],
+					PhoneList = [&quot;7 495 123 1234&quot;],
+				},
+				BankAccountDetails = new()
+				{
+                    BankAccountNumber = &quot;123456&quot;,
+					BankDetails = new()
+					{
+						BankName = &quot;Test bank&quot;,
+                        BankId = &quot;123456789&quot;,
+                        CorrespondentAccount = &quot;123456&quot;
+					}
+				}
+			}
+		},
+		Buyers = new()
+		{
+			new()
+			{
+				OrganizationIdentificationInfo = new()
+				{
+					LegalPerson = new()
+					{
+                        Name = &quot;ООО \&quot;Рога и Копыта\&quot;&quot;,
+                        Inn = &quot;7777777777&quot;,
+                        Kpp = &quot;771111111&quot;,
+					}
+				},
+				Okpo = &quot;25469637&quot;,
+				Address = new()
+				{
+					RussianAddress = new()
+					{
+						ZipCode = &quot;119270&quot;,
+						RegionCode = &quot;77&quot;,
+                        Street = &quot;Тверская&quot;,
+                        Building = &quot;1&quot;,
+                        Block = &quot;1&quot;
+					}
+				},
+				BankAccountDetails = new()
+				{
+					BankAccountNumber = &quot;40702810820000000147&quot;,
+					BankDetails = new()
+					{
+                        BankName = &quot;ФИЛИАЛ БАНКА&quot;,
+                        BankId = &quot;044111111&quot;,
+                        CorrespondentAccount = &quot;30111111111111111111&quot;
+					}
+				}
+			}
+		},
+		Consignees = new()
+		{
+			new()
+			{
+				OrganizationIdentificationInfo = new()
+				{
+					LegalPerson = new()
+					{
+                        Name = &quot;ООО \&quot;Рога и Копыта\&quot;&quot;,
+                        Inn = &quot;7777777777&quot;,
+                        Kpp = &quot;771111111&quot;,
+					}
+				},
+                Okpo = &quot;25222222&quot;,
+				Address = new()
+				{
+					RussianAddress = new()
+					{
+						ZipCode = &quot;119270&quot;,
+						RegionCode = &quot;77&quot;,
+                        Street = &quot;Тверская&quot;,
+                        Building = &quot;1&quot;,
+                        Block = &quot;1&quot;
+					}
+				},
+				BankAccountDetails = new()
+				{
+                    BankAccountNumber = &quot;407111111111111111&quot;,
+					BankDetails = new()
+					{
+							BankName = &quot;ФИЛИАЛ БАНКА&quot;,
+							BankId = &quot;044111111&quot;,
+							CorrespondentAccount = &quot;30111111111111111111&quot;
+					}
+				}
+			}
+		},
+		Signers =
+		[
+			new ()
+			{
+                JobTitle = &quot;Генеральный директор&quot;,
+                AuthorityConfirmationType = Models.V5_03.Reference.AuthorityConfirmationType.ElectronicSignatureData,
+                Person =  new ()
+                {
+                    Surname = &quot;Петров&quot;,
+                    FirstName = &quot;Пётр&quot;,
+                    Patronymic = &quot;Петрович&quot;,
+                },
+			}
+		],
+		DocumentDate = docDate,
+		DocumentNumber = docNumber,
+		CurrencyCode = &quot;643&quot;,
+		AdditionalTransactionParticipantInfo = new()
+		{
+			GovernmentContractInfo = &quot;12345678901234567890&quot;,
+			InvoiceFormationType = InvoiceFormationType.СommissionAgentSales,
+			UPDFormationType = &quot;00006&quot;,
+			MainAssignMonetaryClaim = new()
+			{
+				Date = DateTime.Parse(&quot;2021-11-02&quot;),
+				DocumentId = &quot;55553&quot;,
+				OtherInfo = &quot;Доп инфо тут&quot;,
+				Name = &quot;Кастомный документ&quot;,
+				Number = &quot;Уступка 1&quot;
+			}
+		},
+		TransferInfo = new TransferInfo
+		{
+			TransferDetails = new()
+			{
+				Date = DateTime.Parse(&quot;2022-01-12&quot;),
+				SenderPerson = new()
+				{
+					Employee = new()
+					{
+						JobTitle = &quot;Кладовщик&quot;,
+						Surname = &quot;Иванов&quot;,
+						FirstName = &quot;Ваня&quot;,
+						Patronymic = &quot;Иванович&quot;,
+					}
+				},
+				Transportation = new()
+				{
+					TransferTextInfo = &quot;Информация о транспортировке тут&quot;,
+				},
+				TransferDocuments =
+			[
+				new ()
+				{
+					Date = DateTime.Parse(&quot;2022-01-02&quot;),
+					Name = &quot;Документ об отгрузке&quot;,
+					Number = &quot;Док №111&quot;
+				}
+			],
+				CreatedThingInfo = new()
+				{
+					Information = &quot;Инфа о созданной вещи&quot;,
+					Date = DateTime.Parse(&quot;2022-01-01&quot;)
+				},
+				OperationType = &quot;Операция по отгрузке наша&quot;,
+				StartDate = DateTime.Parse(&quot;2022-01-01&quot;),
+				EndDate = DateTime.Parse(&quot;2022-03-02&quot;)
+			},
+			OtherEconomicInfo = new()
+			{
+				InfoFileId = Guid.NewGuid().ToString(),
+				Items = new()
+				{
+					new OtherEconomicInfoItem { Id = &quot;АйдиДляОтгрузки&quot;, Value = &quot;И тут Айди&quot; }
+				}
+			}
+		},
+		DocumentShipmentList =
+		[
+			new ()
+			{
+				Date = docDate,
+				Name = function.GetDocumentName(),
+				Number = docNumber
+			},
+			new ()
+			{
+				Date = docDate,
+				Name = function.GetDocumentName(),
+				Number = docNumber
+			}
+		],
+		OtherEconomicInfo = new()
+		{
+			InfoFileId = Guid.NewGuid().ToString(),
+			Items = new()
+			{
+                new OtherEconomicInfoItem { Id = &quot;Айди&quot;, Value = &quot;123&quot; },
+                new OtherEconomicInfoItem { Id = &quot;Тест&quot;, Value = &quot;Тест!&quot; }
+			}
+		},
+		PaymentDocumentInfoList = new()
+		{
+			new PaymentDocumentInfo
+			{
+				Date = DateTime.Parse(&quot;2021-12-15&quot;),
+				Number = &quot;1&quot;,
+				Total = 951000M
+			},
+			new PaymentDocumentInfo
+			{
+				Date = DateTime.Parse(&quot;2021-12-20&quot;),
+				Number = &quot;2&quot;,
+				Total = 356000M
+			},
+			new PaymentDocumentInfo
+			{
+				Date = DateTime.Parse(&quot;2021-12-23&quot;),
+				Number = &quot;3&quot;
+			}
+		},
+		CurrencyRate = 1M,
+		CurrencyName = &quot;RUB&quot;,
+		//SellerInfoCircumPublicProc = new()
+		//{
+		//    DateStateContract = DateTime.Parse(&quot;2021-12-01&quot;),
+		//    NumberStateContract = &quot;111&quot;,
+		//    PersonalAccountSeller = &quot;12345678901&quot;,
+		//    SellerBudgetClassCode = &quot;44332211334455667788&quot;,
+		//    SellerTargetCode = &quot;54321234567890123456&quot;,
+		//    SellerTreasuryCode = &quot;999&quot;,
+		//    SellerTreasuryName = &quot;деревня Пестово&quot;
+		//},
+		//ApprovedStructureAdditionalInfoFields = &quot;1234.5678.9872&quot;,//todo:
+		DocumentCreatorBase = new()
+		{
+			Name = &quot;Основание доверия&quot;,
+			Number = &quot;123&quot;,
+			Date = DateTime.Parse(&quot;2021-11-01&quot;)
+		},
+		//RevisionNumber = &quot;1&quot;,
+		//RevisionDate = DateTime.Parse(&quot;2022-02-04&quot;)
+	};
+
+	//dataContract.Shippers = dataContract.Sellers;
+	//dataContract.Consignees = dataContract.Buyers;
+	dataContract.AdditionalTransactionParticipantInfo.FactorInfo = dataContract.Sellers[0];
+	dataContract.DocumentCreator = dataContract.Sellers[0];
+	dataContract.Items = new()
+	{
+		new InvoiceItem
+		{
+			ProductName = &quot;Пальто замшевое&quot;,
+			Quantity = 1,
+			Price = 100000,
+			SumWithoutVat = 100000,
+			Sum = 120000,
+			Vat = 20000,
+			TaxRate = TaxRate.TwentyPercent,
+			UnitCode = &quot;796&quot;,
+			UnitName = &quot;штука&quot;,
+			CustomsDeclarationList = new()
+			{
+				new CustomsDeclaration
+				{
+                    //CountryCode = &quot;643&quot;,
+                    DeclarationNumber = &quot;12345678/123456/1234567&quot;
+				},
+				new CustomsDeclaration
+				{
+                    //CountryCode = &quot;643&quot;,
+                    DeclarationNumber = &quot;12345678/123456/456789&quot;
+				}
+			},
+			AdditionalInfo = new()
+			{
+					Article = &quot;12345678&quot;,
+					Code = &quot;1234&quot;,
+				Characteristic = &quot;Хороший товар&quot;,
+				CountryNames = [],
+				//ItemTracingInfoList = new()
+				//{
+				//    new InvoiceItemTracingInfo
+				//    {
+				//        RegNumberUnit = &quot;123&quot;,
+				//        Quantity = 1,
+				//        UnitCode = &quot;796&quot;,
+				//        AdditionalInfo = &quot;доп информация.&quot;
+				//    },
+				//    new InvoiceItemTracingInfo
+				//    {
+				//        RegNumberUnit = &quot;456&quot;,
+				//        Quantity = 1,
+				//        UnitCode = &quot;796&quot;,
+				//        AdditionalInfo = &quot;доп информация. #2&quot;
+				//    }
+				//},
+				ItemIdentificationNumberList = new()
+				{
+					new()
+					{
+							SecondaryPackageItems = new() { &quot;RU-12345-ABC12345&quot;, &quot;123456&quot; },
+						PackageId = &quot;1122667788&quot;,
+					},
+					new()
+					{
+							MarkItems = new() { &quot;RU-1234567-ABC123547&quot;, &quot;11112222&quot; },
+					}
+				},
+				FeaccCode = &quot;8528599009&quot;,
+			},
+			OtherEconomicInfoItemList = new()
+			{
+				new OtherEconomicInfoItem { Id = &quot;АйдиТовара&quot;, Value = &quot;ТутАйди&quot; },
+				new OtherEconomicInfoItem { Id = &quot;Признак&quot;, Value = &quot;ИЗначениеПризнака&quot; }
+			}
+		},
+		new InvoiceItem
+		{
+			ProductName = &quot;Трико замшевое&quot;,
+			Quantity = 1,
+			Price = 100000,
+			SumWithoutVat = 100000,
+			Sum = 120000,
+			Vat = 20000,
+			TaxRate = TaxRate.TwentyPercent,
+			UnitCode = &quot;796&quot;,
+			UnitName = &quot;штука&quot;,
+			CustomsDeclarationList = new()
+			{
+				new CustomsDeclaration
+				{
+					CountryCode = &quot;643&quot;,
+					DeclarationNumber = &quot;10702030/261219/0041146&quot;
+				},
+				new CustomsDeclaration
+				{
+					CountryCode = &quot;643&quot;,
+					DeclarationNumber = &quot;15324/123/987654&quot;
+				}
+			},
+			AdditionalInfo = new()
+			{
+				Article = &quot;12012025&quot;,
+				Code = &quot;1935&quot;,
+				Characteristic = &quot;Ну очень хороший товар&quot;,
+				Kind = &quot;СОРТ№&quot;,
+				Type = InvoiceItemType.Property,
+				CatalogCode = &quot;Каталожный код жлофыво лврп&quot;,
+				AdditionalTypeInfo = &quot;ИНФА&quot;,
+				CountryNames = [&quot;Россия&quot;, &quot;Россия&quot;],
+				//ItemTracingInfoList = new()
+				//{
+				//    new InvoiceItemTracingInfo
+				//    {
+				//        RegNumberUnit = &quot;123&quot;,
+				//        Quantity = 1,
+				//        UnitCode = &quot;796&quot;,
+				//        UnitName = &quot;шт.&quot;,
+				//        AdditionalInfo = &quot;доп информация.&quot;
+				//    },
+				//    new InvoiceItemTracingInfo
+				//    {
+				//        RegNumberUnit = &quot;456&quot;,
+				//        Quantity = 1,
+				//        UnitCode = &quot;796&quot;,
+				//        UnitName = &quot;шт.&quot;,
+				//        AdditionalInfo = &quot;доп информация. #2&quot;
+				//    }
+				//},
+				//ItemIdentificationNumberList = new()
+				//{
+				//    new()
+				//    {
+				//        //ItemNumbers = new() { &quot;RU-123-12345&quot;, &quot;1234&quot; },
+				//        PackageId = &quot;1122667788&quot;,
+				//        SecondaryPackageIds = new() { &quot;123456&quot;, &quot;123&quot; }
+				//    },
+				//    new() { ItemNumbers = new() { &quot;RU-123-12345&quot;, &quot;2222333&quot; } }
+				//},
+				FeaccCode = &quot;8528599009&quot;
+			}
+		}
+	};
+
+    return dataContract;
+}
+</code></pre>
+<h1 id="отправка-документа">Отправка документа</h1>
+<pre><code class="lang-csharp">var provider = services.GetRequiredService&lt;IEdmProvider&gt;();
+var documentId = await provider.PostUniversalTransferDocumentAsync(option, sellerDataContract);
+</code></pre>
+<p>Результатом выполнения метода <code>PostUniversalTransferDocument</code> будет идентификатор отправленного сообщения (<code>documentId</code>).</p>
+<p>Помимо асинхронной версии метода есть еще и обычная версия <code>PostUniversalTransferDocument</code>.</p>
+<h1 id="создание-документа-с-информацией-покупателя">Создание документа с информацией покупателя</h1>
+<pre><code class="lang-csharp">private static BuyerUniversalTransferDocument CreateBuyerDataContract()
+{
+    var buyerDataContract = new BuyerUniversalTransferDocument
+    {
+        SenderEdmParticipant = new EdmParticipant(&quot;2LT&quot;, &quot;222&quot;), 
+        RecipientEdmParticipant = new EdmParticipant(&quot;2LT&quot;, &quot;111&quot;),
+		
+        DocumentCreator = new()
+        {
+            OrganizationIdentificationInfo = new()
+            {
+                LegalPerson = new()
+                {
+                    Name = &quot;ООО \&quot;Рога и Копыта\&quot;&quot;,
+                    Inn = &quot;7777777777&quot;,
+                    Kpp = &quot;771111111&quot;
+                }
+            }
+        },
+		
+        EdmOperator = new()
+        {
+            OperatorId = &quot;2LT&quot;,
+            Name = &quot;ООО \&quot;Оператор-ЦРПТ\&quot;&quot;,
+            Inn = &quot;7731376812&quot;
+        },
+		
+        AcceptanceInfo = new()
+        {
+            Date = DateTime.Parse(&quot;2022-01-21&quot;),
+            ReceiverPerson = new()
+            {
+                Employee = new()
+                {
+                    JobTitle = &quot;Кладовщик&quot;,
+                    Surname = &quot;Сидоров&quot;,
+                    FirstName = &quot;Сидр&quot;,
+                    Patronymic = &quot;Сидорович&quot;,
+                }
+            },
+        },
+		
+        OtherEconomicInfo = new()
+        {
+            InfoFileId = Guid.NewGuid().ToString(),
+            Items = new()
+            {
+                new OtherEconomicInfoItem { Id = &quot;АйдиПолучения&quot;, Value = &quot;Уникальное Айди&quot; },
+                new OtherEconomicInfoItem { Id = &quot;ИЕщеАйди&quot;, Value = &quot;Другое уникальное Айди&quot; }
+            }
+        },
+		
+		BuyerInfoCircumPublicProc = new()
+		{
+			BuyerBudgetObligationAccountNumber = &quot;1234567890123456&quot;,
+			BuyerBudgetRegisterNumber = &quot;11111111&quot;,
+			BuyerFinancialAuthorityName = &quot;Автор центр&quot;,
+			PersonalAccountBuyer = &quot;12345678902&quot;,
+			BuyerMunicipalCode = &quot;12345678&quot;,
+			FinancialObligationInfoList = new List&lt;FinancialObligationInfo&gt;
+			{
+				new()
+				{
+					RowNumber=1,
+					FundType= Models.Buyer.Reference.FundType.AdditionalBudget,
+					BuyerBudgetClassCode = &quot;12345678901234567890&quot;,
+					AmountAdvance=999.9M
+				}
+			},
+			BuyerTreasuryName = &quot;деревня Калмыково&quot;,
+			BuyerTreasuryCode = &quot;6666&quot;,
+		},
+
+		Signers = new List&lt;BuyerSigner&gt;
+        {
+            new ()
+            {
+                LegalPersonRepresentative = new ()
+                {
+                    JobTitle = &quot;Генеральный директор&quot;,
+                    FirstName = &quot;Марина&quot;,
+                    Surname = &quot;Фёдорова&quot;,
+                    Patronymic = &quot;Николаевна&quot;,
+                    Inn = &quot;7777777777&quot;,
+                    OrgName = &quot;ООО \&quot;Рога и Копыта\&quot;&quot;,
+                    OtherInfo = &quot;Прочая инфа о подписанте покупателя&quot;
+                }
+            }
+        },
+		
+        EdmDocumentId = &quot;74cf35bd-290b-4c4d-b7e3-88ae4b3e4111&quot;
+    };
+    return buyerDataContract;
+}
+</code></pre>
+<p>Свойство <code>EdmDocumentId</code> содержит идентификатор сообщения продавца. На основе этого идентификатора автоматически заполнится часть свойств в документе покупателя, которые относятся к информации продавца.</p>
+<h1 id="подписание-входящего-документа">Подписание входящего документа</h1>
+<pre><code class="lang-csharp">var provider = services.GetRequiredService&lt;IEdmProvider&gt;();
+var documentId = await provider.ReceiptUniversalTransferDocumentAsync(option, buyerDataContract);
+</code></pre>
+<p>Результатом выполнения метода <code>ReceiptUniversalTransferDocumentAsync</code> будет идентификатор уведомления о получении сообщения (<code>PatchDocumentWithReceiptAsync</code>).</p>
+<p>Помимо асинхронной версии метода есть еще и обычная версия <code>ReceiptUniversalTransferDocument</code>.</p>
+</article>
+                </div>
+
+                <div class="copyright-footer">
+                    <span>Copyright &#169; SPOLETO, 2022. &#1042;&#1089;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072; &#1079;&#1072;&#1097;&#1080;&#1097;&#1077;&#1085;&#1099;.</span>
+                </div>
+            </main>
+        </div>
+
+        
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+        <script type="text/javascript" src="../styles/jquery.twbsPagination.js"></script>
+        <script type="text/javascript" src="../styles/url.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+        <script type="text/javascript" src="../styles/docfx.js"></script>
+        <script type="text/javascript" src="../styles/singulink.js"></script>
+        <script type="text/javascript" src="../styles/main.js"></script>    </body>
+</html>
