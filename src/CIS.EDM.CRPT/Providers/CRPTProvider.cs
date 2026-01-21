@@ -13,6 +13,8 @@ using CIS.EDM.Extensions;
 using CIS.EDM.Helpers;
 using CIS.EDM.Models;
 using Microsoft.Extensions.Logging;
+using Spoleto.TrueApi.Auth.Models;
+using Spoleto.TrueApi.Auth.Providers;
 
 namespace CIS.EDM.CRPT.Providers
 {
@@ -23,12 +25,7 @@ namespace CIS.EDM.CRPT.Providers
     {
         private readonly ILogger<CRPTProvider> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly ICRPTTokenProvider _tokenProvider;
-
-        /// <summary>
-        /// Токен доступа к сервису ЦРПТ.
-        /// </summary>
-        private TokenModel _token;
+        private readonly ITrueApiTokenProvider _tokenProvider;
 
         static CRPTProvider()
         {
@@ -38,11 +35,11 @@ namespace CIS.EDM.CRPT.Providers
         /// <summary>
         /// Конструктор с параметрами.
         /// </summary>
-        public CRPTProvider(ILogger<CRPTProvider> logger, IHttpClientFactory httpClientFactory, ICRPTTokenProvider tokenProvider = null) : base()
+        public CRPTProvider(ILogger<CRPTProvider> logger, IHttpClientFactory httpClientFactory, ITrueApiTokenProvider tokenProvider = null) : base()
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
-            _tokenProvider = tokenProvider ?? new CRPTTokenProvider(httpClientFactory);
+            _tokenProvider = tokenProvider ?? new TrueApiTokenProvider();
         }
 
         /// <summary>
@@ -65,16 +62,10 @@ namespace CIS.EDM.CRPT.Providers
             requestMessage.ConfigureRequestMessage(isZipResponse);
 
             var token = await GetTokenAsync(settings).ConfigureAwait(false);
-            requestMessage.Headers.Authorization = new AuthenticationHeaderValue(token.Type, token.Token);
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
         }
 
-        private async Task<TokenModel> GetTokenAsync(CRPTOption settings)
-        {
-            if (_token == null)
-                _token = await _tokenProvider.GetTokenAsync(settings).ConfigureAwait(false);
-
-            return _token;
-        }
+        private Task<TokenModel> GetTokenAsync(CRPTOption settings) => _tokenProvider.GetTokenAsync(new(settings.AuthUrl, settings.CertificateThumbprint));
 
         private async Task<T> InvokeAsync<T>(CRPTOption settings, Uri uri, HttpMethod method, HttpContent content = null, bool isZipResponse = false, bool canToResetToken = true)
         {
@@ -154,7 +145,7 @@ namespace CIS.EDM.CRPT.Providers
                 {
                     try
                     {
-                        var errorModel = HttpHelper.FromJson<ErrorModel>(errorResult);
+                        var errorModel = HttpHelper.FromJson<Models.ErrorModel>(errorResult);
 
                         throw new Exception(errorModel.ToString());
                     }
@@ -172,7 +163,7 @@ namespace CIS.EDM.CRPT.Providers
                 && canToResetToken)
             {
                 // Кейс с истекшим токеном. Сбросим текущий токен только один раз. Так как если это не помогло, то, возможно, дело в другом.
-                _token = null;
+                _tokenProvider.SetTokenExpired();
                 return await InvokeAsync<T>(settings, uri, method, content, canToResetToken: false).ConfigureAwait(false);
             }
             else

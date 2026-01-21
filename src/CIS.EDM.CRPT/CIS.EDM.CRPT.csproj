@@ -44,6 +44,7 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
 		<PackageReference Include="Spoleto.CIS.Cryptography" Version="2.7.21.955" />
 		<PackageReference Include="Spoleto.CIS.EDM" Version="5.4.9" />
+		<PackageReference Include="Spoleto.TrueApi.Auth" Version="1.0.9" />
 	</ItemGroup>
 
     <ItemGroup>
