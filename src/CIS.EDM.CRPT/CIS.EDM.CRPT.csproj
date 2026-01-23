@@ -34,9 +34,9 @@
 		<PackageTags>CRPT; EDM; Electronic document management; ЦРПТ; Электронный документооборот</PackageTags>
 		<Copyright>Copyright © $([System.DateTime]::Now.Year.ToString())</Copyright>
 		<PackageReleaseNotes></PackageReleaseNotes>
-		<Version>5.4.9</Version>
-		<AssemblyVersion>5.4.9.0</AssemblyVersion>
-		<FileVersion>5.4.9.0</FileVersion>
+		<Version>5.5.0</Version>
+		<AssemblyVersion>5.5.0.0</AssemblyVersion>
+		<FileVersion>5.5.0.0</FileVersion>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>	
 
@@ -44,7 +44,7 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
 		<PackageReference Include="Spoleto.CIS.Cryptography" Version="2.7.21.955" />
 		<PackageReference Include="Spoleto.CIS.EDM" Version="5.4.9" />
-		<PackageReference Include="Spoleto.TrueApi.Auth" Version="1.0.9" />
+		<PackageReference Include="Spoleto.TrueApi.Auth" Version="1.1.0" />
 	</ItemGroup>
 
     <ItemGroup>

@@ -23,6 +23,11 @@ namespace CIS.EDM.CRPT.Models
         public string CertificateThumbprint { get; set; }
 
         /// <summary>
+        /// ИНН участника оборота товаров, под которым запрашивается авторизация True API.
+        /// </summary>
+        public string Inn { get; set; }
+
+        /// <summary>
         /// Валидация настроек (проверка, что указаны все обязательные параметры).
         /// Если не указан какой-либо из обязательных параметров, то будет сгенерировано исключение типа <see cref="System.ArgumentNullException"/>.
         /// </summary>

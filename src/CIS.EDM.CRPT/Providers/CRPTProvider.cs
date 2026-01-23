@@ -62,10 +62,10 @@ namespace CIS.EDM.CRPT.Providers
             requestMessage.ConfigureRequestMessage(isZipResponse);
 
             var token = await GetTokenAsync(settings).ConfigureAwait(false);
-            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.UuidToken);
         }
 
-        private Task<TokenModel> GetTokenAsync(CRPTOption settings) => _tokenProvider.GetTokenAsync(new(settings.AuthUrl, settings.CertificateThumbprint));
+        private Task<UnitedTokenModel> GetTokenAsync(CRPTOption settings) => _tokenProvider.GetTokenAsync(new(settings.AuthUrl, settings.CertificateThumbprint, settings.Inn));
 
         private async Task<T> InvokeAsync<T>(CRPTOption settings, Uri uri, HttpMethod method, HttpContent content = null, bool isZipResponse = false, bool canToResetToken = true)
         {
