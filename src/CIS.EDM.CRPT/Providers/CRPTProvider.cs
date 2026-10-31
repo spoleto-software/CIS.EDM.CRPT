@@ -21,6 +21,7 @@ namespace CIS.EDM.CRPT.Providers
     /// <summary>
     /// Провайдер для работы с ЭДО от ЦРПТ.
     /// </summary>
+    [Obsolete("Используйте TrueApiCRPTProvider")]
     public class CRPTProvider : ICRPTProvider
     {
         private readonly ILogger<CRPTProvider> _logger;
@@ -45,12 +46,12 @@ namespace CIS.EDM.CRPT.Providers
         /// <summary>
         /// Уникальный код провайдера.
         /// </summary>
-        public string Code => "CRPT";
+        public string Code => "CRPT_Jwt";
 
         /// <summary>
         /// Название провайдера для отображения
         /// </summary>
-        public string DisplayName => "ЦРПТ";
+        public string DisplayName => "ЦРПТ_Jwt";
 
         /// <summary>
         /// Текстовое представление провайдера.
