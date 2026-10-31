@@ -13,7 +13,7 @@ CRPTOption.ServiceUrl (string) - CRPT service address.
 
 ## TrueApiCRPTProvider
 
-`TrueApiCRPTProvider` - вторая реализация `ICRPTProvider`: те же методы, но через методы «ЭДО Лайт» в True API (раздел 9), пакет Spoleto.TrueApi.Edo. `CRPTProvider` остаётся как был, приложение переключается заменой реализации:
+`TrueApiCRPTProvider` - вторая реализация `ICRPTProvider`: те же методы, но через методы «ЭДО Лайт» в True API (раздел 9), пакет Spoleto.TrueApi.Edo. Код `CRPT` теперь у него, а `CRPTProvider` устарел (`[Obsolete]`) и получил код `CRPT_Jwt`. Приложение, которое выбирает провайдера по `Code`, переходит на новый провайдер само, если тот зарегистрирован:
 
 ```csharp
 services.AddHttpClient();
@@ -27,6 +27,7 @@ services.AddTransient<ICRPTProvider, TrueApiCRPTProvider>();
 - Даты - как у `CRPTProvider` с конвертерами CIS.EDM: даты документов в списках - местное время, а границы `CreatedFrom` и `CreatedTo` с `DateTimeKind.Unspecified` или `Local` считаются местным временем. Контрагент в `Document.Sender`: у входящих - отправитель, у исходящих - получатель.
 - Отправка УПД и титул покупателя: ошибку, как и `CRPTProvider`, возвращают в `ResultInfo.Exception`, тогда `ResultInfo.Content` пустой. Титул покупателя берёт сведения о файле продавца из входящего документа `EdmDocumentId` и сам формирует имя своего файла, `SellerDocumentInfo` модели не заполняется.
 - XML нового генератора совпадает со старым, кроме мест, где старый расходился с форматом 970 у информации покупателя: `ВидОпер` вместо `ВидОперации`, `РеквДокРасх` внутри `КодСодОпер`, без пустого `Должн` у подписанта, без пробела перед запятой в `НаимЭконСубСост` у ИП и физлица без отчества. Сверку со старым генератором делают тесты `CIS.EDM.CRPT.Tests`.
+- Тесты `TrueApiCRPTProviderTests` работают без стенда. `TrueApiCRPTProviderStandTests` вызывают стенд True API: нужны КриптоПро, сертификат и раздел `TestOption` (`CertificateThumbprint`, `ServiceUrl` - адрес True API, `Inn`) в секретах пользователя. UserSecretsId у них тот же, что у тестов Spoleto.TrueApi, поэтому настроенный там стенд подходит и здесь. Отправка УПД, подписание черновика и титул покупателя меняют документы на стенде и запускаются только явно.
 
 ## Документация
 
