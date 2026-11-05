@@ -116,7 +116,7 @@ namespace CIS.EDM.CRPT.Providers
                     collections.Add(await getList(edoProvider, edoSettings, edoSearchModel).ConfigureAwait(false));
                 }
 
-                return TrueApiEdoMapper.Map(collections, searchModel?.Asc == true);
+                return TrueApiEdoMapper.Map(collections, searchModel);
             });
         }
 
@@ -161,7 +161,7 @@ namespace CIS.EDM.CRPT.Providers
             {
                 _logger.LogError(ex, errorMessage);
 
-                return new ResultInfo { Exception = ex };
+                return new ResultInfo { Content = string.Empty, Exception = ex };
             }
         }
 

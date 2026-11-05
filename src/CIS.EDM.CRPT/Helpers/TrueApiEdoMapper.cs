@@ -26,10 +26,22 @@ namespace CIS.EDM.CRPT.Helpers
     {
         #region Списки документов
 
+        private static readonly EdoDocumentType[] _allDocumentTypes = Enum.GetValues<EdoDocumentType>();
+
+        /// <summary>
+        /// В критериях все типы документов «ЭДО Лайт»: это то же, что без отбора по типу.
+        /// </summary>
+        private static bool HasAllDocumentTypes(DocumentCollectionSearchModel x)
+            => x?.Type is { Count: > 0 } && _allDocumentTypes.All(t => x.Type.Contains((DocumentType)(int)t));
+
         /// <summary>
         /// Критерии отбора для запросов True API. В True API статус и тип - одно значение, а в CIS.EDM - списки,
         /// поэтому на каждое сочетание статуса и типа - свой запрос.
         /// </summary>
+        /// <remarks>
+        /// Все типы сразу уходят без отбора по типу: один запрос вместо запроса на каждый тип.
+        /// Документы других типов, например договоры с оператором ГИС МТ, отбрасывает <see cref="Map(IReadOnlyList{EdoDocumentCollection}, DocumentCollectionSearchModel)"/>.
+        /// </remarks>
         /// <returns>Критерии каждого запроса. Без критериев - один запрос без них.</returns>
         public static List<EdoDocumentSearchModel> MapSearchModels(DocumentCollectionSearchModel x)
         {
@@ -53,7 +65,7 @@ namespace CIS.EDM.CRPT.Helpers
             };
 
             List<EdoDocumentStatus?> statuses = x.Status is { Count: > 0 } ? x.Status.Distinct().Select(s => (EdoDocumentStatus?)(EdoDocumentStatus)(int)s).ToList() : [null];
-            List<EdoDocumentType?> types = x.Type is { Count: > 0 } ? x.Type.Distinct().Select(t => (EdoDocumentType?)(EdoDocumentType)(int)t).ToList() : [null];
+            List<EdoDocumentType?> types = x.Type is { Count: > 0 } && !HasAllDocumentTypes(x) ? x.Type.Distinct().Select(t => (EdoDocumentType?)(EdoDocumentType)(int)t).ToList() : [null];
 
             return statuses.SelectMany(s => types.Select(t => searchModel with { Status = s, Type = t })).ToList();
         }
@@ -66,13 +78,20 @@ namespace CIS.EDM.CRPT.Helpers
         /// каждый отсортирован сервисом сам по себе. Каждый запрос получает свою страницу из <see cref="DocumentCollectionSearchModel.Limit"/> документов,
         /// поэтому объединённая страница бывает длиннее. Следующая страница есть, если она есть хотя бы у одного запроса.
         /// </remarks>
-        public static DocumentCollection Map(IReadOnlyList<EdoDocumentCollection> collections, bool asc)
+        public static DocumentCollection Map(IReadOnlyList<EdoDocumentCollection> collections, DocumentCollectionSearchModel searchModel)
         {
-            if (collections.Count == 1)
-                return Map(collections[0]);
+            IEnumerable<EdoDocumentGroup> groups = collections[0].Items;
+            if (collections.Count > 1)
+            {
+                groups = collections.SelectMany(x => x.Items).DistinctBy(x => x.Id);
+                groups = searchModel?.Asc == true ? groups.OrderBy(x => x.CreatedAt) : groups.OrderByDescending(x => x.CreatedAt);
+            }
 
-            var groups = collections.SelectMany(x => x.Items).DistinctBy(x => x.Id);
-            groups = asc ? groups.OrderBy(x => x.CreatedAt) : groups.OrderByDescending(x => x.CreatedAt);
+            // Все типы ушли без отбора по типу (MapSearchModels): оставляем только типы, которые знает CIS.EDM.
+            if (HasAllDocumentTypes(searchModel))
+            {
+                groups = groups.Where(x => Enum.IsDefined(x.Type));
+            }
 
             return new DocumentCollection
             {
@@ -80,12 +99,6 @@ namespace CIS.EDM.CRPT.Helpers
                 HasNextPage = collections.Any(x => x.HasNextPage)
             };
         }
-
-        public static DocumentCollection Map(EdoDocumentCollection x) => new()
-        {
-            Items = x.Items.Select(Map).ToList(),
-            HasNextPage = x.HasNextPage
-        };
 
         private static Document Map(EdoDocumentGroup x) => new()
         {

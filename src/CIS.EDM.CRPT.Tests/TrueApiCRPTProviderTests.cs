@@ -298,8 +298,28 @@ namespace CIS.EDM.CRPT.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(result.Id, Is.Null);
+                Assert.That(result.Content, Is.Empty, "Вызывающий код пишет Content в журнал, а журнал не принимает null.");
                 Assert.That(result.Exception, Is.TypeOf<HttpRequestException>());
                 Assert.That(((HttpRequestException)result.Exception).StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            });
+        }
+
+        [Test]
+        public async Task ReceiptUniversalTransferDocument_ServiceError_ReturnsExceptionInResult()
+        {
+            // Arrange
+            var sellerFile = XmlHelperV5_03.GenerateXml(UniversalTransferDocumentSamples.Full());
+            var (provider, _, _) = CreateProvider(CreateSellerArchiveResponse(sellerFile), CreateJsonResponse("""{"error_message":"Документ уже подписан"}""", HttpStatusCode.BadRequest));
+
+            // Act
+            var result = await provider.ReceiptUniversalTransferDocumentAsync(CreateSettings(), UniversalTransferDocumentSamples.BuyerFull());
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Id, Is.Null);
+                Assert.That(result.Content, Is.Empty, "Вызывающий код пишет Content в журнал, а журнал не принимает null.");
+                Assert.That(result.Exception, Is.TypeOf<HttpRequestException>());
             });
         }
 
@@ -432,6 +452,38 @@ namespace CIS.EDM.CRPT.Tests
                 Assert.That(queries.Select(x => x["limit"]), Is.EqualTo(new[] { "2", "2" }));
                 Assert.That(result.Items.Select(x => x.Id), Is.EqualTo(new[] { "c", "b", "a" }), "Новые первыми, без повторов.");
                 Assert.That(result.HasNextPage, Is.True);
+            });
+        }
+
+        /// <summary>
+        /// Все типы - один запрос без отбора по типу, а не запрос на каждый тип. Документ типа, которого нет в CIS.EDM (договор с оператором ГИС МТ), отбрасывается.
+        /// </summary>
+        [Test]
+        public async Task GetIncomingDocumentList_AllTypes_OneRequestWithoutTypeFilter()
+        {
+            // Arrange
+            var json = JsonSerializer.Serialize(new
+            {
+                items = new[]
+                {
+                    new { id = "upd", created_at = 200, status = 3, type = 520, documents = Array.Empty<object>() },
+                    new { id = "contract", created_at = 100, status = 3, type = 9999, documents = Array.Empty<object>() }
+                },
+                has_next_page = false
+            });
+            var (provider, handler, _) = CreateProvider(CreateJsonResponse(json));
+            var searchModel = new DocumentCollectionSearchModel { Limit = 100, Status = [DocumentState.DeliveredSignatureRequired], Type = Enum.GetValues<DocumentType>().ToList() };
+
+            // Act
+            var result = await provider.GetIncomingDocumentListAsync(CreateSettings(), searchModel);
+
+            // Assert
+            var query = HttpUtility.ParseQueryString(handler.Requests.Single().Uri.Query);
+            Assert.Multiple(() =>
+            {
+                Assert.That(query["type"], Is.Null);
+                Assert.That(query["status"], Is.EqualTo("3"));
+                Assert.That(result.Items.Select(x => x.Id), Is.EqualTo(new[] { "upd" }));
             });
         }
 
