@@ -289,16 +289,17 @@ namespace CIS.EDM.CRPT.Tests
         public async Task PostUniversalTransferDocument_ServiceError_ReturnsExceptionInResult()
         {
             // Arrange
+            var document = UniversalTransferDocumentSamples.Dop();
             var (provider, _, _) = CreateProvider(CreateJsonResponse("""{"error_message":"Файл с таким именем уже загружен"}""", HttpStatusCode.BadRequest));
 
             // Act
-            var result = await provider.PostUniversalTransferDocumentAsync(CreateSettings(), UniversalTransferDocumentSamples.Dop(), isDraft: true);
+            var result = await provider.PostUniversalTransferDocumentAsync(CreateSettings(), document, isDraft: true);
 
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result.Id, Is.Null);
-                Assert.That(result.Content, Is.Empty, "Вызывающий код пишет Content в журнал, а журнал не принимает null.");
+                Assert.That(result.Content, Is.EqualTo(XmlHelperV5_03.GenerateXml(document).Content), "Как у CRPTProvider: XML, который не принял сервис, вызывающий код пишет в журнал.");
                 Assert.That(result.Exception, Is.TypeOf<HttpRequestException>());
                 Assert.That(((HttpRequestException)result.Exception).StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             });
@@ -309,7 +310,7 @@ namespace CIS.EDM.CRPT.Tests
         {
             // Arrange
             var sellerFile = XmlHelperV5_03.GenerateXml(UniversalTransferDocumentSamples.Full());
-            var (provider, _, _) = CreateProvider(CreateSellerArchiveResponse(sellerFile), CreateJsonResponse("""{"error_message":"Документ уже подписан"}""", HttpStatusCode.BadRequest));
+            var (provider, handler, _) = CreateProvider(CreateSellerArchiveResponse(sellerFile), CreateJsonResponse("""{"error_message":"Документ уже подписан"}""", HttpStatusCode.BadRequest));
 
             // Act
             var result = await provider.ReceiptUniversalTransferDocumentAsync(CreateSettings(), UniversalTransferDocumentSamples.BuyerFull());
@@ -318,8 +319,31 @@ namespace CIS.EDM.CRPT.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(result.Id, Is.Null);
-                Assert.That(result.Content, Is.Empty, "Вызывающий код пишет Content в журнал, а журнал не принимает null.");
+                Assert.That(result.Content, Is.EqualTo(Encoding.GetEncoding("windows-1251").GetString(handler.Requests[1].Parts[0].Content)));
+                Assert.That(result.Content, Does.Contain(" ИдФайл=\"ON_NSCHFDOPPOK_"));
                 Assert.That(result.Exception, Is.TypeOf<HttpRequestException>());
+            });
+        }
+
+        /// <summary>
+        /// Файл продавца не скачался - XML титула ещё нет, и в <see cref="ResultInfo.Content"/> пустая строка, а не <see langword="null"/>: журнал не принимает null.
+        /// </summary>
+        [Test]
+        public async Task ReceiptUniversalTransferDocument_SellerFileError_ReturnsEmptyContent()
+        {
+            // Arrange
+            var (provider, handler, _) = CreateProvider(CreateJsonResponse("""{"error_message":"Документ не найден"}""", HttpStatusCode.NotFound));
+
+            // Act
+            var result = await provider.ReceiptUniversalTransferDocumentAsync(CreateSettings(), UniversalTransferDocumentSamples.BuyerFull());
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Id, Is.Null);
+                Assert.That(result.Content, Is.Empty);
+                Assert.That(((HttpRequestException)result.Exception).StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+                Assert.That(handler.Requests, Has.Count.EqualTo(1));
             });
         }
 

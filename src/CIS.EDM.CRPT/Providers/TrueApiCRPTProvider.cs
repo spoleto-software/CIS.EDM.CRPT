@@ -12,6 +12,7 @@ using CIS.EDM.Helpers;
 using CIS.EDM.Models;
 using Microsoft.Extensions.Logging;
 using Spoleto.TrueApi.Auth.Providers;
+using Spoleto.TrueApi.Edo.Exceptions;
 using Spoleto.TrueApi.Edo.Models;
 using Spoleto.TrueApi.Edo.Models.Options;
 using Spoleto.TrueApi.Edo.Providers;
@@ -143,7 +144,8 @@ namespace CIS.EDM.CRPT.Providers
         }
 
         /// <summary>
-        /// Загрузка файла информации продавца или покупателя. Как и в <see cref="CRPTProvider"/>, ошибка не бросается, а возвращается в <see cref="ResultInfo.Exception"/>.
+        /// Загрузка файла информации продавца или покупателя. Как и в <see cref="CRPTProvider"/>, ошибка не бросается, а возвращается в <see cref="ResultInfo.Exception"/>,
+        /// а сформированный XML - в <see cref="ResultInfo.Content"/>: вызывающий код пишет его в журнал.
         /// </summary>
         private async Task<ResultInfo> PostDocumentAsync(CRPTOption settings, Func<TrueApiEdoProvider, TrueApiEdoProviderOption, Task<EdoPostDocumentResult>> post, string errorMessage)
         {
@@ -157,10 +159,18 @@ namespace CIS.EDM.CRPT.Providers
                     Content = result.Content
                 };
             }
+            catch (EdoPostDocumentException ex)
+            {
+                _logger.LogError(ex, errorMessage);
+
+                // Исключение - исходное, как у CRPTProvider: XML уже в Content.
+                return new ResultInfo { Content = ex.Content, Exception = ex.InnerException };
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, errorMessage);
 
+                // Ошибка до формирования XML. Не null: журнал не принимает null.
                 return new ResultInfo { Content = string.Empty, Exception = ex };
             }
         }
