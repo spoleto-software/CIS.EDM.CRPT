@@ -1,7 +1,7 @@
 ﻿namespace CIS.EDM.CRPT.Tests
 {
     /// <summary>
-    /// Настройки стенда для <see cref="TrueApiCRPTProviderStandTests"/>: те же, что у тестов Spoleto.TrueApi.
+    /// Настройки стенда для <see cref="TrueApiCRPTProviderStandTests"/> и <see cref="TrueApiEdoProviderTests"/>: те же, что у тестов Spoleto.TrueApi.
     /// </summary>
     public record TestOption
     {

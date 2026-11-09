@@ -45,7 +45,11 @@
 		<PackageReference Include="Spoleto.CIS.Cryptography" Version="2.7.21.955" />
 		<PackageReference Include="Spoleto.CIS.EDM" Version="5.4.9" />
 		<PackageReference Include="Spoleto.TrueApi.Auth" Version="1.4.0" />
-		<PackageReference Include="Spoleto.TrueApi.Edo" Version="1.4.0" />
+	</ItemGroup>
+
+	<!-- В пакете ссылка станет зависимостью от Spoleto.TrueApi.Edo той же версии: публикуйте оба пакета вместе. -->
+	<ItemGroup>
+		<ProjectReference Include="..\Spoleto.TrueApi.Edo\Spoleto.TrueApi.Edo.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

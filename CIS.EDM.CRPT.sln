@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CIS.EDM.CRPT", "src\CIS.EDM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CIS.EDM.CRPT.Tests", "src\CIS.EDM.CRPT.Tests\CIS.EDM.CRPT.Tests.csproj", "{71089E5C-6FD2-4578-BECB-5FD9A63F36D7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.TrueApi.Edo", "src\Spoleto.TrueApi.Edo\Spoleto.TrueApi.Edo.csproj", "{0B72AF98-7F6B-44B1-8F94-7694C69223D1}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BD9BBDF2-DF3A-4FB6-B73E-D709F6DBB1B5}"
 	ProjectSection(SolutionItems) = preProject
 		src\.editorconfig = src\.editorconfig
@@ -36,6 +38,10 @@ Global
 		{71089E5C-6FD2-4578-BECB-5FD9A63F36D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71089E5C-6FD2-4578-BECB-5FD9A63F36D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71089E5C-6FD2-4578-BECB-5FD9A63F36D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B72AF98-7F6B-44B1-8F94-7694C69223D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B72AF98-7F6B-44B1-8F94-7694C69223D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B72AF98-7F6B-44B1-8F94-7694C69223D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B72AF98-7F6B-44B1-8F94-7694C69223D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <!-- Include symbols for debugging -->
+    <PropertyGroup>
+        <!-- This command creates external file (snupkg) with .pdb next to nuget file (nupkg) -->
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+
+    <!-- https://github.com/dotnet/sourcelink -->
+    <PropertyGroup>
+        <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+        <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    </PropertyGroup>
+
+    <!-- Package info -->
+    <!-- Пакет перенесён из Spoleto.TrueApi и устарел вместе с CIS.EDM.CRPT: замена - Spoleto.Edm.TrueApi. -->
+    <PropertyGroup>
+        <Title>Spoleto.TrueApi.Edo</Title>
+        <PackageId>Spoleto.TrueApi.Edo</PackageId>
+        <Description>Obsolete: use Spoleto.Edm.TrueApi. TrueApi EDO Lite provider for CRPT.</Description>
+        <Product>Spoleto.TrueApi library</Product>
+        <Authors>OlegNadymov;Spoleto-Software</Authors>
+        <Company>SPOLETO Software Development</Company>
+        <PackageIcon>MainIcon.jpg</PackageIcon>
+        <PackageProjectUrl>https://spoleto.ru</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/spoleto-software/CIS.EDM.CRPT</RepositoryUrl>
+        <RepositoryType>GitHub</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageTags>TrueAPI; CRPT; ЧестныйЗнак; Маркировка</PackageTags>
+        <Copyright>Copyright © $([System.DateTime]::Now.Year.ToString())</Copyright>
+        <PackageReleaseNotes></PackageReleaseNotes>
+        <Version>1.5.0</Version>
+        <AssemblyVersion>1.5.0.0</AssemblyVersion>
+        <FileVersion>1.5.0.0</FileVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+            <Visible>False</Visible>
+        </None>
+        <None Include="..\..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+            <Visible>False</Visible>
+        </None>
+        <None Include="..\CIS.EDM.CRPT\Resources\MainIcon.jpg">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+            <Visible>False</Visible>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+        <PackageReference Include="Spoleto.CIS.Cryptography" Version="2.7.21.955" />
+        <PackageReference Include="Spoleto.Common" Version="3.6.28.1701" />
+        <PackageReference Include="Spoleto.TrueApi.Auth" Version="1.4.0" />
+    </ItemGroup>
+
+</Project>
